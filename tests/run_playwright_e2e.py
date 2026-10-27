@@ -360,6 +360,7 @@ def run_all_tests():
         )
         with page.expect_response(lambda r: "/api/brokers/delete" in r.url and r.status == 200):
             page.click("#btn-delete-broker-apex-benefit-group")
+        page.wait_for_timeout(200)
         apex_count = page.locator("tr[data-broker-row='apex-benefit-group']").count()
         ok_15 = del_direct_status == 400 and apex_count == 0
         record(

@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-27T23:37:42Z",
+  "timestamp": "2026-10-27T23:45:57Z",
   "total": 15,
   "passed": 15,
   "failed": 0,
@@ -19,21 +19,21 @@
     },
     {
       "id": "PW-03",
-      "title": "Damien Direct Broker & All 9 Actual CSV Broker Coupons + 40 Employer Codes Loaded",
+      "title": "Damien Direct Broker (firstmonthDCGeneral), LHD (firstmonthLHD) & All Employer Codes Loaded",
       "passed": true,
-      "detail": "Brokers=10, CouponsMatch=True, LinksCount=44"
+      "detail": "Brokers=9, CouponsMatch=True, LinksCount=47"
     },
     {
       "id": "PW-04",
-      "title": "Damien Generates URL & QR Code for Direct Employer (EVSC) with Clickable Link",
+      "title": "Damien Generates URL & QR Code for DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=EVSC&coupon=firstmonth', ClickableHref='https://app.helloalpha.com/damien-health?ref=EVSC&coupon=firstmonth'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral', ClickableHref='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral'"
     },
     {
       "id": "PW-05",
       "title": "Damien Can Update Direct Employer Coupon Code & Persist",
       "passed": true,
-      "detail": "Updated to 'firstmonthUpdated' and restored to 'firstmonth'"
+      "detail": "Updated to 'firstmonthDCUpdated' and restored to 'firstmonthDCGeneral'"
     },
     {
       "id": "PW-06",
@@ -49,9 +49,9 @@
     },
     {
       "id": "PW-08",
-      "title": "Damien Generates Actual CSV Employer URLs for LHD (IMCU) & Epic (EpicTerreHaute)",
+      "title": "Damien Generates All LHD Business URLs (LCHD, ISA, IMCU, GCS, Example Template)",
       "passed": true,
-      "detail": "LHD='https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthlhd', Epic='https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth'"
+      "detail": "All 5 LHD Business Name -> REF mappings verified (5/5)"
     },
     {
       "id": "PW-09",
@@ -69,13 +69,13 @@
       "id": "PW-11",
       "title": "Broker Self-Service View (/?broker=lhd) Hides Admin Setup & Locks to Broker",
       "passed": true,
-      "detail": "AdminHidden=True, Broker='LHD Benefit Advisors (LHD)', Coupon='firstmonthlhd'"
+      "detail": "AdminHidden=True, Broker='LHD Benefit Advisors (LHD)', Coupon='firstmonthLHD'"
     },
     {
       "id": "PW-12",
-      "title": "Broker Self-Service View (/?broker=lhd) Generates Actual CSV Employer URL (BMcE)",
+      "title": "Broker Self-Service View (/?broker=lhd) Generates Bose McKinney &Evans -> ?ref=BMcE&coupon=firstmonthLHD",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthlhd'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthLHD'"
     },
     {
       "id": "PW-13",
@@ -85,9 +85,9 @@
     },
     {
       "id": "PW-14",
-      "title": "Direct Broker Self-Service Link (/?broker=damien) Generates Actual CSV Direct Employer (CoE)",
+      "title": "Direct Broker Self-Service Link (/?broker=damien) Generates DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral'"
     },
     {
       "id": "PW-15",
