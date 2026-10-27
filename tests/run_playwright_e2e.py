@@ -82,7 +82,7 @@ def run_all_tests():
         first_option = page.locator("#select-broker option").first.inner_text()
         broker_coupons = {b["id"]: b["couponCode"] for b in boot["brokers"]}
         expected_csv_coupons = {
-            "damien": "firstmonthDCGeneral",
+            "damien": "firstmonth",
             "lhd": "firstmonthLHD",
             "mgb": "firstmonthmb",
             "epic": "firstmonth",
@@ -98,57 +98,63 @@ def run_all_tests():
             and "Direct / No Broker" in first_row
             and "Damien Center (Direct — No Broker)" in first_option
             and coupons_match
-            and len(boot["generatedLinks"]) >= 40
+            and len(boot["generatedLinks"]) >= 55
         )
         record(
             "PW-03",
-            "Damien Direct Broker (firstmonthDCGeneral), LHD (firstmonthLHD) & All Employer Codes Loaded",
+            "Damien Direct Broker (firstmonth), LHD (firstmonthLHD), Epic & All 59 Business Links Loaded",
             ok_03,
             f"Brokers={len(boot['brokers'])}, CouponsMatch={coupons_match}, LinksCount={len(boot['generatedLinks'])}",
         )
 
-        # PW-04: Damien Generates URL & QR Code for DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)
+        # PW-04: Damien Generates URL & QR Code for DC Generic & Direct Employers (Martin Farms -> MartinFF, Printing Partners -> PPart)
         page.select_option("#select-broker", "damien")
-        page.fill("#input-employer-name", "DC Generic")
-        with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
-            page.click("#btn-generate")
-        page.wait_for_timeout(200)
-        page.wait_for_selector("#generated-output-box", state="visible")
-        gen_url = page.input_value("#output-enrollment-url")
-        open_link_href = page.get_attribute("#link-open-enrollment-url", "href")
+        direct_cases = [
+            ("DC Generic", "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral"),
+            ("Martin Farms", "https://app.helloalpha.com/damien-health?ref=MartinFF&coupon=firstmonth"),
+            ("Printing Partners", "https://app.helloalpha.com/damien-health?ref=PPart&coupon=firstmonth"),
+            ("TOA USA", "https://app.helloalpha.com/damien-health?ref=TOAU&coupon=firstmonth"),
+            ("City of Evansville", "https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth"),
+        ]
+        all_direct_ok = True
+        for biz_name, exp_url in direct_cases:
+            page.fill("#input-employer-name", biz_name)
+            with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+                page.click("#btn-generate")
+            page.wait_for_timeout(200)
+            gen_url = page.input_value("#output-enrollment-url")
+            open_link_href = page.get_attribute("#link-open-enrollment-url", "href")
+            if gen_url != exp_url or open_link_href != exp_url:
+                all_direct_ok = False
+                break
         qr_src = page.get_attribute("#output-qr-image", "src") or ""
-        expected_direct_url = "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral"
-        ok_04 = (
-            gen_url == expected_direct_url
-            and open_link_href == expected_direct_url
-            and qr_src.startswith("data:image/png;base64,")
-        )
+        ok_04 = all_direct_ok and qr_src.startswith("data:image/png;base64,")
         record(
             "PW-04",
-            "Damien Generates URL & QR Code for DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
+            "Damien Generates Direct Business URLs (DCGeneral, MartinFF, PPart, TOAU, CoE)",
             ok_04,
-            f"URL='{gen_url}', ClickableHref='{open_link_href}'",
+            f"All {len(direct_cases)} Direct Business mappings verified, LastURL='{gen_url}'",
         )
 
-        # PW-05: Damien Edits Direct Employer Coupon Code & Restores to 'firstmonthDCGeneral'
+        # PW-05: Damien Edits Direct Employer Coupon Code & Restores to 'firstmonth'
         page.click("#btn-edit-broker-damien")
-        page.fill("#input-broker-coupon", "firstmonthDCUpdated")
+        page.fill("#input-broker-coupon", "firstmonthUpdated")
         with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
             page.click("#btn-save-broker")
         page.reload(wait_until="networkidle")
         updated_first_row = page.locator("#brokers-table-body tr").first.inner_text()
-        # Restore to firstmonthDCGeneral
+        # Restore to firstmonth
         page.click("#btn-edit-broker-damien")
-        page.fill("#input-broker-coupon", "firstmonthDCGeneral")
+        page.fill("#input-broker-coupon", "firstmonth")
         with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
             page.click("#btn-save-broker")
         restored_first_row = page.locator("#brokers-table-body tr").first.inner_text()
-        ok_05 = "firstmonthDCUpdated" in updated_first_row and "firstmonthDCGeneral" in restored_first_row
+        ok_05 = "firstmonthUpdated" in updated_first_row and "firstmonth" in restored_first_row
         record(
             "PW-05",
             "Damien Can Update Direct Employer Coupon Code & Persist",
             ok_05,
-            "Updated to 'firstmonthDCUpdated' and restored to 'firstmonthDCGeneral'",
+            "Updated to 'firstmonthUpdated' and restored to 'firstmonth'",
         )
 
         # PW-06: Damien Adds a New Broker with Already-Created Coupon Code
@@ -192,17 +198,22 @@ def run_all_tests():
             f"HrefLHD='{lhd_link_href}', CopiedLHD='{copied_lhd_link}'",
         )
 
-        # PW-08: Damien Generates URLs for LHD Businesses (LoCascio Hadden & Dennis -> LCHD, Indiana Soybean Alliance -> ISA, Indiana Members Credit Union -> IMCU, Goshen Community Schools -> GCS, Example Template -> LHD/helloalphatestuser)
+        # PW-08: Damien Generates URLs for LHD & Epic Businesses
         lhd_cases = [
-            ("LoCascio Hadden & Dennis", "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD"),
-            ("Indiana Soybean Alliance", "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD"),
-            ("Indiana Members Credit Union", "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthLHD"),
-            ("Goshen Community Schools", "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthLHD"),
-            ("Example Template", "https://app.helloalpha.com/damien-health?ref=LHD&coupon=helloalphatestuser"),
+            ("lhd", "LoCascio Hadden & Dennis", "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD"),
+            ("lhd", "Indiana Soybean Alliance", "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD"),
+            ("lhd", "Indiana Members Credit Union", "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthLHD"),
+            ("lhd", "Goshen Community Schools", "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthLHD"),
+            ("lhd", "Example Template", "https://app.helloalpha.com/damien-health?ref=LHD&coupon=helloalphatestuser"),
+            ("epic", "Acuity Group Operations", "https://app.helloalpha.com/damien-health?ref=EpicAcuity&coupon=firstmonth"),
+            ("epic", "Adaptek Systems LLC", "https://app.helloalpha.com/damien-health?ref=EpicAdaptecSystems&coupon=firstmonth"),
+            ("epic", "The City of Terre Haute", "https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth"),
+            ("epic", "Honey Creek Fire & Rescue", "https://app.helloalpha.com/damien-health?ref=EpicHCFNR&coupon=firstmonth"),
+            ("epic", "League for the Blind and Disabled", "https://app.helloalpha.com/damien-health?ref=EpicLEAGUE&coupon=firstmonth"),
         ]
-        page.select_option("#select-broker", "lhd")
         all_lhd_ok = True
-        for biz_name, exp_url in lhd_cases:
+        for b_id, biz_name, exp_url in lhd_cases:
+            page.select_option("#select-broker", b_id)
             page.fill("#input-employer-name", biz_name)
             with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
                 page.click("#btn-generate")
@@ -214,9 +225,9 @@ def run_all_tests():
 
         record(
             "PW-08",
-            "Damien Generates All LHD Business URLs (LCHD, ISA, IMCU, GCS, Example Template)",
+            "Damien Generates All LHD & Epic Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, EpicAdaptecSystems, EpicTerreHaute, EpicHCFNR, EpicLEAGUE)",
             all_lhd_ok,
-            f"All 5 LHD Business Name -> REF mappings verified ({len(lhd_cases)}/5)",
+            f"All {len(lhd_cases)} LHD & Epic Business Name -> REF mappings verified ({len(lhd_cases)}/{len(lhd_cases)})",
         )
 
         # PW-09: Damien Generates URL & QR Code for Newly Added Broker (Apex Benefit Group)
@@ -326,21 +337,21 @@ def run_all_tests():
         )
         mgb_ctx.close()
 
-        # PW-14: Direct Broker Self-Service View (/?broker=damien) — Generate DC Generic -> DCGeneral
+        # PW-14: Direct Broker Self-Service View (/?broker=damien) — Generate Harsha Behavioral Health -> HBH
         direct_ctx = browser.new_context(viewport={"width": 1280, "height": 850})
         direct_page = direct_ctx.new_page()
         direct_page.goto(f"{BASE_URL}/?broker=damien", wait_until="networkidle")
-        direct_page.fill("#input-employer-name", "DC Generic")
+        direct_page.fill("#input-employer-name", "Harsha Behavioral Health")
         with direct_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             direct_page.click("#btn-generate")
         direct_page.wait_for_timeout(200)
         direct_page.wait_for_selector("#generated-output-box", state="visible")
         coe_url = direct_page.input_value("#output-enrollment-url")
-        expected_coe_url = "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral"
+        expected_coe_url = "https://app.helloalpha.com/damien-health?ref=HBH&coupon=firstmonth"
         ok_14 = coe_url == expected_coe_url
         record(
             "PW-14",
-            "Direct Broker Self-Service Link (/?broker=damien) Generates DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
+            "Direct Broker Self-Service Link (/?broker=damien) Generates Harsha Behavioral Health (?ref=HBH&coupon=firstmonth)",
             ok_14,
             f"URL='{coe_url}'",
         )

@@ -85,6 +85,7 @@ const KNOWN_BUSINESS_LOOKUP: Record<
   string,
   { refCode: string; couponOverride?: string; canonicalName?: string }
 > = {
+  // LHD & DC Generic
   'example template': {
     refCode: 'LHD',
     couponOverride: 'helloalphatestuser',
@@ -100,58 +101,106 @@ const KNOWN_BUSINESS_LOOKUP: Record<
     couponOverride: 'firstmonthDCGeneral',
     canonicalName: 'DC Generic',
   },
-  'bose mckinney &evans': {
-    refCode: 'BMcE',
-    canonicalName: 'Bose McKinney & Evans',
-  },
-  'bose mckinney & evans': {
-    refCode: 'BMcE',
-    canonicalName: 'Bose McKinney & Evans',
-  },
-  'bose mckinney and evans': {
-    refCode: 'BMcE',
-    canonicalName: 'Bose McKinney & Evans',
-  },
-  'bmce': {
-    refCode: 'BMcE',
-    canonicalName: 'Bose McKinney & Evans',
-  },
-  'locascio hadden & dennis': {
-    refCode: 'LCHD',
-    canonicalName: 'LoCascio Hadden & Dennis',
-  },
-  'locascio hadden and dennis': {
-    refCode: 'LCHD',
-    canonicalName: 'LoCascio Hadden & Dennis',
-  },
-  'lchd': {
-    refCode: 'LCHD',
-    canonicalName: 'LoCascio Hadden & Dennis',
-  },
-  'indiana soybean alliance': {
-    refCode: 'ISA',
-    canonicalName: 'Indiana Soybean Alliance',
-  },
-  'isa': {
-    refCode: 'ISA',
-    canonicalName: 'Indiana Soybean Alliance',
-  },
-  'indiana members credit union': {
-    refCode: 'IMCU',
-    canonicalName: 'Indiana Members Credit Union',
-  },
-  'imcu': {
-    refCode: 'IMCU',
-    canonicalName: 'Indiana Members Credit Union',
-  },
-  'goshen community schools': {
-    refCode: 'GCS',
-    canonicalName: 'Goshen Community Schools',
-  },
-  'gcs': {
-    refCode: 'GCS',
-    canonicalName: 'Goshen Community Schools',
-  },
+  'bose mckinney &evans': { refCode: 'BMcE', canonicalName: 'Bose McKinney & Evans' },
+  'bose mckinney & evans': { refCode: 'BMcE', canonicalName: 'Bose McKinney & Evans' },
+  'bose mckinney and evans': { refCode: 'BMcE', canonicalName: 'Bose McKinney & Evans' },
+  'bmce': { refCode: 'BMcE', canonicalName: 'Bose McKinney & Evans' },
+  'locascio hadden & dennis': { refCode: 'LCHD', canonicalName: 'LoCascio Hadden & Dennis' },
+  'locascio hadden and dennis': { refCode: 'LCHD', canonicalName: 'LoCascio Hadden & Dennis' },
+  'lchd': { refCode: 'LCHD', canonicalName: 'LoCascio Hadden & Dennis' },
+  'indiana soybean alliance': { refCode: 'ISA', canonicalName: 'Indiana Soybean Alliance' },
+  'isa': { refCode: 'ISA', canonicalName: 'Indiana Soybean Alliance' },
+  'indiana members credit union': { refCode: 'IMCU', canonicalName: 'Indiana Members Credit Union' },
+  'imcu': { refCode: 'IMCU', canonicalName: 'Indiana Members Credit Union' },
+  'goshen community schools': { refCode: 'GCS', canonicalName: 'Goshen Community Schools' },
+  'gcs': { refCode: 'GCS', canonicalName: 'Goshen Community Schools' },
+
+  // Epic Insurance Brokers (26 Businesses)
+  'acuity group operations': { refCode: 'EpicAcuity', canonicalName: 'Acuity Group Operations' },
+  'epicacuity': { refCode: 'EpicAcuity', canonicalName: 'Acuity Group Operations' },
+  'adaptek systems llc': { refCode: 'EpicAdaptecSystems', canonicalName: 'Adaptek Systems LLC' },
+  'epicadaptecsystems': { refCode: 'EpicAdaptecSystems', canonicalName: 'Adaptek Systems LLC' },
+  'allied physicians surgery center': { refCode: 'EpicAlliedPhysiciansSC', canonicalName: 'Allied Physicians Surgery Center' },
+  'epicalliedphysicianssc': { refCode: 'EpicAlliedPhysiciansSC', canonicalName: 'Allied Physicians Surgery Center' },
+  'benton county': { refCode: 'EpicBentonCounty', canonicalName: 'Benton County' },
+  'epicbentoncounty': { refCode: 'EpicBentonCounty', canonicalName: 'Benton County' },
+  'c&t design': { refCode: 'EpicCnT', canonicalName: 'C&T Design' },
+  'epiccnt': { refCode: 'EpicCnT', canonicalName: 'C&T Design' },
+  'cvr indy': { refCode: 'EpicCVR', canonicalName: 'CVR Indy' },
+  'epiccvr': { refCode: 'EpicCVR', canonicalName: 'CVR Indy' },
+  'deufol': { refCode: 'EpicDeufol', canonicalName: 'Deufol' },
+  'epicdeufol': { refCode: 'EpicDeufol', canonicalName: 'Deufol' },
+  'epic employees': { refCode: 'EpicEmployees', canonicalName: 'Epic Employees' },
+  'epicemployees': { refCode: 'EpicEmployees', canonicalName: 'Epic Employees' },
+  'first presbyterian ft wayne': { refCode: 'EpicFirstPresFW', canonicalName: 'First Presbyterian Ft Wayne' },
+  'epicfirstpresfw': { refCode: 'EpicFirstPresFW', canonicalName: 'First Presbyterian Ft Wayne' },
+  'healthcare therapy services': { refCode: 'EpicHTSIndiana', canonicalName: 'Healthcare Therapy Services' },
+  'epichtsindiana': { refCode: 'EpicHTSIndiana', canonicalName: 'Healthcare Therapy Services' },
+  'honey creek fire & rescue': { refCode: 'EpicHCFNR', canonicalName: 'Honey Creek Fire & Rescue' },
+  'epichcfnr': { refCode: 'EpicHCFNR', canonicalName: 'Honey Creek Fire & Rescue' },
+  'jdh infrastructure group': { refCode: 'EpicJDH', canonicalName: 'JDH Infrastructure Group' },
+  'epicjdh': { refCode: 'EpicJDH', canonicalName: 'JDH Infrastructure Group' },
+  'jensen cabinet': { refCode: 'EpicJensenCabinet', canonicalName: 'Jensen Cabinet' },
+  'epicjensencabinet': { refCode: 'EpicJensenCabinet', canonicalName: 'Jensen Cabinet' },
+  'league for the blind and disabled': { refCode: 'EpicLEAGUE', canonicalName: 'League for the Blind and Disabled' },
+  'epicleague': { refCode: 'EpicLEAGUE', canonicalName: 'League for the Blind and Disabled' },
+  'northern lights': { refCode: 'EpicNorthernLights', canonicalName: 'Northern Lights' },
+  'epicnorthernlights': { refCode: 'EpicNorthernLights', canonicalName: 'Northern Lights' },
+  'peabody retirement community': { refCode: 'EpicPeabody', canonicalName: 'Peabody Retirement Community' },
+  'epicpeabody': { refCode: 'EpicPeabody', canonicalName: 'Peabody Retirement Community' },
+  'putnam county': { refCode: 'EpicPutnam', canonicalName: 'Putnam County' },
+  'epicputnam': { refCode: 'EpicPutnam', canonicalName: 'Putnam County' },
+  'smith brothers of berne inc': { refCode: 'EpicSmithBrothers', canonicalName: 'Smith Brothers of Berne Inc' },
+  'epicsmithbrothers': { refCode: 'EpicSmithBrothers', canonicalName: 'Smith Brothers of Berne Inc' },
+  'epicsmithbros': { refCode: 'EpicSmithBros', canonicalName: 'Smith Brothers of Berne Inc' },
+  'state bank': { refCode: 'EpicStateBank', canonicalName: 'State Bank' },
+  'epicstatebank': { refCode: 'EpicStateBank', canonicalName: 'State Bank' },
+  'nvb playground': { refCode: 'EpicNVBPlayground', canonicalName: 'NVB Playground' },
+  'epicnvbplayground': { refCode: 'EpicNVBPlayground', canonicalName: 'NVB Playground' },
+  'facadetek': { refCode: 'EpicFacadeTek', canonicalName: 'FacadeTek' },
+  'epicfacadetek': { refCode: 'EpicFacadeTek', canonicalName: 'FacadeTek' },
+  'api alliance': { refCode: 'EpicAPIAlliance', canonicalName: 'API Alliance' },
+  'epicapialliance': { refCode: 'EpicAPIAlliance', canonicalName: 'API Alliance' },
+  'gillette generators llc': { refCode: 'EpicGGL', canonicalName: 'Gillette Generators LLC' },
+  'epicggl': { refCode: 'EpicGGL', canonicalName: 'Gillette Generators LLC' },
+  'the city of terre haute': { refCode: 'EpicTerreHaute', canonicalName: 'The City of Terre Haute' },
+  'terre haute': { refCode: 'EpicTerreHaute', canonicalName: 'The City of Terre Haute' },
+  'epicterrehaute': { refCode: 'EpicTerreHaute', canonicalName: 'The City of Terre Haute' },
+  'wabash valley health': { refCode: 'EpicWVHC', canonicalName: 'Wabash Valley Health' },
+  'epicwvhc': { refCode: 'EpicWVHC', canonicalName: 'Wabash Valley Health' },
+  'adams remco': { refCode: 'EpicAdams', canonicalName: 'Adams Remco' },
+  'epicadams': { refCode: 'EpicAdams', canonicalName: 'Adams Remco' },
+
+  // Damien Center Direct Employers (17 Businesses)
+  'martin farms': { refCode: 'MartinFF', canonicalName: 'Martin Farms' },
+  'martinff': { refCode: 'MartinFF', canonicalName: 'Martin Farms' },
+  'ihsaa': { refCode: 'IHSAA', canonicalName: 'IHSAA' },
+  'drg': { refCode: 'DRG', canonicalName: 'DRG' },
+  'pcsc': { refCode: 'PCSC', canonicalName: 'PCSC' },
+  'jwsc': { refCode: 'JWSC', canonicalName: 'JWSC' },
+  'evsc': { refCode: 'EVSC', canonicalName: 'EVSC' },
+  'harsha behavioral health': { refCode: 'HBH', canonicalName: 'Harsha Behavioral Health' },
+  'hbh': { refCode: 'HBH', canonicalName: 'Harsha Behavioral Health' },
+  'city of lawrence': { refCode: 'CoL', canonicalName: 'City of Lawrence' },
+  'col': { refCode: 'CoL', canonicalName: 'City of Lawrence' },
+  'assurance health': { refCode: 'AHC', canonicalName: 'Assurance Health' },
+  'ahc': { refCode: 'AHC', canonicalName: 'Assurance Health' },
+  'granite management': { refCode: 'Granite', canonicalName: 'Granite Management' },
+  'granite': { refCode: 'Granite', canonicalName: 'Granite Management' },
+  'warrick county': { refCode: 'WC', canonicalName: 'Warrick County' },
+  'wc': { refCode: 'WC', canonicalName: 'Warrick County' },
+  'city of evansville': { refCode: 'CoE', canonicalName: 'City of Evansville' },
+  'coe': { refCode: 'CoE', canonicalName: 'City of Evansville' },
+  'hamilton center': { refCode: 'HCtr', canonicalName: 'Hamilton Center' },
+  'hctr': { refCode: 'HCtr', canonicalName: 'Hamilton Center' },
+  'toa usa': { refCode: 'TOAU', canonicalName: 'TOA USA' },
+  'toau': { refCode: 'TOAU', canonicalName: 'TOA USA' },
+  'toa winchester': { refCode: 'TOAW', canonicalName: 'TOA Winchester' },
+  'toaw': { refCode: 'TOAW', canonicalName: 'TOA Winchester' },
+  'khorporate': { refCode: 'Khor', canonicalName: 'Khorporate' },
+  'khor': { refCode: 'Khor', canonicalName: 'Khorporate' },
+  'printing partners': { refCode: 'PPart', canonicalName: 'Printing Partners' },
+  'ppart': { refCode: 'PPart', canonicalName: 'Printing Partners' },
 };
 
 export function formatSlug(input: string): string {
@@ -242,7 +291,7 @@ function ensureDirectBroker(config: DamienConfig): DamienConfig {
       id: 'damien',
       name: 'Damien Center',
       displayLabel: 'Damien Center (Direct — No Broker)',
-      couponCode: 'firstmonthDCGeneral',
+      couponCode: 'firstmonth',
       isDirect: true,
     });
   } else {
@@ -269,7 +318,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
-        seedVersion: 4,
+        seedVersion: 5,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -284,7 +333,7 @@ function loadConfig(): DamienConfig {
   let parsed = JSON.parse(raw) as DamienConfig;
   if (
     SEED_PATH !== CONFIG_FILE_PATH &&
-    (!parsed.seedVersion || parsed.seedVersion < 4) &&
+    (!parsed.seedVersion || parsed.seedVersion < 5) &&
     fs.existsSync(SEED_PATH)
   ) {
     fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);
