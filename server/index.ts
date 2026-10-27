@@ -54,6 +54,106 @@ export function formatPascalToken(input: string): string {
     .join('');
 }
 
+export function formatBusinessInitials(input: string): string {
+  if (!input || !input.trim()) return '';
+  const trimmed = input.trim();
+  if (/^[a-zA-Z0-9]+$/.test(trimmed)) {
+    return trimmed;
+  }
+  const words = trimmed
+    .replace(/['’]/g, '')
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean);
+  if (words.length <= 1) {
+    return formatPascalToken(trimmed);
+  }
+  return words
+    .map((w) => {
+      if (/^Mc[A-Z]/.test(w)) {
+        return 'Mc';
+      }
+      const caps = w.slice(1).replace(/[^A-Z]/g, '');
+      if (caps.length > 0) {
+        return w.charAt(0).toUpperCase() + caps;
+      }
+      return w.charAt(0).toUpperCase();
+    })
+    .join('');
+}
+
+const KNOWN_BUSINESS_LOOKUP: Record<
+  string,
+  { refCode: string; couponOverride?: string; canonicalName?: string }
+> = {
+  'example template': {
+    refCode: 'LHD',
+    couponOverride: 'helloalphatestuser',
+    canonicalName: 'Example Template',
+  },
+  'dc generic': {
+    refCode: 'DCGeneral',
+    couponOverride: 'firstmonthDCGeneral',
+    canonicalName: 'DC Generic',
+  },
+  'dcgeneral': {
+    refCode: 'DCGeneral',
+    couponOverride: 'firstmonthDCGeneral',
+    canonicalName: 'DC Generic',
+  },
+  'bose mckinney &evans': {
+    refCode: 'BMcE',
+    canonicalName: 'Bose McKinney & Evans',
+  },
+  'bose mckinney & evans': {
+    refCode: 'BMcE',
+    canonicalName: 'Bose McKinney & Evans',
+  },
+  'bose mckinney and evans': {
+    refCode: 'BMcE',
+    canonicalName: 'Bose McKinney & Evans',
+  },
+  'bmce': {
+    refCode: 'BMcE',
+    canonicalName: 'Bose McKinney & Evans',
+  },
+  'locascio hadden & dennis': {
+    refCode: 'LCHD',
+    canonicalName: 'LoCascio Hadden & Dennis',
+  },
+  'locascio hadden and dennis': {
+    refCode: 'LCHD',
+    canonicalName: 'LoCascio Hadden & Dennis',
+  },
+  'lchd': {
+    refCode: 'LCHD',
+    canonicalName: 'LoCascio Hadden & Dennis',
+  },
+  'indiana soybean alliance': {
+    refCode: 'ISA',
+    canonicalName: 'Indiana Soybean Alliance',
+  },
+  'isa': {
+    refCode: 'ISA',
+    canonicalName: 'Indiana Soybean Alliance',
+  },
+  'indiana members credit union': {
+    refCode: 'IMCU',
+    canonicalName: 'Indiana Members Credit Union',
+  },
+  'imcu': {
+    refCode: 'IMCU',
+    canonicalName: 'Indiana Members Credit Union',
+  },
+  'goshen community schools': {
+    refCode: 'GCS',
+    canonicalName: 'Goshen Community Schools',
+  },
+  'gcs': {
+    refCode: 'GCS',
+    canonicalName: 'Goshen Community Schools',
+  },
+};
+
 export function formatSlug(input: string): string {
   if (!input || !input.trim()) return '';
   return input
@@ -69,13 +169,22 @@ export function buildDamienEmployerUrl(
   brokerName: string,
   employerName: string,
   couponCode: string,
-  isDirect = false
-): { url: string; refCode: string; couponCode: string } {
-  const cleanEmployer = formatPascalToken(employerName);
+  isDirect = false,
+  customRefCode?: string
+): { url: string; refCode: string; couponCode: string; displayEmployerName: string } {
+  const rawEmployer = String(employerName || '').trim();
+  const normalizedKey = rawEmployer.toLowerCase().replace(/\s+/g, ' ');
+  const known = KNOWN_BUSINESS_LOOKUP[normalizedKey];
+
+  const cleanEmployer = formatPascalToken(rawEmployer);
   const lowerId = String(brokerId || '').trim().toLowerCase();
   let refCode = cleanEmployer;
 
-  if (lowerId === 'epic') {
+  if (customRefCode && String(customRefCode).trim()) {
+    refCode = formatPascalToken(String(customRefCode).trim());
+  } else if (known) {
+    refCode = known.refCode;
+  } else if (lowerId === 'epic') {
     refCode = cleanEmployer.toLowerCase().startsWith('epic')
       ? cleanEmployer
       : `Epic${cleanEmployer}`;
@@ -83,9 +192,11 @@ export function buildDamienEmployerUrl(
     refCode = cleanEmployer.toLowerCase().endsWith('conner')
       ? cleanEmployer
       : `${cleanEmployer}Conner`;
+  } else if (lowerId === 'lhd') {
+    refCode = formatBusinessInitials(rawEmployer);
   } else if (
     isDirect ||
-    ['damien', 'lhd', 'mgb', 'coi', 'damienemployee', 'damienfriend', 'ircc'].includes(lowerId)
+    ['damien', 'mgb', 'coi', 'damienemployee', 'damienfriend', 'ircc'].includes(lowerId)
   ) {
     refCode = cleanEmployer;
   } else {
@@ -95,14 +206,15 @@ export function buildDamienEmployerUrl(
       : `${cleanBroker}${cleanEmployer}`;
   }
 
-  const cleanCoupon = String(couponCode || '').trim();
+  const cleanCoupon = String(known?.couponOverride || couponCode || '').trim();
+  const displayEmployerName = known?.canonicalName || rawEmployer;
 
   let url = `${DAMIEN_CONSTANTS.baseUrl}?ref=${encodeURIComponent(refCode)}`;
   if (cleanCoupon) {
     url += `&coupon=${encodeURIComponent(cleanCoupon)}`;
   }
 
-  return { url, refCode, couponCode: cleanCoupon };
+  return { url, refCode, couponCode: cleanCoupon, displayEmployerName };
 }
 
 const SEED_PATH = path.resolve(__dirname, '../data/damien-config.json');
@@ -130,7 +242,7 @@ function ensureDirectBroker(config: DamienConfig): DamienConfig {
       id: 'damien',
       name: 'Damien Center',
       displayLabel: 'Damien Center (Direct — No Broker)',
-      couponCode: 'firstmonth',
+      couponCode: 'firstmonthDCGeneral',
       isDirect: true,
     });
   } else {
@@ -157,7 +269,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
-        seedVersion: 3,
+        seedVersion: 4,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -172,7 +284,7 @@ function loadConfig(): DamienConfig {
   let parsed = JSON.parse(raw) as DamienConfig;
   if (
     SEED_PATH !== CONFIG_FILE_PATH &&
-    (!parsed.seedVersion || parsed.seedVersion < 3) &&
+    (!parsed.seedVersion || parsed.seedVersion < 4) &&
     fs.existsSync(SEED_PATH)
   ) {
     fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);
@@ -321,12 +433,14 @@ export async function createServer() {
       }
 
       const cleanEmployer = String(employerName).trim();
-      const { url, refCode, couponCode } = buildDamienEmployerUrl(
+      const customRefCode = req.body.customRefCode ? String(req.body.customRefCode).trim() : '';
+      const { url, refCode, couponCode, displayEmployerName } = buildDamienEmployerUrl(
         broker.id,
         broker.name,
         cleanEmployer,
         broker.couponCode,
-        broker.isDirect
+        broker.isDirect,
+        customRefCode
       );
 
       const qrDataUrl = await QRCode.toDataURL(url, {
@@ -343,7 +457,7 @@ export async function createServer() {
         id: entryId,
         brokerId: broker.id,
         brokerName: broker.name,
-        employerName: refCode,
+        employerName: displayEmployerName,
         refCode,
         couponCode,
         url,

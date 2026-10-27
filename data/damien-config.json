@@ -1,23 +1,23 @@
 {
-  "version": 20,
-  "seedVersion": 3,
+  "version": 35,
+  "seedVersion": 4,
   "ceName": "Damien Center",
   "state": "Indiana",
   "baseUrl": "https://app.helloalpha.com/damien-health",
-  "updatedAt": "2026-10-27T23:31:37.210Z",
+  "updatedAt": "2026-10-27T23:43:28.033Z",
   "brokers": [
     {
       "id": "damien",
       "name": "Damien Center",
       "displayLabel": "Damien Center (Direct — No Broker)",
-      "couponCode": "firstmonth",
+      "couponCode": "firstmonthDCGeneral",
       "isDirect": true
     },
     {
       "id": "lhd",
       "name": "LHD",
       "displayLabel": "LHD Benefit Advisors (LHD)",
-      "couponCode": "firstmonthlhd",
+      "couponCode": "firstmonthLHD",
       "isDirect": false
     },
     {
@@ -72,6 +72,86 @@
   ],
   "generatedLinks": [
     {
+      "id": "damien__dcgeneral",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "DC Generic",
+      "refCode": "DCGeneral",
+      "couponCode": "firstmonthDCGeneral",
+      "url": "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral",
+      "createdAt": "2026-10-27T23:43:27.100Z"
+    },
+    {
+      "id": "mgb__mgb",
+      "brokerId": "mgb",
+      "brokerName": "MGB",
+      "employerName": "MGB",
+      "refCode": "MGB",
+      "couponCode": "firstmonthmb",
+      "url": "https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb",
+      "createdAt": "2026-10-27T23:43:25.913Z"
+    },
+    {
+      "id": "lhd__bmce",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "Bose McKinney & Evans",
+      "refCode": "BMcE",
+      "couponCode": "firstmonthLHD",
+      "url": "https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthLHD",
+      "createdAt": "2026-10-27T23:43:24.675Z"
+    },
+    {
+      "id": "lhd__lhd",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "Example Template",
+      "refCode": "LHD",
+      "couponCode": "helloalphatestuser",
+      "url": "https://app.helloalpha.com/damien-health?ref=LHD&coupon=helloalphatestuser",
+      "createdAt": "2026-10-27T23:43:22.491Z"
+    },
+    {
+      "id": "lhd__gcs",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "Goshen Community Schools",
+      "refCode": "GCS",
+      "couponCode": "firstmonthLHD",
+      "url": "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthLHD",
+      "createdAt": "2026-10-27T23:43:22.094Z"
+    },
+    {
+      "id": "lhd__imcu",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "Indiana Members Credit Union",
+      "refCode": "IMCU",
+      "couponCode": "firstmonthLHD",
+      "url": "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthLHD",
+      "createdAt": "2026-10-27T23:43:21.632Z"
+    },
+    {
+      "id": "lhd__isa",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "Indiana Soybean Alliance",
+      "refCode": "ISA",
+      "couponCode": "firstmonthLHD",
+      "url": "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD",
+      "createdAt": "2026-10-27T23:43:21.289Z"
+    },
+    {
+      "id": "lhd__lchd",
+      "brokerId": "lhd",
+      "brokerName": "LHD",
+      "employerName": "LoCascio Hadden & Dennis",
+      "refCode": "LCHD",
+      "couponCode": "firstmonthLHD",
+      "url": "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD",
+      "createdAt": "2026-10-27T23:43:20.892Z"
+    },
+    {
       "id": "damien__coe",
       "brokerId": "damien",
       "brokerName": "Damien Center",
@@ -82,36 +162,6 @@
       "createdAt": "2026-10-27T23:31:36.386Z"
     },
     {
-      "id": "mgb__mgb",
-      "brokerId": "mgb",
-      "brokerName": "MGB",
-      "employerName": "MGB",
-      "refCode": "MGB",
-      "couponCode": "firstmonthmb",
-      "url": "https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb",
-      "createdAt": "2026-10-27T23:31:35.305Z"
-    },
-    {
-      "id": "lhd__bmce",
-      "brokerId": "lhd",
-      "brokerName": "LHD",
-      "employerName": "BMcE",
-      "refCode": "BMcE",
-      "couponCode": "firstmonthlhd",
-      "url": "https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthlhd",
-      "createdAt": "2026-10-27T23:31:34.002Z"
-    },
-    {
-      "id": "lhd__imcu",
-      "brokerId": "lhd",
-      "brokerName": "LHD",
-      "employerName": "IMCU",
-      "refCode": "IMCU",
-      "couponCode": "firstmonthlhd",
-      "url": "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthlhd",
-      "createdAt": "2026-10-27T23:31:32.198Z"
-    },
-    {
       "id": "damien__evsc",
       "brokerId": "damien",
       "brokerName": "Damien Center",
@@ -120,16 +170,6 @@
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EVSC&coupon=firstmonth",
       "createdAt": "2026-10-27T23:31:29.768Z"
-    },
-    {
-      "id": "lhd__gcs",
-      "brokerId": "lhd",
-      "brokerName": "LHD",
-      "employerName": "GCS",
-      "refCode": "GCS",
-      "couponCode": "firstmonthlhd",
-      "url": "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthlhd",
-      "createdAt": "2026-10-27T23:12:35.000Z"
     },
     {
       "id": "conner__topconner",

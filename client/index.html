@@ -128,11 +128,11 @@
           </div>
 
           <div class="form-field">
-            <label for="input-employer-name">Employer Name</label>
+            <label for="input-employer-name">Business / Employer Name</label>
             <input
               type="text"
               id="input-employer-name"
-              placeholder="e.g., Indiana Pacers or Cummins Inc"
+              placeholder="e.g., Bose McKinney &amp; Evans, Indiana Soybean Alliance, or Goshen Community Schools"
               autocomplete="off"
             />
           </div>
@@ -146,8 +146,12 @@
         <div id="generated-output-box" class="output-box" style="display: none;">
           <div class="output-meta">
             <div>
-              <span class="meta-label">Employer:</span>
+              <span class="meta-label">Business Name:</span>
               <strong id="out-employer-name"></strong>
+            </div>
+            <div>
+              <span class="meta-label">REF:</span>
+              <code id="out-ref-code"></code>
             </div>
             <div>
               <span class="meta-label">Broker:</span>
@@ -232,7 +236,8 @@
         <table class="data-table" id="history-table">
           <thead>
             <tr>
-              <th>Employer</th>
+              <th>Business Name</th>
+              <th>REF (<code>?ref=</code>)</th>
               <th>Broker</th>
               <th>Coupon</th>
               <th>Enrollment URL</th>

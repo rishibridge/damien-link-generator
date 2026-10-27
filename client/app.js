@@ -249,8 +249,12 @@
             body: JSON.stringify({ id }),
           });
           state.config.brokers = data.brokers;
+          if (data.generatedLinks) {
+            state.config.generatedLinks = data.generatedLinks;
+          }
           renderBrokersTable();
           renderBrokerSelect();
+          renderHistoryTable();
           showToast('Broker deleted.', 'success');
         } catch (err) {
           showToast(err.message, 'error');
@@ -332,6 +336,10 @@
 
     box.style.display = 'block';
     document.getElementById('out-employer-name').textContent = result.employerName;
+    const outRefEl = document.getElementById('out-ref-code');
+    if (outRefEl) {
+      outRefEl.textContent = result.refCode || '';
+    }
     document.getElementById('out-broker-name').textContent =
       result.brokerId === 'damien'
         ? 'Damien Center (Direct — No Broker)'
@@ -373,8 +381,8 @@
     if (filtered.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align:center; color:#64748b; padding: 18px;">
-            No employer links generated yet. Enter an Employer Name above and click <strong>Generate URL &amp; QR Code</strong>.
+          <td colspan="6" style="text-align:center; color:#64748b; padding: 18px;">
+            No employer links generated yet. Enter a Business Name above and click <strong>Generate URL &amp; QR Code</strong>.
           </td>
         </tr>
       `;
@@ -396,6 +404,7 @@
         return `
           <tr data-history-row="${escapeHtml(item.id)}">
             <td><strong>${escapeHtml(item.employerName)}</strong></td>
+            <td><code>${escapeHtml(item.refCode || '')}</code></td>
             <td>${escapeHtml(brokerLabel)}</td>
             <td><code>${escapeHtml(item.couponCode || '(None)')}</code></td>
             <td>
