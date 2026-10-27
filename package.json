@@ -1,0 +1,21 @@
+{
+  "name": "damien-link-generator",
+  "version": "1.0.0",
+  "description": "Damien Center (Indiana) Broker & Employer Enrollment Link and QR Code Generator",
+  "scripts": {
+    "start": "npx tsx server/index.ts",
+    "dev": "npx tsx server/index.ts",
+    "test:e2e": "python tests/run_playwright_e2e.py"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "qrcode": "^1.5.4",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.5",
+    "typescript": "^5.6.3"
+  }
+}
