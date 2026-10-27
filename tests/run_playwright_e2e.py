@@ -84,6 +84,7 @@ def run_all_tests():
         expected_csv_coupons = {
             "damien": "firstmonth",
             "lhd": "firstmonthLHD",
+            "nfp": "firstmonth",
             "mgb": "firstmonthmb",
             "epic": "firstmonth",
             "conner": "firstmonthconner",
@@ -98,11 +99,11 @@ def run_all_tests():
             and "Direct / No Broker" in first_row
             and "Damien Center (Direct — No Broker)" in first_option
             and coupons_match
-            and len(boot["generatedLinks"]) >= 55
+            and len(boot["generatedLinks"]) >= 60
         )
         record(
             "PW-03",
-            "Damien Direct Broker (firstmonth), LHD (firstmonthLHD), Epic & All 59 Business Links Loaded",
+            "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
             ok_03,
             f"Brokers={len(boot['brokers'])}, CouponsMatch={coupons_match}, LinksCount={len(boot['generatedLinks'])}",
         )
@@ -198,7 +199,7 @@ def run_all_tests():
             f"HrefLHD='{lhd_link_href}', CopiedLHD='{copied_lhd_link}'",
         )
 
-        # PW-08: Damien Generates URLs for LHD & Epic Businesses
+        # PW-08: Damien Generates URLs for LHD, Epic & NFP Businesses
         lhd_cases = [
             ("lhd", "LoCascio Hadden & Dennis", "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD"),
             ("lhd", "Indiana Soybean Alliance", "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD"),
@@ -210,6 +211,11 @@ def run_all_tests():
             ("epic", "The City of Terre Haute", "https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth"),
             ("epic", "Honey Creek Fire & Rescue", "https://app.helloalpha.com/damien-health?ref=EpicHCFNR&coupon=firstmonth"),
             ("epic", "League for the Blind and Disabled", "https://app.helloalpha.com/damien-health?ref=EpicLEAGUE&coupon=firstmonth"),
+            ("nfp", "Example Template", "https://app.helloalpha.com/damien-health?ref=NFP&coupon=firstmonth"),
+            ("nfp", "Resultant", "https://app.helloalpha.com/damien-health?ref=Res&coupon=firstmonth"),
+            ("nfp", "Firefly", "https://app.helloalpha.com/damien-health?ref=FFLY&coupon=firstmonth"),
+            ("nfp", "Godfrey Marine", "https://app.helloalpha.com/damien-health?ref=GMar&coupon=firstmonth"),
+            ("nfp", "Bennington", "https://app.helloalpha.com/damien-health?ref=Benn&coupon=firstmonth"),
         ]
         all_lhd_ok = True
         for b_id, biz_name, exp_url in lhd_cases:
@@ -225,9 +231,9 @@ def run_all_tests():
 
         record(
             "PW-08",
-            "Damien Generates All LHD & Epic Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, EpicAdaptecSystems, EpicTerreHaute, EpicHCFNR, EpicLEAGUE)",
+            "Damien Generates All LHD, Epic & NFP Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, NFP, Res, FFLY, GMar, Benn)",
             all_lhd_ok,
-            f"All {len(lhd_cases)} LHD & Epic Business Name -> REF mappings verified ({len(lhd_cases)}/{len(lhd_cases)})",
+            f"All {len(lhd_cases)} LHD, Epic & NFP Business Name -> REF mappings verified ({len(lhd_cases)}/{len(lhd_cases)})",
         )
 
         # PW-09: Damien Generates URL & QR Code for Newly Added Broker (Apex Benefit Group)

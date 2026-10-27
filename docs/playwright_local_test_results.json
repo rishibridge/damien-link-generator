@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://localhost:3005",
-  "timestamp": "2026-10-27T23:50:17Z",
+  "timestamp": "2026-10-27T23:55:38Z",
   "total": 15,
   "passed": 15,
   "failed": 0,
@@ -19,9 +19,9 @@
     },
     {
       "id": "PW-03",
-      "title": "Damien Direct Broker (firstmonth), LHD (firstmonthLHD), Epic & All 59 Business Links Loaded",
+      "title": "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
       "passed": true,
-      "detail": "Brokers=9, CouponsMatch=True, LinksCount=59"
+      "detail": "Brokers=10, CouponsMatch=True, LinksCount=64"
     },
     {
       "id": "PW-04",
@@ -49,9 +49,9 @@
     },
     {
       "id": "PW-08",
-      "title": "Damien Generates All LHD & Epic Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, EpicAdaptecSystems, EpicTerreHaute, EpicHCFNR, EpicLEAGUE)",
+      "title": "Damien Generates All LHD, Epic & NFP Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, NFP, Res, FFLY, GMar, Benn)",
       "passed": true,
-      "detail": "All 10 LHD & Epic Business Name -> REF mappings verified (10/10)"
+      "detail": "All 15 LHD, Epic & NFP Business Name -> REF mappings verified (15/15)"
     },
     {
       "id": "PW-09",

@@ -201,6 +201,18 @@ const KNOWN_BUSINESS_LOOKUP: Record<
   'khor': { refCode: 'Khor', canonicalName: 'Khorporate' },
   'printing partners': { refCode: 'PPart', canonicalName: 'Printing Partners' },
   'ppart': { refCode: 'PPart', canonicalName: 'Printing Partners' },
+
+  // NFP (5 Businesses)
+  'example template (nfp)': { refCode: 'NFP', canonicalName: 'Example Template (NFP)' },
+  'nfp': { refCode: 'NFP', canonicalName: 'Example Template (NFP)' },
+  'resultant': { refCode: 'Res', canonicalName: 'Resultant' },
+  'res': { refCode: 'Res', canonicalName: 'Resultant' },
+  'firefly': { refCode: 'FFLY', canonicalName: 'Firefly' },
+  'ffly': { refCode: 'FFLY', canonicalName: 'Firefly' },
+  'godfrey marine': { refCode: 'GMar', canonicalName: 'Godfrey Marine' },
+  'gmar': { refCode: 'GMar', canonicalName: 'Godfrey Marine' },
+  'bennington': { refCode: 'Benn', canonicalName: 'Bennington' },
+  'benn': { refCode: 'Benn', canonicalName: 'Bennington' },
 };
 
 export function formatSlug(input: string): string {
@@ -223,10 +235,13 @@ export function buildDamienEmployerUrl(
 ): { url: string; refCode: string; couponCode: string; displayEmployerName: string } {
   const rawEmployer = String(employerName || '').trim();
   const normalizedKey = rawEmployer.toLowerCase().replace(/\s+/g, ' ');
-  const known = KNOWN_BUSINESS_LOOKUP[normalizedKey];
+  const lowerId = String(brokerId || '').trim().toLowerCase();
+  const known =
+    normalizedKey === 'example template' && lowerId === 'nfp'
+      ? { refCode: 'NFP', canonicalName: 'Example Template (NFP)' }
+      : KNOWN_BUSINESS_LOOKUP[normalizedKey];
 
   const cleanEmployer = formatPascalToken(rawEmployer);
-  const lowerId = String(brokerId || '').trim().toLowerCase();
   let refCode = cleanEmployer;
 
   if (customRefCode && String(customRefCode).trim()) {
@@ -245,7 +260,7 @@ export function buildDamienEmployerUrl(
     refCode = formatBusinessInitials(rawEmployer);
   } else if (
     isDirect ||
-    ['damien', 'mgb', 'coi', 'damienemployee', 'damienfriend', 'ircc'].includes(lowerId)
+    ['damien', 'nfp', 'mgb', 'coi', 'damienemployee', 'damienfriend', 'ircc'].includes(lowerId)
   ) {
     refCode = cleanEmployer;
   } else {
@@ -318,7 +333,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
-        seedVersion: 5,
+        seedVersion: 6,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -333,7 +348,7 @@ function loadConfig(): DamienConfig {
   let parsed = JSON.parse(raw) as DamienConfig;
   if (
     SEED_PATH !== CONFIG_FILE_PATH &&
-    (!parsed.seedVersion || parsed.seedVersion < 5) &&
+    (!parsed.seedVersion || parsed.seedVersion < 6) &&
     fs.existsSync(SEED_PATH)
   ) {
     fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);

@@ -1,10 +1,10 @@
 {
-  "version": 48,
-  "seedVersion": 5,
+  "version": 78,
+  "seedVersion": 6,
   "ceName": "Damien Center",
   "state": "Indiana",
   "baseUrl": "https://app.helloalpha.com/damien-health",
-  "updatedAt": "2026-10-27T23:50:17.112Z",
+  "updatedAt": "2026-10-27T23:55:37.097Z",
   "brokers": [
     {
       "id": "damien",
@@ -24,6 +24,13 @@
       "id": "epic",
       "name": "Epic",
       "displayLabel": "Epic Insurance Brokers (Epic)",
+      "couponCode": "firstmonth",
+      "isDirect": false
+    },
+    {
+      "id": "nfp",
+      "name": "NFP",
+      "displayLabel": "NFP",
       "couponCode": "firstmonth",
       "isDirect": false
     },
@@ -79,7 +86,7 @@
       "refCode": "HBH",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=HBH&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:16.161Z"
+      "createdAt": "2026-10-27T23:55:36.103Z"
     },
     {
       "id": "mgb__mgb",
@@ -89,7 +96,7 @@
       "refCode": "MGB",
       "couponCode": "firstmonthmb",
       "url": "https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb",
-      "createdAt": "2026-10-27T23:50:15.213Z"
+      "createdAt": "2026-10-27T23:55:34.903Z"
     },
     {
       "id": "lhd__bmce",
@@ -99,7 +106,57 @@
       "refCode": "BMcE",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthLHD",
-      "createdAt": "2026-10-27T23:50:14.215Z"
+      "createdAt": "2026-10-27T23:55:33.558Z"
+    },
+    {
+      "id": "nfp__benn",
+      "brokerId": "nfp",
+      "brokerName": "NFP",
+      "employerName": "Bennington",
+      "refCode": "Benn",
+      "couponCode": "firstmonth",
+      "url": "https://app.helloalpha.com/damien-health?ref=Benn&coupon=firstmonth",
+      "createdAt": "2026-10-27T23:55:31.383Z"
+    },
+    {
+      "id": "nfp__gmar",
+      "brokerId": "nfp",
+      "brokerName": "NFP",
+      "employerName": "Godfrey Marine",
+      "refCode": "GMar",
+      "couponCode": "firstmonth",
+      "url": "https://app.helloalpha.com/damien-health?ref=GMar&coupon=firstmonth",
+      "createdAt": "2026-10-27T23:55:30.981Z"
+    },
+    {
+      "id": "nfp__ffly",
+      "brokerId": "nfp",
+      "brokerName": "NFP",
+      "employerName": "Firefly",
+      "refCode": "FFLY",
+      "couponCode": "firstmonth",
+      "url": "https://app.helloalpha.com/damien-health?ref=FFLY&coupon=firstmonth",
+      "createdAt": "2026-10-27T23:55:30.633Z"
+    },
+    {
+      "id": "nfp__res",
+      "brokerId": "nfp",
+      "brokerName": "NFP",
+      "employerName": "Resultant",
+      "refCode": "Res",
+      "couponCode": "firstmonth",
+      "url": "https://app.helloalpha.com/damien-health?ref=Res&coupon=firstmonth",
+      "createdAt": "2026-10-27T23:55:30.250Z"
+    },
+    {
+      "id": "nfp__nfp",
+      "brokerId": "nfp",
+      "brokerName": "NFP",
+      "employerName": "Example Template (NFP)",
+      "refCode": "NFP",
+      "couponCode": "firstmonth",
+      "url": "https://app.helloalpha.com/damien-health?ref=NFP&coupon=firstmonth",
+      "createdAt": "2026-10-27T23:55:29.889Z"
     },
     {
       "id": "epic__epicleague",
@@ -109,7 +166,7 @@
       "refCode": "EpicLEAGUE",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicLEAGUE&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:12.546Z"
+      "createdAt": "2026-10-27T23:55:29.508Z"
     },
     {
       "id": "epic__epichcfnr",
@@ -119,7 +176,7 @@
       "refCode": "EpicHCFNR",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicHCFNR&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:12.208Z"
+      "createdAt": "2026-10-27T23:55:29.138Z"
     },
     {
       "id": "epic__epicterrehaute",
@@ -129,7 +186,7 @@
       "refCode": "EpicTerreHaute",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:11.809Z"
+      "createdAt": "2026-10-27T23:55:28.728Z"
     },
     {
       "id": "epic__epicadaptecsystems",
@@ -139,7 +196,7 @@
       "refCode": "EpicAdaptecSystems",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicAdaptecSystems&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:11.431Z"
+      "createdAt": "2026-10-27T23:55:28.354Z"
     },
     {
       "id": "epic__epicacuity",
@@ -149,7 +206,7 @@
       "refCode": "EpicAcuity",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicAcuity&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:11.131Z"
+      "createdAt": "2026-10-27T23:55:27.982Z"
     },
     {
       "id": "lhd__lhd",
@@ -159,7 +216,7 @@
       "refCode": "LHD",
       "couponCode": "helloalphatestuser",
       "url": "https://app.helloalpha.com/damien-health?ref=LHD&coupon=helloalphatestuser",
-      "createdAt": "2026-10-27T23:50:10.812Z"
+      "createdAt": "2026-10-27T23:55:27.616Z"
     },
     {
       "id": "lhd__gcs",
@@ -169,7 +226,7 @@
       "refCode": "GCS",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthLHD",
-      "createdAt": "2026-10-27T23:50:10.498Z"
+      "createdAt": "2026-10-27T23:55:27.178Z"
     },
     {
       "id": "lhd__imcu",
@@ -179,7 +236,7 @@
       "refCode": "IMCU",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthLHD",
-      "createdAt": "2026-10-27T23:50:10.120Z"
+      "createdAt": "2026-10-27T23:55:26.813Z"
     },
     {
       "id": "lhd__isa",
@@ -189,7 +246,7 @@
       "refCode": "ISA",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD",
-      "createdAt": "2026-10-27T23:50:09.711Z"
+      "createdAt": "2026-10-27T23:55:26.278Z"
     },
     {
       "id": "lhd__lchd",
@@ -199,7 +256,7 @@
       "refCode": "LCHD",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD",
-      "createdAt": "2026-10-27T23:50:09.201Z"
+      "createdAt": "2026-10-27T23:55:25.827Z"
     },
     {
       "id": "damien__coe",
@@ -209,7 +266,7 @@
       "refCode": "CoE",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:06.378Z"
+      "createdAt": "2026-10-27T23:55:23.510Z"
     },
     {
       "id": "damien__toau",
@@ -219,7 +276,7 @@
       "refCode": "TOAU",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=TOAU&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:06.085Z"
+      "createdAt": "2026-10-27T23:55:23.192Z"
     },
     {
       "id": "damien__ppart",
@@ -229,7 +286,7 @@
       "refCode": "PPart",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=PPart&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:05.777Z"
+      "createdAt": "2026-10-27T23:55:22.880Z"
     },
     {
       "id": "damien__martinff",
@@ -239,7 +296,7 @@
       "refCode": "MartinFF",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=MartinFF&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:50:05.471Z"
+      "createdAt": "2026-10-27T23:55:22.570Z"
     },
     {
       "id": "damien__dcgeneral",
@@ -249,7 +306,7 @@
       "refCode": "DCGeneral",
       "couponCode": "firstmonthDCGeneral",
       "url": "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral",
-      "createdAt": "2026-10-27T23:50:05.143Z"
+      "createdAt": "2026-10-27T23:55:22.254Z"
     },
     {
       "id": "epic__epicalliedphysicianssc",
