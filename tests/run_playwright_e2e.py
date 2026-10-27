@@ -91,7 +91,8 @@ def run_all_tests():
         # PW-04: Damien Generates URL & QR Code for Direct Employer (No Broker)
         page.select_option("#select-broker", "damien")
         page.fill("#input-employer-name", "Indiana Pacers")
-        page.click("#btn-generate")
+        with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            page.click("#btn-generate")
         page.wait_for_selector("#generated-output-box", state="visible")
         gen_url = page.input_value("#output-enrollment-url")
         qr_src = page.get_attribute("#output-qr-image", "src") or ""
@@ -107,15 +108,15 @@ def run_all_tests():
         # PW-05: Damien Edits Direct Employer Coupon Code & Restores
         page.click("#btn-edit-broker-damien")
         page.fill("#input-broker-coupon", "firstmonthDamienUpdated")
-        page.click("#btn-save-broker")
-        page.wait_for_timeout(300)
+        with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
+            page.click("#btn-save-broker")
         page.reload(wait_until="networkidle")
         updated_first_row = page.locator("#brokers-table-body tr").first.inner_text()
         # Restore to firstmonthDamien
         page.click("#btn-edit-broker-damien")
         page.fill("#input-broker-coupon", "firstmonthDamien")
-        page.click("#btn-save-broker")
-        page.wait_for_timeout(300)
+        with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
+            page.click("#btn-save-broker")
         restored_first_row = page.locator("#brokers-table-body tr").first.inner_text()
         ok_05 = "firstmonthDamienUpdated" in updated_first_row and "firstmonthDamien" in restored_first_row
         record(
@@ -128,7 +129,8 @@ def run_all_tests():
         # PW-06: Damien Adds a New Broker with Already-Created Coupon Code
         page.fill("#input-broker-name", "Apex Benefit Group")
         page.fill("#input-broker-coupon", "firstmonthApex")
-        page.click("#btn-save-broker")
+        with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
+            page.click("#btn-save-broker")
         page.wait_for_selector("tr[data-broker-row='apex-benefit-group']", state="visible")
         # Verify in isolated context
         ctx2 = browser.new_context()
@@ -163,8 +165,8 @@ def run_all_tests():
         # PW-08: Damien Generates URL & QR Code for Any External Broker (LHD Benefit Advisors)
         page.select_option("#select-broker", "lhd")
         page.fill("#input-employer-name", "Cummins Inc")
-        page.click("#btn-generate")
-        page.wait_for_timeout(300)
+        with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            page.click("#btn-generate")
         lhd_url = page.input_value("#output-enrollment-url")
         expected_lhd_url = "https://app.helloalpha.com/damien-health?ref=LHDBenefitAdvisorsCumminsInc&coupon=firstmonthlhd"
         ok_08 = lhd_url == expected_lhd_url
@@ -178,8 +180,8 @@ def run_all_tests():
         # PW-09: Damien Generates URL & QR Code for Newly Added Broker (Apex Benefit Group)
         page.select_option("#select-broker", "apex-benefit-group")
         page.fill("#input-employer-name", "Roche Diagnostics")
-        page.click("#btn-generate")
-        page.wait_for_timeout(300)
+        with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            page.click("#btn-generate")
         apex_url = page.input_value("#output-enrollment-url")
         expected_apex_url = "https://app.helloalpha.com/damien-health?ref=ApexBenefitGroupRocheDiagnostics&coupon=firstmonthApex"
         ok_09 = apex_url == expected_apex_url
@@ -238,7 +240,8 @@ def run_all_tests():
 
         # PW-12: Broker Self-Service View (/?broker=lhd) — Generate Employer URL & QR Code
         broker_page.fill("#input-employer-name", "Eli Lilly & Co.")
-        broker_page.click("#btn-generate")
+        with broker_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            broker_page.click("#btn-generate")
         broker_page.wait_for_selector("#generated-output-box", state="visible")
         broker_gen_url = broker_page.input_value("#output-enrollment-url")
         broker_qr_src = broker_page.get_attribute("#output-qr-image", "src") or ""
@@ -262,7 +265,8 @@ def run_all_tests():
         history_before = mgb_page.locator("#history-table-body").inner_text()
         lhd_leaked = "Eli Lilly" in history_before or "Cummins" in history_before
         mgb_page.fill("#input-employer-name", "Sub-Zero Group")
-        mgb_page.click("#btn-generate")
+        with mgb_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            mgb_page.click("#btn-generate")
         mgb_page.wait_for_selector("#generated-output-box", state="visible")
         mgb_url = mgb_page.input_value("#output-enrollment-url")
         expected_mgb_url = "https://app.helloalpha.com/damien-health?ref=McGohanBrabenderSubZeroGroup&coupon=firstmonthMB"
@@ -280,7 +284,8 @@ def run_all_tests():
         direct_page = direct_ctx.new_page()
         direct_page.goto(f"{BASE_URL}/?broker=damien", wait_until="networkidle")
         direct_page.fill("#input-employer-name", "Indianapolis Motor Speedway")
-        direct_page.click("#btn-generate")
+        with direct_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
+            direct_page.click("#btn-generate")
         direct_page.wait_for_selector("#generated-output-box", state="visible")
         ims_url = direct_page.input_value("#output-enrollment-url")
         expected_ims_url = "https://app.helloalpha.com/damien-health?ref=DamienCenterIndianapolisMotorSpeedway&coupon=firstmonthDamien"
@@ -305,8 +310,8 @@ def run_all_tests():
                 return r.status;
             }"""
         )
-        page.click("#btn-delete-broker-apex-benefit-group")
-        page.wait_for_timeout(300)
+        with page.expect_response(lambda r: "/api/brokers/delete" in r.url and r.status == 200):
+            page.click("#btn-delete-broker-apex-benefit-group")
         apex_count = page.locator("tr[data-broker-row='apex-benefit-group']").count()
         ok_15 = del_direct_status == 400 and apex_count == 0
         record(
