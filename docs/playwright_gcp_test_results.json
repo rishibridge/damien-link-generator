@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-27T23:45:57Z",
+  "timestamp": "2026-10-27T23:52:09Z",
   "total": 15,
   "passed": 15,
   "failed": 0,
@@ -19,21 +19,21 @@
     },
     {
       "id": "PW-03",
-      "title": "Damien Direct Broker (firstmonthDCGeneral), LHD (firstmonthLHD) & All Employer Codes Loaded",
+      "title": "Damien Direct Broker (firstmonth), LHD (firstmonthLHD), Epic & All 59 Business Links Loaded",
       "passed": true,
-      "detail": "Brokers=9, CouponsMatch=True, LinksCount=47"
+      "detail": "Brokers=9, CouponsMatch=True, LinksCount=59"
     },
     {
       "id": "PW-04",
-      "title": "Damien Generates URL & QR Code for DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
+      "title": "Damien Generates Direct Business URLs (DCGeneral, MartinFF, PPart, TOAU, CoE)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral', ClickableHref='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral'"
+      "detail": "All 5 Direct Business mappings verified, LastURL='https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth'"
     },
     {
       "id": "PW-05",
       "title": "Damien Can Update Direct Employer Coupon Code & Persist",
       "passed": true,
-      "detail": "Updated to 'firstmonthDCUpdated' and restored to 'firstmonthDCGeneral'"
+      "detail": "Updated to 'firstmonthUpdated' and restored to 'firstmonth'"
     },
     {
       "id": "PW-06",
@@ -49,9 +49,9 @@
     },
     {
       "id": "PW-08",
-      "title": "Damien Generates All LHD Business URLs (LCHD, ISA, IMCU, GCS, Example Template)",
+      "title": "Damien Generates All LHD & Epic Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, EpicAdaptecSystems, EpicTerreHaute, EpicHCFNR, EpicLEAGUE)",
       "passed": true,
-      "detail": "All 5 LHD Business Name -> REF mappings verified (5/5)"
+      "detail": "All 10 LHD & Epic Business Name -> REF mappings verified (10/10)"
     },
     {
       "id": "PW-09",
@@ -85,9 +85,9 @@
     },
     {
       "id": "PW-14",
-      "title": "Direct Broker Self-Service Link (/?broker=damien) Generates DC Generic (?ref=DCGeneral&coupon=firstmonthDCGeneral)",
+      "title": "Direct Broker Self-Service Link (/?broker=damien) Generates Harsha Behavioral Health (?ref=HBH&coupon=firstmonth)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=HBH&coupon=firstmonth'"
     },
     {
       "id": "PW-15",
