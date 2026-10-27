@@ -24,6 +24,7 @@ export interface GeneratedLinkEntry {
 
 export interface DamienConfig {
   version: number;
+  seedVersion?: number;
   ceName: string;
   state: string;
   baseUrl: string;
@@ -40,8 +41,12 @@ const DAMIEN_CONSTANTS = {
 
 export function formatPascalToken(input: string): string {
   if (!input || !input.trim()) return '';
-  return input
-    .trim()
+  const trimmed = input.trim();
+  // Preserve exact casing if already a single alphanumeric token (e.g. damienpatient, BMcE, CityofIndianapolis, IMCU)
+  if (/^[a-zA-Z0-9]+$/.test(trimmed)) {
+    return trimmed;
+  }
+  return trimmed
     .replace(/['’]/g, '')
     .split(/[^a-zA-Z0-9]+/)
     .filter(Boolean)
@@ -60,13 +65,36 @@ export function formatSlug(input: string): string {
 }
 
 export function buildDamienEmployerUrl(
+  brokerId: string,
   brokerName: string,
   employerName: string,
-  couponCode: string
+  couponCode: string,
+  isDirect = false
 ): { url: string; refCode: string; couponCode: string } {
-  const cleanBroker = formatPascalToken(brokerName);
   const cleanEmployer = formatPascalToken(employerName);
-  const refCode = `${cleanBroker}${cleanEmployer}`;
+  const lowerId = String(brokerId || '').trim().toLowerCase();
+  let refCode = cleanEmployer;
+
+  if (lowerId === 'epic') {
+    refCode = cleanEmployer.toLowerCase().startsWith('epic')
+      ? cleanEmployer
+      : `Epic${cleanEmployer}`;
+  } else if (lowerId === 'conner') {
+    refCode = cleanEmployer.toLowerCase().endsWith('conner')
+      ? cleanEmployer
+      : `${cleanEmployer}Conner`;
+  } else if (
+    isDirect ||
+    ['damien', 'lhd', 'mgb', 'coi', 'damienemployee', 'damienfriend', 'ircc'].includes(lowerId)
+  ) {
+    refCode = cleanEmployer;
+  } else {
+    const cleanBroker = formatPascalToken(brokerName);
+    refCode = cleanEmployer.toLowerCase().startsWith(cleanBroker.toLowerCase())
+      ? cleanEmployer
+      : `${cleanBroker}${cleanEmployer}`;
+  }
+
   const cleanCoupon = String(couponCode || '').trim();
 
   let url = `${DAMIEN_CONSTANTS.baseUrl}?ref=${encodeURIComponent(refCode)}`;
@@ -102,7 +130,7 @@ function ensureDirectBroker(config: DamienConfig): DamienConfig {
       id: 'damien',
       name: 'Damien Center',
       displayLabel: 'Damien Center (Direct — No Broker)',
-      couponCode: 'firstmonthDamien',
+      couponCode: 'firstmonth',
       isDirect: true,
     });
   } else {
@@ -129,6 +157,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
+        seedVersion: 3,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -139,8 +168,17 @@ function loadConfig(): DamienConfig {
       fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(initial, null, 2), 'utf8');
     }
   }
-  const raw = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
-  const parsed = JSON.parse(raw) as DamienConfig;
+  let raw = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
+  let parsed = JSON.parse(raw) as DamienConfig;
+  if (
+    SEED_PATH !== CONFIG_FILE_PATH &&
+    (!parsed.seedVersion || parsed.seedVersion < 3) &&
+    fs.existsSync(SEED_PATH)
+  ) {
+    fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);
+    raw = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
+    parsed = JSON.parse(raw) as DamienConfig;
+  }
   return ensureDirectBroker(parsed);
 }
 
@@ -246,10 +284,14 @@ export async function createServer() {
       stateConfig.brokers = stateConfig.brokers.filter(
         (b) => b.id.toLowerCase() !== String(id).toLowerCase()
       );
+      stateConfig.generatedLinks = stateConfig.generatedLinks.filter(
+        (g) => g.brokerId.toLowerCase() !== String(id).toLowerCase()
+      );
       saveConfig(stateConfig);
 
       res.json({
         brokers: stateConfig.brokers,
+        generatedLinks: stateConfig.generatedLinks,
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Failed to delete broker.' });
@@ -280,9 +322,11 @@ export async function createServer() {
 
       const cleanEmployer = String(employerName).trim();
       const { url, refCode, couponCode } = buildDamienEmployerUrl(
+        broker.id,
         broker.name,
         cleanEmployer,
-        broker.couponCode
+        broker.couponCode,
+        broker.isDirect
       );
 
       const qrDataUrl = await QRCode.toDataURL(url, {
@@ -294,12 +338,12 @@ export async function createServer() {
         },
       });
 
-      const entryId = `${broker.id}__${formatSlug(cleanEmployer)}`;
+      const entryId = `${broker.id}__${formatSlug(refCode)}`;
       const record: GeneratedLinkEntry = {
         id: entryId,
         brokerId: broker.id,
         brokerName: broker.name,
-        employerName: cleanEmployer,
+        employerName: refCode,
         refCode,
         couponCode,
         url,

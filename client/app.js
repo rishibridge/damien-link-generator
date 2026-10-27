@@ -160,15 +160,27 @@
             </td>
             <td>${couponText}</td>
             <td>
-              <button
-                type="button"
-                class="btn btn-secondary btn-sm"
-                id="btn-copy-broker-link-${escapeHtml(broker.id)}"
-                data-copy-broker-link="${escapeHtml(brokerLink)}"
-                data-broker-name="${escapeHtml(broker.name)}"
-              >
-                Copy Broker Link
-              </button>
+              <div class="broker-link-cell">
+                <a
+                  href="${escapeHtml(brokerLink)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="link-broker-url-${escapeHtml(broker.id)}"
+                  class="broker-url-link"
+                  title="Open ${escapeHtml(broker.name)} Portal in new tab"
+                >
+                  ${escapeHtml(brokerLink)} ↗
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  id="btn-copy-broker-link-${escapeHtml(broker.id)}"
+                  data-copy-broker-link="${escapeHtml(brokerLink)}"
+                  data-broker-name="${escapeHtml(broker.name)}"
+                >
+                  Copy Broker Link
+                </button>
+              </div>
             </td>
             <td style="text-align: right;">
               <div class="action-btn-group">
@@ -329,6 +341,12 @@
     const urlInput = document.getElementById('output-enrollment-url');
     urlInput.value = result.url;
 
+    const openUrlLink = document.getElementById('link-open-enrollment-url');
+    if (openUrlLink) {
+      openUrlLink.href = result.url;
+      openUrlLink.textContent = `${result.url} ↗`;
+    }
+
     const qrImg = document.getElementById('output-qr-image');
     qrImg.src = result.qrDataUrl;
 
@@ -381,7 +399,15 @@
             <td>${escapeHtml(brokerLabel)}</td>
             <td><code>${escapeHtml(item.couponCode || '(None)')}</code></td>
             <td>
-              <code style="word-break: break-all;">${escapeHtml(item.url)}</code>
+              <a
+                href="${escapeHtml(item.url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="broker-url-link"
+                style="word-break: break-all;"
+              >
+                ${escapeHtml(item.url)} ↗
+              </a>
             </td>
             <td style="text-align: right;">
               <div class="action-btn-group">
