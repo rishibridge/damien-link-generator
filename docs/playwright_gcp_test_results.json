@@ -1,15 +1,15 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-27T19:05:44Z",
+  "timestamp": "2026-10-27T23:37:42Z",
   "total": 15,
   "passed": 15,
   "failed": 0,
   "results": [
     {
       "id": "PW-01",
-      "title": "Hard-Coded Damien Center & Single-State Indiana Identity",
+      "title": "Hard-Coded Damien Center, Indiana Identity & Bridge Health Logo",
       "passed": true,
-      "detail": "Header='Damien Center \u2014 Indiana Employer Link & QR Code Portal', StateBadge='Indiana \u2022 Single-State', BaseUrl='https://app.helloalpha.com/damien-health'"
+      "detail": "Header='Damien Center \u2014 Indiana Employer Link & QR Code Portal', LogoNaturalWidth=119, BaseUrl='https://app.helloalpha.com/damien-health'"
     },
     {
       "id": "PW-02",
@@ -19,39 +19,39 @@
     },
     {
       "id": "PW-03",
-      "title": "Damien Configured as Direct Broker (For Employers Without a Broker)",
+      "title": "Damien Direct Broker & All 9 Actual CSV Broker Coupons + 40 Employer Codes Loaded",
       "passed": true,
-      "detail": "FirstSelectOption='Damien Center (Direct \u2014 No Broker) [Coupon: firstmonthDamien]'"
+      "detail": "Brokers=10, CouponsMatch=True, LinksCount=44"
     },
     {
       "id": "PW-04",
-      "title": "Damien Generates URL & QR Code for Direct Employer (No Broker)",
+      "title": "Damien Generates URL & QR Code for Direct Employer (EVSC) with Clickable Link",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DamienCenterIndianaPacers&coupon=firstmonthDamien', QRDataUrlLen=5866"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=EVSC&coupon=firstmonth', ClickableHref='https://app.helloalpha.com/damien-health?ref=EVSC&coupon=firstmonth'"
     },
     {
       "id": "PW-05",
       "title": "Damien Can Update Direct Employer Coupon Code & Persist",
       "passed": true,
-      "detail": "Updated to 'firstmonthDamienUpdated' and restored to 'firstmonthDamien'"
+      "detail": "Updated to 'firstmonthUpdated' and restored to 'firstmonth'"
     },
     {
       "id": "PW-06",
       "title": "Damien Adds Broker with Already-Created Coupon Code & Persists",
       "passed": true,
-      "detail": "Saved Broker Row='Apex Benefit Group\tfirstmonthApex\tCopy Broker Link\t Edit Coupon Generate URL \u2192 Delete'"
+      "detail": "Saved Broker Row='Apex Benefit Group\tfirstmonthApex\t https://damien-link-generator-525536279111.us-central1.run.app/?broker=apex-benefit-group \u2197 Copy Broker Link \t Edit Coupon Generate URL \u2192 Delete'"
     },
     {
       "id": "PW-07",
-      "title": "Damien Copies Broker Portal Links (/?broker=<id>)",
+      "title": "Clickable Broker Portal Links + Copy Broker Link Buttons Verified",
       "passed": true,
-      "detail": "LHD='https://damien-link-generator-525536279111.us-central1.run.app/?broker=lhd', Apex='https://damien-link-generator-525536279111.us-central1.run.app/?broker=apex-benefit-group'"
+      "detail": "HrefLHD='https://damien-link-generator-525536279111.us-central1.run.app/?broker=lhd', CopiedLHD='https://damien-link-generator-525536279111.us-central1.run.app/?broker=lhd'"
     },
     {
       "id": "PW-08",
-      "title": "Damien Generates Employer URL & QR Code for Existing Broker (LHD)",
+      "title": "Damien Generates Actual CSV Employer URLs for LHD (IMCU) & Epic (EpicTerreHaute)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=LHDBenefitAdvisorsCumminsInc&coupon=firstmonthlhd'"
+      "detail": "LHD='https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthlhd', Epic='https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth'"
     },
     {
       "id": "PW-09",
@@ -69,25 +69,25 @@
       "id": "PW-11",
       "title": "Broker Self-Service View (/?broker=lhd) Hides Admin Setup & Locks to Broker",
       "passed": true,
-      "detail": "AdminHidden=True, Broker='LHD Benefit Advisors', Coupon='firstmonthlhd'"
+      "detail": "AdminHidden=True, Broker='LHD Benefit Advisors (LHD)', Coupon='firstmonthlhd'"
     },
     {
       "id": "PW-12",
-      "title": "Broker Self-Service View Generates Employer URL & QR Code for Email/PPT",
+      "title": "Broker Self-Service View (/?broker=lhd) Generates Actual CSV Employer URL (BMcE)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=LHDBenefitAdvisorsEliLillyCo&coupon=firstmonthlhd'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthlhd'"
     },
     {
       "id": "PW-13",
-      "title": "Second Broker View (/?broker=mgb) Isolates History & Uses MGB Coupon",
+      "title": "Second Broker View (/?broker=mgb) Isolates History & Uses Actual CSV Coupon (firstmonthmb)",
       "passed": true,
-      "detail": "LHDLeaked=False, URL='https://app.helloalpha.com/damien-health?ref=McGohanBrabenderSubZeroGroup&coupon=firstmonthMB'"
+      "detail": "LHDLeaked=False, URL='https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb'"
     },
     {
       "id": "PW-14",
-      "title": "Direct Broker Self-Service Link (/?broker=damien) Works for Direct Employers",
+      "title": "Direct Broker Self-Service Link (/?broker=damien) Generates Actual CSV Direct Employer (CoE)",
       "passed": true,
-      "detail": "URL='https://app.helloalpha.com/damien-health?ref=DamienCenterIndianapolisMotorSpeedway&coupon=firstmonthDamien'"
+      "detail": "URL='https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth'"
     },
     {
       "id": "PW-15",

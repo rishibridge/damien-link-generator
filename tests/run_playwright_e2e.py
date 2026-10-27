@@ -196,6 +196,7 @@ def run_all_tests():
         page.fill("#input-employer-name", "IMCU")
         with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             page.click("#btn-generate")
+        page.wait_for_timeout(200)
         lhd_url = page.input_value("#output-enrollment-url")
         expected_lhd_url = "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthlhd"
 
@@ -203,6 +204,7 @@ def run_all_tests():
         page.fill("#input-employer-name", "Terre Haute")
         with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             page.click("#btn-generate")
+        page.wait_for_timeout(200)
         epic_url = page.input_value("#output-enrollment-url")
         expected_epic_url = "https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth"
 
@@ -219,6 +221,7 @@ def run_all_tests():
         page.fill("#input-employer-name", "Roche Diagnostics")
         with page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             page.click("#btn-generate")
+        page.wait_for_timeout(200)
         apex_url = page.input_value("#output-enrollment-url")
         expected_apex_url = "https://app.helloalpha.com/damien-health?ref=ApexBenefitGroupRocheDiagnostics&coupon=firstmonthApex"
         ok_09 = apex_url == expected_apex_url
@@ -281,6 +284,7 @@ def run_all_tests():
         broker_page.fill("#input-employer-name", "BMcE")
         with broker_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             broker_page.click("#btn-generate")
+        broker_page.wait_for_timeout(200)
         broker_page.wait_for_selector("#generated-output-box", state="visible")
         broker_gen_url = broker_page.input_value("#output-enrollment-url")
         broker_qr_src = broker_page.get_attribute("#output-qr-image", "src") or ""
@@ -306,6 +310,7 @@ def run_all_tests():
         mgb_page.fill("#input-employer-name", "MGB")
         with mgb_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             mgb_page.click("#btn-generate")
+        mgb_page.wait_for_timeout(200)
         mgb_page.wait_for_selector("#generated-output-box", state="visible")
         mgb_url = mgb_page.input_value("#output-enrollment-url")
         expected_mgb_url = "https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb"
@@ -325,6 +330,7 @@ def run_all_tests():
         direct_page.fill("#input-employer-name", "CoE")
         with direct_page.expect_response(lambda r: "/api/generate" in r.url and r.status == 200):
             direct_page.click("#btn-generate")
+        direct_page.wait_for_timeout(200)
         direct_page.wait_for_selector("#generated-output-box", state="visible")
         coe_url = direct_page.input_value("#output-enrollment-url")
         expected_coe_url = "https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth"
