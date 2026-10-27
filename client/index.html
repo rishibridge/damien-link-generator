@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Damien Center — Indiana Employer Link &amp; QR Code Portal</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="global-toast" class="toast-banner" role="status" aria-live="polite"></div>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="brand-logo" aria-hidden="true">DC</div>
+        <div>
+          <h1 id="header-title">Damien Center — Indiana Employer Link &amp; QR Code Portal</h1>
+          <p class="header-subtitle" id="header-subtitle">
+            Single-State (Indiana) Employer Enrollment URL &amp; QR Code Generator for Email and PowerPoint
+          </p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="pill-badge pill-state">Indiana • Single-State</span>
+        <span class="pill-badge pill-role" id="persona-badge">Damien Admin Portal</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div id="main-grid" class="portal-grid">
+      <!-- LEFT CARD: Damien Admin Broker & Coupon Setup (Hidden in ?broker=... view) -->
+      <section id="admin-setup-card" class="card">
+        <div class="card-header">
+          <h2>1. Broker &amp; Coupon Setup</h2>
+          <p>
+            Add Brokers and enter the <strong>already-created coupon code</strong> for each Broker.
+            Give each Broker their dedicated link so they can generate employer URLs and QR codes.
+          </p>
+        </div>
+
+        <form id="broker-form" class="broker-form" onsubmit="return false;">
+          <input type="hidden" id="input-broker-id" value="" />
+          <div class="form-row">
+            <div class="form-field">
+              <label for="input-broker-name">Broker Name</label>
+              <input
+                type="text"
+                id="input-broker-name"
+                placeholder="e.g., LHD Benefit Advisors"
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-field">
+              <label for="input-broker-coupon">Already-Created Coupon Code</label>
+              <input
+                type="text"
+                id="input-broker-coupon"
+                placeholder="e.g., firstmonthlhd"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="btn-save-broker" class="btn btn-primary">
+              + Add / Save Broker
+            </button>
+            <button type="button" id="btn-cancel-edit" class="btn btn-secondary" style="display: none;">
+              Cancel Edit
+            </button>
+          </div>
+          <p id="edit-mode-hint" class="form-hint" style="display: none;"></p>
+        </form>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="brokers-table">
+            <thead>
+              <tr>
+                <th>Broker</th>
+                <th>Coupon Code</th>
+                <th>Broker Portal Link</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="brokers-table-body">
+              <!-- Populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- RIGHT CARD (or Centered Card in Broker View): Generate Employer URL & QR Code -->
+      <section id="generator-card" class="card">
+        <div class="card-header">
+          <h2 id="generator-card-title">2. Generate Employer URL &amp; QR Code (Any Broker)</h2>
+          <p id="generator-card-desc">
+            Select any Broker — or choose <strong>Damien Center (Direct — No Broker)</strong> for employers without a broker — and enter the Employer Name to generate the URL and QR code for Email and PowerPoint.
+          </p>
+        </div>
+
+        <!-- Shown in Broker Self-Service View (?broker=...) -->
+        <div id="scoped-broker-banner" class="scoped-broker-banner" style="display: none;">
+          <div>
+            <span class="scoped-label">Active Broker:</span>
+            <strong id="scoped-broker-name"></strong>
+          </div>
+          <div>
+            <span class="scoped-label">Covered Entity:</span>
+            <strong>Damien Center (Indiana)</strong>
+          </div>
+          <div>
+            <span class="scoped-label">Assigned Coupon:</span>
+            <code id="scoped-broker-coupon"></code>
+          </div>
+        </div>
+
+        <form id="generator-form" class="generator-form" onsubmit="return false;">
+          <div class="form-field" id="broker-select-field">
+            <label for="select-broker">Select Broker</label>
+            <select id="select-broker"></select>
+          </div>
+
+          <div class="form-field">
+            <label for="input-employer-name">Employer Name</label>
+            <input
+              type="text"
+              id="input-employer-name"
+              placeholder="e.g., Indiana Pacers or Cummins Inc"
+              autocomplete="off"
+            />
+          </div>
+
+          <button type="submit" id="btn-generate" class="btn btn-primary btn-large">
+            Generate URL &amp; QR Code
+          </button>
+        </form>
+
+        <!-- Output Box -->
+        <div id="generated-output-box" class="output-box" style="display: none;">
+          <div class="output-meta">
+            <div>
+              <span class="meta-label">Employer:</span>
+              <strong id="out-employer-name"></strong>
+            </div>
+            <div>
+              <span class="meta-label">Broker:</span>
+              <strong id="out-broker-name"></strong>
+            </div>
+            <div>
+              <span class="meta-label">Coupon:</span>
+              <code id="out-coupon-code"></code>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <label for="output-enrollment-url" class="output-step-label">
+              Step 1 — Enrollment URL (Paste into Email or PowerPoint)
+            </label>
+            <div class="url-copy-row">
+              <input
+                type="text"
+                id="output-enrollment-url"
+                readonly
+                value=""
+              />
+              <button type="button" id="btn-copy-url" class="btn btn-success">
+                Copy URL for Email / PPT
+              </button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <span class="output-step-label">
+              Step 2 — Enrollment Bar Code / QR Code (Paste into Email or PowerPoint)
+            </span>
+            <div class="qr-output-layout">
+              <div class="qr-preview-box">
+                <img
+                  id="output-qr-image"
+                  src=""
+                  alt="Generated Employer Enrollment QR Code"
+                  width="220"
+                  height="220"
+                />
+              </div>
+              <div class="qr-actions-col">
+                <button type="button" id="btn-copy-qr-image" class="btn btn-primary">
+                  Copy QR Image to Clipboard (Paste in Email / PPT)
+                </button>
+                <a
+                  id="btn-download-qr"
+                  href="#"
+                  download="QR-DamienCenter.png"
+                  class="btn btn-secondary"
+                  style="text-align: center; text-decoration: none;"
+                >
+                  Download QR PNG File
+                </a>
+                <p class="qr-help-note">
+                  Tip: Click <strong>Copy QR Image to Clipboard</strong>, then press <code>Ctrl+V</code> (or <code>Cmd+V</code>) directly inside your Email or PowerPoint slide.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Saved / Recent Employer Links Table -->
+    <section id="history-card" class="card history-card">
+      <div class="card-header">
+        <h2 id="history-card-title">Generated Employer URLs &amp; QR Codes</h2>
+        <p>Quickly copy or view the QR code for any previously generated employer link.</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table" id="history-table">
+          <thead>
+            <tr>
+              <th>Employer</th>
+              <th>Broker</th>
+              <th>Coupon</th>
+              <th>Enrollment URL</th>
+              <th style="text-align: right;">Quick Copy / QR</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <!-- Populated by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Damien Center (Indiana) • B2B Employer Enrollment Link &amp; QR Code Generator</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

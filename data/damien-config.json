@@ -1,0 +1,99 @@
+{
+  "version": 15,
+  "ceName": "Damien Center",
+  "state": "Indiana",
+  "baseUrl": "https://app.helloalpha.com/damien-health",
+  "updatedAt": "2026-10-27T19:01:32.371Z",
+  "brokers": [
+    {
+      "id": "damien",
+      "name": "Damien Center",
+      "displayLabel": "Damien Center (Direct — No Broker)",
+      "couponCode": "firstmonthDamien",
+      "isDirect": true
+    },
+    {
+      "id": "mgb",
+      "name": "McGohan Brabender",
+      "displayLabel": "McGohan Brabender",
+      "couponCode": "firstmonthMB",
+      "isDirect": false
+    },
+    {
+      "id": "lhd",
+      "name": "LHD Benefit Advisors",
+      "displayLabel": "LHD Benefit Advisors",
+      "couponCode": "firstmonthlhd",
+      "isDirect": false
+    },
+    {
+      "id": "epic",
+      "name": "Epic Insurance Brokers",
+      "displayLabel": "Epic Insurance Brokers",
+      "couponCode": "DamienCenterEpicInsuranceBrokersfirstmonth",
+      "isDirect": false
+    }
+  ],
+  "generatedLinks": [
+    {
+      "id": "damien__indianapolis-motor-speedway",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Indianapolis Motor Speedway",
+      "refCode": "DamienCenterIndianapolisMotorSpeedway",
+      "couponCode": "firstmonthDamien",
+      "url": "https://app.helloalpha.com/damien-health?ref=DamienCenterIndianapolisMotorSpeedway&coupon=firstmonthDamien",
+      "createdAt": "2026-10-27T19:01:31.605Z"
+    },
+    {
+      "id": "mgb__sub-zero-group",
+      "brokerId": "mgb",
+      "brokerName": "McGohan Brabender",
+      "employerName": "Sub-Zero Group",
+      "refCode": "McGohanBrabenderSubZeroGroup",
+      "couponCode": "firstmonthMB",
+      "url": "https://app.helloalpha.com/damien-health?ref=McGohanBrabenderSubZeroGroup&coupon=firstmonthMB",
+      "createdAt": "2026-10-27T19:01:30.549Z"
+    },
+    {
+      "id": "lhd__eli-lilly-co",
+      "brokerId": "lhd",
+      "brokerName": "LHD Benefit Advisors",
+      "employerName": "Eli Lilly & Co.",
+      "refCode": "LHDBenefitAdvisorsEliLillyCo",
+      "couponCode": "firstmonthlhd",
+      "url": "https://app.helloalpha.com/damien-health?ref=LHDBenefitAdvisorsEliLillyCo&coupon=firstmonthlhd",
+      "createdAt": "2026-10-27T19:01:29.495Z"
+    },
+    {
+      "id": "apex-benefit-group__roche-diagnostics",
+      "brokerId": "apex-benefit-group",
+      "brokerName": "Apex Benefit Group",
+      "employerName": "Roche Diagnostics",
+      "refCode": "ApexBenefitGroupRocheDiagnostics",
+      "couponCode": "firstmonthApex",
+      "url": "https://app.helloalpha.com/damien-health?ref=ApexBenefitGroupRocheDiagnostics&coupon=firstmonthApex",
+      "createdAt": "2026-10-27T19:01:27.975Z"
+    },
+    {
+      "id": "lhd__cummins-inc",
+      "brokerId": "lhd",
+      "brokerName": "LHD Benefit Advisors",
+      "employerName": "Cummins Inc",
+      "refCode": "LHDBenefitAdvisorsCumminsInc",
+      "couponCode": "firstmonthlhd",
+      "url": "https://app.helloalpha.com/damien-health?ref=LHDBenefitAdvisorsCumminsInc&coupon=firstmonthlhd",
+      "createdAt": "2026-10-27T19:01:27.569Z"
+    },
+    {
+      "id": "damien__indiana-pacers",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Indiana Pacers",
+      "refCode": "DamienCenterIndianaPacers",
+      "couponCode": "firstmonthDamien",
+      "url": "https://app.helloalpha.com/damien-health?ref=DamienCenterIndianaPacers&coupon=firstmonthDamien",
+      "createdAt": "2026-10-27T19:01:24.797Z"
+    }
+  ]
+}
