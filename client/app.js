@@ -364,6 +364,34 @@
       'download',
       `QR-DamienCenter-${result.refCode || 'Employer'}.png`
     );
+
+    const pdfFlyerBtn = document.getElementById('btn-download-pdf-flyer');
+    if (pdfFlyerBtn) {
+      const flyerUrl =
+        result.pdfFlyerUrl ||
+        `/api/pdf?url=${encodeURIComponent(result.url)}&employer=${encodeURIComponent(
+          result.employerName
+        )}&ref=${encodeURIComponent(result.refCode || '')}&mode=flyer`;
+      pdfFlyerBtn.href = flyerUrl;
+      pdfFlyerBtn.setAttribute(
+        'download',
+        `2027-DC-Weight-Management-Flyer-${result.refCode || 'Employer'}.pdf`
+      );
+    }
+
+    const pdfPacketBtn = document.getElementById('btn-download-pdf-packet');
+    if (pdfPacketBtn) {
+      const packetUrl =
+        result.pdfPacketUrl ||
+        `/api/pdf?url=${encodeURIComponent(result.url)}&employer=${encodeURIComponent(
+          result.employerName
+        )}&ref=${encodeURIComponent(result.refCode || '')}&mode=packet`;
+      pdfPacketBtn.href = packetUrl;
+      pdfPacketBtn.setAttribute(
+        'download',
+        `2027-DC-Weight-Management-Packet-${result.refCode || 'Employer'}.pdf`
+      );
+    }
   }
 
   function renderHistoryTable() {
@@ -400,6 +428,16 @@
         )}&employer=${encodeURIComponent(item.employerName)}&broker=${encodeURIComponent(
           item.brokerName
         )}`;
+        const pdfFlyerUrl = `/api/pdf?url=${encodeURIComponent(
+          item.url
+        )}&employer=${encodeURIComponent(item.employerName)}&ref=${encodeURIComponent(
+          item.refCode || ''
+        )}&mode=flyer`;
+        const pdfPacketUrl = `/api/pdf?url=${encodeURIComponent(
+          item.url
+        )}&employer=${encodeURIComponent(item.employerName)}&ref=${encodeURIComponent(
+          item.refCode || ''
+        )}&mode=packet`;
 
         return `
           <tr data-history-row="${escapeHtml(item.id)}">
@@ -434,6 +472,24 @@
                   style="text-decoration: none;"
                 >
                   Download QR
+                </a>
+                <a
+                  href="${escapeHtml(pdfFlyerUrl)}"
+                  download="2027-DC-Weight-Management-Flyer-${escapeHtml(item.refCode)}.pdf"
+                  class="btn btn-primary btn-sm"
+                  style="text-decoration: none;"
+                  data-download-flyer-pdf="${escapeHtml(item.refCode)}"
+                >
+                  1-Page PDF
+                </a>
+                <a
+                  href="${escapeHtml(pdfPacketUrl)}"
+                  download="2027-DC-Weight-Management-Packet-${escapeHtml(item.refCode)}.pdf"
+                  class="btn btn-secondary btn-sm"
+                  style="text-decoration: none;"
+                  data-download-packet-pdf="${escapeHtml(item.refCode)}"
+                >
+                  4-Page PDF
                 </a>
               </div>
             </td>

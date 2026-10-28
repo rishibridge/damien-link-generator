@@ -278,6 +278,41 @@ def run_all_tests():
             f"CopiedURL=True, CopiedQRImage=True, PNGBytes={len(png_bytes)}",
         )
 
+        # PW-16: Download Customized 1-Page Flyer PDF & 4-Page Packet PDF (With Embedded QR & Clickable Link)
+        import fitz
+        flyer_href = page.get_attribute("#btn-download-pdf-flyer", "href") or ""
+        packet_href = page.get_attribute("#btn-download-pdf-packet", "href") or ""
+        with urllib.request.urlopen(f"{BASE_URL}{flyer_href}") as flyer_resp:
+            flyer_bytes = flyer_resp.read()
+            flyer_ct = flyer_resp.headers.get("Content-Type", "")
+        with urllib.request.urlopen(f"{BASE_URL}{packet_href}") as packet_resp:
+            packet_bytes = packet_resp.read()
+            packet_ct = packet_resp.headers.get("Content-Type", "")
+        doc_flyer = fitz.open(stream=flyer_bytes, filetype="pdf")
+        doc_packet = fitz.open(stream=packet_bytes, filetype="pdf")
+        flyer_text = doc_flyer[0].get_text()
+        flyer_links = [lnk.get("uri", "") for lnk in doc_flyer[0].get_links()]
+        packet_p4_text = doc_packet[3].get_text()
+        row_flyer_btn_count = page.locator("a[data-download-flyer-pdf]").count()
+        row_packet_btn_count = page.locator("a[data-download-packet-pdf]").count()
+        ok_16 = (
+            "application/pdf" in flyer_ct
+            and "application/pdf" in packet_ct
+            and doc_flyer.page_count == 1
+            and doc_packet.page_count == 4
+            and expected_apex_url in flyer_text
+            and expected_apex_url in packet_p4_text
+            and expected_apex_url in flyer_links
+            and row_flyer_btn_count > 0
+            and row_packet_btn_count > 0
+        )
+        record(
+            "PW-16",
+            "Download Customized 1-Page Flyer PDF & Full 4-Page Packet PDF (With Embedded QR & Clickable Link)",
+            ok_16,
+            f"FlyerPages={doc_flyer.page_count}, PacketPages={doc_packet.page_count}, TextHasURL={expected_apex_url in flyer_text}, ClickableLinks={len(flyer_links)}, RowButtons={row_flyer_btn_count}",
+        )
+
         # PW-11: Broker Self-Service Portal View (/?broker=lhd) — UI Isolation & Bridge Logo
         broker_ctx = browser.new_context(viewport={"width": 1280, "height": 850})
         broker_page = broker_ctx.new_page()

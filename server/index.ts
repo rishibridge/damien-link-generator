@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import QRCode from 'qrcode';
+import { PDFDocument, rgb, StandardFonts, PDFName, PDFString } from 'pdf-lib';
 
 export interface BrokerEntry {
   id: string;
@@ -546,8 +547,14 @@ export async function createServer() {
       saveConfig(stateConfig);
 
       const qrDownloadUrl = `/api/qr.png?url=${encodeURIComponent(url)}&employer=${encodeURIComponent(
-        cleanEmployer
+        displayEmployerName
       )}&broker=${encodeURIComponent(broker.name)}`;
+      const pdfFlyerUrl = `/api/pdf?url=${encodeURIComponent(url)}&employer=${encodeURIComponent(
+        displayEmployerName
+      )}&ref=${encodeURIComponent(refCode)}&mode=flyer`;
+      const pdfPacketUrl = `/api/pdf?url=${encodeURIComponent(url)}&employer=${encodeURIComponent(
+        displayEmployerName
+      )}&ref=${encodeURIComponent(refCode)}&mode=packet`;
 
       res.json({
         result: {
@@ -556,6 +563,8 @@ export async function createServer() {
           state: DAMIEN_CONSTANTS.state,
           qrDataUrl,
           qrDownloadUrl,
+          pdfFlyerUrl,
+          pdfPacketUrl,
         },
         generatedLinks: stateConfig.generatedLinks,
       });
@@ -591,6 +600,151 @@ export async function createServer() {
       res.send(pngBuffer);
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Failed to render QR PNG.' });
+    }
+  });
+
+  // 6. Download Customized PDF Flyer (1-Page) or Full Packet (4-Page) with Employer URL & QR Code
+  const PDF_TEMPLATE_PATH = path.resolve(
+    __dirname,
+    '../data/template-2027-dc-weight-management.pdf'
+  );
+
+  app.get('/api/pdf', async (req: Request, res: Response) => {
+    try {
+      const targetUrl = String(req.query.url || '').trim();
+      if (!targetUrl) {
+        res.status(400).json({ error: 'Missing url query parameter.' });
+        return;
+      }
+      if (!fs.existsSync(PDF_TEMPLATE_PATH)) {
+        res.status(500).json({ error: 'PDF template file not found on server.' });
+        return;
+      }
+
+      const mode = String(req.query.mode || 'flyer').trim().toLowerCase();
+      const refToken = formatPascalToken(
+        String(req.query.ref || req.query.employer || 'Employer')
+      );
+      const filename =
+        mode === 'packet'
+          ? `2027-DC-Weight-Management-Packet-${refToken || 'Employer'}.pdf`
+          : `2027-DC-Weight-Management-Flyer-${refToken || 'Employer'}.pdf`;
+
+      const templateBytes = fs.readFileSync(PDF_TEMPLATE_PATH);
+      const srcDoc = await PDFDocument.load(templateBytes);
+      const pages = srcDoc.getPages();
+      const flyerPage = pages[3]; // Page 4 is the enrollment flyer with QR & URL
+
+      // Generate high-resolution QR code PNG for targetUrl
+      const qrBuffer = await QRCode.toBuffer(targetUrl, {
+        type: 'png',
+        width: 500,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#ffffff',
+        },
+      });
+      const qrImg = await srcDoc.embedPng(qrBuffer);
+
+      // 1. Stamp QR code over the existing QR square under "Scan to enroll"
+      flyerPage.drawRectangle({
+        x: 46.56,
+        y: 70.8,
+        width: 78.0,
+        height: 78.0,
+        color: rgb(1, 1, 1),
+      });
+      flyerPage.drawImage(qrImg, {
+        x: 47.56,
+        y: 71.8,
+        width: 76.0,
+        height: 76.0,
+      });
+
+      // 2. Cover old URL inside magenta "Enroll at:" banner and draw new URL + underline
+      flyerPage.drawRectangle({
+        x: 191.5,
+        y: 146.2,
+        width: 374.0,
+        height: 15.5,
+        color: rgb(0.6078, 0.2431, 0.5843),
+      });
+
+      const font = await srcDoc.embedFont(StandardFonts.Helvetica);
+      const maxUrlWidth = 368.0;
+      let fontSize = 8.6;
+      let textWidth = font.widthOfTextAtSize(targetUrl, fontSize);
+      while (textWidth > maxUrlWidth && fontSize > 6.2) {
+        fontSize -= 0.2;
+        textWidth = font.widthOfTextAtSize(targetUrl, fontSize);
+      }
+
+      flyerPage.drawText(targetUrl, {
+        x: 192.6,
+        y: 150.5,
+        size: fontSize,
+        font,
+        color: rgb(1, 1, 1),
+      });
+      flyerPage.drawLine({
+        start: { x: 192.6, y: 149.2 },
+        end: { x: 192.6 + textWidth, y: 149.2 },
+        thickness: 0.65,
+        color: rgb(1, 1, 1),
+      });
+
+      // Build output document (either 1-page flyer or full 4-page packet)
+      let outDoc: PDFDocument;
+      let targetFlyerPage;
+      if (mode === 'packet') {
+        outDoc = srcDoc;
+        targetFlyerPage = flyerPage;
+      } else {
+        outDoc = await PDFDocument.create();
+        const [copiedFlyer] = await outDoc.copyPages(srcDoc, [3]);
+        outDoc.addPage(copiedFlyer);
+        targetFlyerPage = copiedFlyer;
+      }
+
+      // Attach clickable PDF Link annotations over both the URL banner and the QR code
+      const linkBannerAnnot = outDoc.context.register(
+        outDoc.context.obj({
+          Type: 'Annot',
+          Subtype: 'Link',
+          Rect: [143.16, 131.88, 568.76, 164.18],
+          Border: [0, 0, 0],
+          A: {
+            Type: 'Action',
+            S: 'URI',
+            URI: PDFString.of(targetUrl),
+          },
+        })
+      );
+      const linkQrAnnot = outDoc.context.register(
+        outDoc.context.obj({
+          Type: 'Annot',
+          Subtype: 'Link',
+          Rect: [46.56, 70.8, 124.56, 148.8],
+          Border: [0, 0, 0],
+          A: {
+            Type: 'Action',
+            S: 'URI',
+            URI: PDFString.of(targetUrl),
+          },
+        })
+      );
+      targetFlyerPage.node.set(
+        PDFName.of('Annots'),
+        outDoc.context.obj([linkBannerAnnot, linkQrAnnot])
+      );
+
+      const pdfBytes = await outDoc.save();
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(Buffer.from(pdfBytes));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to generate customized PDF.' });
     }
   });
 

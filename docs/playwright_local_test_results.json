@@ -1,8 +1,8 @@
 {
   "baseUrl": "http://localhost:3005",
-  "timestamp": "2026-10-28T00:00:48Z",
-  "total": 15,
-  "passed": 15,
+  "timestamp": "2026-10-28T06:36:45Z",
+  "total": 16,
+  "passed": 16,
   "failed": 0,
   "results": [
     {
@@ -21,7 +21,7 @@
       "id": "PW-03",
       "title": "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
       "passed": true,
-      "detail": "Brokers=10, CouponsMatch=True, LinksCount=66"
+      "detail": "Brokers=11, CouponsMatch=True, LinksCount=67"
     },
     {
       "id": "PW-04",
@@ -64,6 +64,12 @@
       "title": "Manual Copy URL, Copy QR Image & Download QR PNG for Email and PPT",
       "passed": true,
       "detail": "CopiedURL=True, CopiedQRImage=True, PNGBytes=5359"
+    },
+    {
+      "id": "PW-16",
+      "title": "Download Customized 1-Page Flyer PDF & Full 4-Page Packet PDF (With Embedded QR & Clickable Link)",
+      "passed": true,
+      "detail": "FlyerPages=1, PacketPages=4, TextHasURL=True, ClickableLinks=2, RowButtons=67"
     },
     {
       "id": "PW-11",
