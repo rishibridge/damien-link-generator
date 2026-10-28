@@ -1,21 +1,21 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-28T17:33:25Z",
+  "timestamp": "2026-10-28T18:54:01Z",
   "total": 17,
   "passed": 17,
   "failed": 0,
   "results": [
     {
       "id": "PW-00",
-      "title": "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Help Explainer Guide",
+      "title": "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Separate Admin Process Guide",
       "passed": true,
-      "detail": "ForgotBtn='Forgot Password?', HelpGuide=True, LoggedIn=True"
+      "detail": "ForgotBtn='Forgot Password?', AdminHelpBtn='? Admin Help & Process Guide', AdminGuide=True, BrokerTabPreview=True"
     },
     {
       "id": "PW-01",
-      "title": "Hard-Coded Damien Center, Indiana Identity & Bridge Health Logo",
+      "title": "Hard-Coded Damien Center & Single-State Indiana Identity (Bridge Health Logo Removed)",
       "passed": true,
-      "detail": "Header='Damien Center \u2014 Indiana Employer Link & QR Code Portal', LogoNaturalWidth=119, BaseUrl='https://app.helloalpha.com/damien-health'"
+      "detail": "Header='Damien Center \u2014 Indiana Employer Link & QR Code Portal', LogoRemoved=True, BaseUrl='https://app.helloalpha.com/damien-health'"
     },
     {
       "id": "PW-02",
@@ -79,9 +79,9 @@
     },
     {
       "id": "PW-11",
-      "title": "Broker Self-Service View (/?broker=lhd) Hides Admin Setup & Locks to Broker",
+      "title": "Broker Self-Service View (/?broker=lhd) Hides Admin Setup, Shows Dedicated Broker Process Guide & Locks to Broker",
       "passed": true,
-      "detail": "AdminHidden=True, Broker='LHD Benefit Advisors (LHD)', Coupon='firstmonthLHD'"
+      "detail": "AdminHidden=True, BrokerHelp='? Broker Help & Process Guide', HelpCoupon='firstmonthLHD'"
     },
     {
       "id": "PW-12",
