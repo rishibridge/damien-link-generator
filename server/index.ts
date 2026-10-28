@@ -30,6 +30,8 @@ export interface DamienConfig {
   state: string;
   baseUrl: string;
   updatedAt: string;
+  adminUsername?: string;
+  adminPassword?: string;
   brokers: BrokerEntry[];
   generatedLinks: GeneratedLinkEntry[];
 }
@@ -38,6 +40,9 @@ const DAMIEN_CONSTANTS = {
   ceName: 'Damien Center',
   state: 'Indiana',
   baseUrl: 'https://app.helloalpha.com/damien-health',
+  defaultAdminUsername: 'DamienAdmin',
+  defaultAdminPassword: process.env.ADMIN_PASSWORD || 'indy123',
+  allowedResetDomain: '@damien.org',
 };
 
 export function formatPascalToken(input: string): string {
@@ -377,6 +382,17 @@ function saveConfig(config: DamienConfig): DamienConfig {
   return config;
 }
 
+function getExpectedAdminToken(config: DamienConfig): string {
+  const pwd = config.adminPassword || DAMIEN_CONSTANTS.defaultAdminPassword;
+  return Buffer.from(`DamienAdmin:${pwd}`).toString('base64');
+}
+
+function isAdminAuthenticated(req: Request, config: DamienConfig): boolean {
+  const headerToken = String(req.headers['x-admin-token'] || '').trim();
+  if (!headerToken) return false;
+  return headerToken === getExpectedAdminToken(config);
+}
+
 export async function createServer() {
   let stateConfig = loadConfig();
 
@@ -384,19 +400,112 @@ export async function createServer() {
   app.use(express.json({ limit: '5mb' }));
   app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
-  // 1. Bootstrap endpoint
-  app.get('/api/bootstrap', (_req: Request, res: Response) => {
+  // 0A. Admin Login (id: DamienAdmin / DamienAdmn, default pwd: indy123)
+  app.post('/api/auth/login', (req: Request, res: Response) => {
     stateConfig = loadConfig();
+    const rawUser = String(req.body?.username || '').trim().toLowerCase();
+    const rawPass = String(req.body?.password || '');
+    const activePass = stateConfig.adminPassword || DAMIEN_CONSTANTS.defaultAdminPassword;
+
+    const validUser = rawUser === 'damienadmin' || rawUser === 'damienadmn';
+    if (!validUser || rawPass !== activePass) {
+      res.status(401).json({ error: 'Invalid Admin ID or Password.' });
+      return;
+    }
+
     res.json({
-      config: stateConfig,
+      ok: true,
+      username: 'DamienAdmin',
+      token: getExpectedAdminToken(stateConfig),
     });
   });
 
-  // 2. Upsert Broker + Already-Created Coupon
+  // 0B. Self-Service Admin Password Reset via any @damien.org email
+  app.post('/api/auth/reset-password', (req: Request, res: Response) => {
+    stateConfig = loadConfig();
+    const rawEmail = String(req.body?.email || '').trim().toLowerCase();
+    const newPassword = String(req.body?.newPassword || '').trim();
+
+    const emailRegex = /^[a-z0-9._%+-]+@damien\.org$/i;
+    if (!emailRegex.test(rawEmail)) {
+      res.status(400).json({
+        error: 'Please enter a valid @damien.org email address (e.g., name@damien.org) to reset the password.',
+      });
+      return;
+    }
+    if (!newPassword || newPassword.length < 4) {
+      res.status(400).json({
+        error: 'New password must be at least 4 characters.',
+      });
+      return;
+    }
+
+    stateConfig.adminUsername = 'DamienAdmin';
+    stateConfig.adminPassword = newPassword;
+    saveConfig(stateConfig);
+
+    res.json({
+      ok: true,
+      username: 'DamienAdmin',
+      email: rawEmail,
+      token: getExpectedAdminToken(stateConfig),
+    });
+  });
+
+  // 1. Bootstrap endpoint (Scoped server-side for ?broker=<id>, or requires Admin login for full view)
+  app.get('/api/bootstrap', (req: Request, res: Response) => {
+    stateConfig = loadConfig();
+    const brokerQuery = String(req.query.broker || '').trim().toLowerCase();
+
+    if (brokerQuery) {
+      const matchedBroker = stateConfig.brokers.find(
+        (b) => b.id.toLowerCase() === brokerQuery
+      );
+      const scopedLinks = stateConfig.generatedLinks.filter(
+        (g) => g.brokerId.toLowerCase() === brokerQuery
+      );
+      res.json({
+        requiresAuth: false,
+        mode: 'BROKER',
+        config: {
+          version: stateConfig.version,
+          ceName: stateConfig.ceName,
+          state: stateConfig.state,
+          baseUrl: stateConfig.baseUrl,
+          updatedAt: stateConfig.updatedAt,
+          brokers: matchedBroker ? [matchedBroker] : [],
+          generatedLinks: scopedLinks,
+        },
+      });
+      return;
+    }
+
+    if (!isAdminAuthenticated(req, stateConfig)) {
+      res.json({
+        requiresAuth: true,
+        mode: 'ADMIN',
+        config: null,
+      });
+      return;
+    }
+
+    const { adminPassword: _hidden, ...safeConfig } = stateConfig;
+    res.json({
+      requiresAuth: false,
+      mode: 'ADMIN',
+      config: safeConfig,
+    });
+  });
+
+  // 2. Upsert Broker + Already-Created Coupon (Admin Only)
   app.post('/api/brokers/upsert', (req: Request, res: Response) => {
     try {
-      const { id, name, couponCode } = req.body;
       stateConfig = loadConfig();
+      if (!isAdminAuthenticated(req, stateConfig)) {
+        res.status(401).json({ error: 'Admin sign-in is required to add or edit brokers.' });
+        return;
+      }
+      const { id, name, couponCode } = req.body;
 
       const cleanCoupon = String(couponCode || '').trim();
       const targetId = id && String(id).trim() ? formatSlug(String(id)) : formatSlug(String(name || ''));
@@ -452,9 +561,14 @@ export async function createServer() {
     }
   });
 
-  // 3. Delete Broker (protects built-in Damien Direct broker)
+  // 3. Delete Broker (Admin Only — protects built-in Damien Direct broker)
   app.post('/api/brokers/delete', (req: Request, res: Response) => {
     try {
+      stateConfig = loadConfig();
+      if (!isAdminAuthenticated(req, stateConfig)) {
+        res.status(401).json({ error: 'Admin sign-in is required to delete brokers.' });
+        return;
+      }
       const { id } = req.body;
       if (!id) {
         res.status(400).json({ error: 'Broker ID is required.' });
@@ -467,7 +581,6 @@ export async function createServer() {
         return;
       }
 
-      stateConfig = loadConfig();
       stateConfig.brokers = stateConfig.brokers.filter(
         (b) => b.id.toLowerCase() !== String(id).toLowerCase()
       );
@@ -556,6 +669,13 @@ export async function createServer() {
         displayEmployerName
       )}&ref=${encodeURIComponent(refCode)}&mode=packet`;
 
+      const isAdmin = isAdminAuthenticated(req, stateConfig);
+      const visibleLinks = isAdmin
+        ? stateConfig.generatedLinks
+        : stateConfig.generatedLinks.filter(
+            (g) => g.brokerId.toLowerCase() === broker.id.toLowerCase()
+          );
+
       res.json({
         result: {
           ...record,
@@ -566,7 +686,7 @@ export async function createServer() {
           pdfFlyerUrl,
           pdfPacketUrl,
         },
-        generatedLinks: stateConfig.generatedLinks,
+        generatedLinks: visibleLinks,
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Failed to generate employer link and QR code.' });
@@ -579,6 +699,10 @@ export async function createServer() {
       const targetUrl = String(req.query.url || '').trim();
       if (!targetUrl) {
         res.status(400).json({ error: 'Missing url query parameter.' });
+        return;
+      }
+      if (!targetUrl.startsWith(DAMIEN_CONSTANTS.baseUrl)) {
+        res.status(400).json({ error: 'URL must start with https://app.helloalpha.com/damien-health' });
         return;
       }
       const employer = formatPascalToken(String(req.query.employer || 'Employer'));
@@ -614,6 +738,10 @@ export async function createServer() {
       const targetUrl = String(req.query.url || '').trim();
       if (!targetUrl) {
         res.status(400).json({ error: 'Missing url query parameter.' });
+        return;
+      }
+      if (!targetUrl.startsWith(DAMIEN_CONSTANTS.baseUrl)) {
+        res.status(400).json({ error: 'URL must start with https://app.helloalpha.com/damien-health' });
         return;
       }
       if (!fs.existsSync(PDF_TEMPLATE_PATH)) {

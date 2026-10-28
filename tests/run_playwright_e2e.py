@@ -39,13 +39,63 @@ def run_all_tests():
         context = browser.new_context(viewport={"width": 1400, "height": 900})
         page = context.new_page()
 
-        # PW-01: Hard-Coded Damien Center, Single-State Indiana Identity & Bridge Health Logo
+        # PW-00: Admin Auth Lock Screen on /, @damien.org Password Reset & Sign-In (DamienAdmin / indy123)
         page.goto(f"{BASE_URL}/", wait_until="networkidle")
+        auth_card_visible = page.locator("#admin-auth-card").is_visible()
+        main_grid_visible_before = page.locator("#main-grid").is_visible()
+        with urllib.request.urlopen(f"{BASE_URL}/api/bootstrap") as unauth_resp:
+            unauth_boot = json.loads(unauth_resp.read().decode("utf-8"))
+
+        # Test @damien.org self-service password reset (rejects non-@damien.org, accepts DCweightloss@damien.org)
+        page.click("#btn-show-reset-password")
+        page.fill("#input-reset-email", "someone@gmail.com")
+        page.fill("#input-reset-new-password", "temp456")
+        with page.expect_response(lambda r: "/api/auth/reset-password" in r.url and r.status == 400):
+            page.click("#btn-submit-reset-password")
+        page.wait_for_timeout(150)
+
+        page.fill("#input-reset-email", "DCweightloss@damien.org")
+        page.fill("#input-reset-new-password", "indy123")
+        with page.expect_response(lambda r: "/api/auth/reset-password" in r.url and r.status == 200):
+            page.click("#btn-submit-reset-password")
+        page.wait_for_timeout(250)
+
+        # Sign out and sign in with DamienAdmin / indy123
+        page.click("#btn-admin-logout")
+        page.wait_for_timeout(200)
+        page.fill("#input-admin-username", "DamienAdmin")
+        page.fill("#input-admin-password", "indy123")
+        with page.expect_response(lambda r: "/api/auth/login" in r.url and r.status == 200):
+            page.click("#btn-admin-login")
+        page.wait_for_timeout(250)
+        main_grid_visible_after = page.locator("#main-grid").is_visible()
+        admin_token = page.evaluate("localStorage.getItem('damien_admin_token') || ''")
+
+        ok_00 = (
+            auth_card_visible
+            and not main_grid_visible_before
+            and unauth_boot.get("requiresAuth") is True
+            and unauth_boot.get("config") is None
+            and main_grid_visible_after
+            and len(admin_token) > 5
+        )
+        record(
+            "PW-00",
+            "Admin Sign-In (DamienAdmin / indy123), @damien.org Password Reset & Unauthenticated Data Protection",
+            ok_00,
+            f"AuthLockBeforeLogin={auth_card_visible}, UnauthConfigLeaked={unauth_boot.get('config') is not None}, LoggedIn={main_grid_visible_after}",
+        )
+
+        # PW-01: Hard-Coded Damien Center, Single-State Indiana Identity & Bridge Health Logo
         header_text = page.locator("#header-title").inner_text().strip()
         state_badge = page.locator(".pill-state").inner_text().strip()
         logo_visible = page.locator("#bridge-logo").is_visible()
         logo_width = page.evaluate("document.getElementById('bridge-logo')?.naturalWidth || 0")
-        with urllib.request.urlopen(f"{BASE_URL}/api/bootstrap") as resp:
+        req_boot = urllib.request.Request(
+            f"{BASE_URL}/api/bootstrap",
+            headers={"x-admin-token": admin_token},
+        )
+        with urllib.request.urlopen(req_boot) as resp:
             boot = json.loads(resp.read().decode("utf-8"))["config"]
         ok_01 = (
             "Damien Center" in header_text
@@ -158,17 +208,14 @@ def run_all_tests():
             "Updated to 'firstmonthUpdated' and restored to 'firstmonth'",
         )
 
-        # PW-06: Damien Adds a New Broker with Already-Created Coupon Code
+        # PW-06: Damien Adds a New Broker with Already-Created Coupon Code & Persists Across Reload
         page.fill("#input-broker-name", "Apex Benefit Group")
         page.fill("#input-broker-coupon", "firstmonthApex")
         with page.expect_response(lambda r: "/api/brokers/upsert" in r.url and r.status == 200):
             page.click("#btn-save-broker")
         page.wait_for_selector("tr[data-broker-row='apex-benefit-group']", state="visible")
-        ctx2 = browser.new_context()
-        p2 = ctx2.new_page()
-        p2.goto(f"{BASE_URL}/", wait_until="networkidle")
-        row_text = p2.locator("tr[data-broker-row='apex-benefit-group']").inner_text()
-        ctx2.close()
+        page.reload(wait_until="networkidle")
+        row_text = page.locator("tr[data-broker-row='apex-benefit-group']").inner_text()
         ok_06 = "Apex Benefit Group" in row_text and "firstmonthApex" in row_text
         record(
             "PW-06",
@@ -401,15 +448,22 @@ def run_all_tests():
         )
         direct_ctx.close()
 
-        # PW-15: Protect Built-in Direct Broker & Cleanup Test Broker
+        # PW-15: Protect Built-in Direct Broker, Block External PDF/QR URLs & Cleanup Test Broker
         page.goto(f"{BASE_URL}/", wait_until="networkidle")
         del_direct_status = page.evaluate(
             """async () => {
+                const token = localStorage.getItem('damien_admin_token') || '';
                 const r = await fetch('/api/brokers/delete', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'x-admin-token': token},
                     body: JSON.stringify({ id: 'damien' })
                 });
+                return r.status;
+            }"""
+        )
+        evil_pdf_status = page.evaluate(
+            """async () => {
+                const r = await fetch('/api/pdf?url=https://evil-phishing.com');
                 return r.status;
             }"""
         )
@@ -417,12 +471,12 @@ def run_all_tests():
             page.click("#btn-delete-broker-apex-benefit-group")
         page.wait_for_timeout(200)
         apex_count = page.locator("tr[data-broker-row='apex-benefit-group']").count()
-        ok_15 = del_direct_status == 400 and apex_count == 0
+        ok_15 = del_direct_status == 400 and evil_pdf_status == 400 and apex_count == 0
         record(
             "PW-15",
-            "Built-in Direct Broker Protected & Test Broker Deleted Cleanly",
+            "Built-in Direct Broker Protected, External PDF URLs Blocked (400) & Test Broker Deleted Cleanly",
             ok_15,
-            f"DirectDeleteStatus={del_direct_status}, ApexRemaining={apex_count}",
+            f"DirectDeleteStatus={del_direct_status}, EvilPdfStatus={evil_pdf_status}, ApexRemaining={apex_count}",
         )
 
         browser.close()

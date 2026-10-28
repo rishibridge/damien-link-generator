@@ -4,6 +4,8 @@
     mode: 'ADMIN', // 'ADMIN' | 'BROKER'
     scopedBrokerId: null,
     lastResult: null,
+    adminToken: localStorage.getItem('damien_admin_token') || '',
+    requiresAuth: false,
   };
 
   function escapeHtml(str) {
@@ -68,9 +70,16 @@
   }
 
   async function apiFetch(url, options = {}) {
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(options.headers || {}),
+    };
+    if (state.adminToken) {
+      headers['x-admin-token'] = state.adminToken;
+    }
     const res = await fetch(url, {
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
       ...options,
+      headers,
     });
     const data = await res.json();
     if (!res.ok) {
@@ -89,19 +98,36 @@
   }
 
   function renderLayoutAndHeader() {
+    const authCard = document.getElementById('admin-auth-card');
     const adminCard = document.getElementById('admin-setup-card');
     const mainGrid = document.getElementById('main-grid');
+    const historyCard = document.getElementById('history-card');
     const personaBadge = document.getElementById('persona-badge');
+    const logoutBtn = document.getElementById('btn-admin-logout');
     const genTitle = document.getElementById('generator-card-title');
     const genDesc = document.getElementById('generator-card-desc');
     const brokerSelectField = document.getElementById('broker-select-field');
     const scopedBanner = document.getElementById('scoped-broker-banner');
     const historyTitle = document.getElementById('history-card-title');
 
+    if (state.mode === 'ADMIN' && state.requiresAuth) {
+      if (authCard) authCard.style.display = 'block';
+      if (mainGrid) mainGrid.style.display = 'none';
+      if (historyCard) historyCard.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+      if (personaBadge) personaBadge.textContent = 'Damien Admin Sign In';
+      return;
+    }
+
+    if (authCard) authCard.style.display = 'none';
+    if (mainGrid) mainGrid.style.display = 'grid';
+    if (historyCard) historyCard.style.display = 'block';
+
     if (state.mode === 'BROKER') {
       if (adminCard) adminCard.style.display = 'none';
       if (mainGrid) mainGrid.className = 'portal-grid single-column';
       if (brokerSelectField) brokerSelectField.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
 
       const broker = getActiveBrokerForScopedMode();
       const brokerLabel = broker ? broker.name : state.scopedBrokerId;
@@ -124,6 +150,7 @@
       if (mainGrid) mainGrid.className = 'portal-grid';
       if (brokerSelectField) brokerSelectField.style.display = 'flex';
       if (scopedBanner) scopedBanner.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'inline-flex';
       if (personaBadge) personaBadge.textContent = 'Damien Admin Portal';
       if (genTitle) genTitle.textContent = '2. Generate Employer URL & QR Code (Any Broker)';
       if (historyTitle) {
@@ -589,21 +616,117 @@
         }
       });
     }
+
+    // Admin Login Form
+    const loginForm = document.getElementById('admin-login-form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('input-admin-username').value.trim();
+        const password = document.getElementById('input-admin-password').value;
+        try {
+          const data = await apiFetch('/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+          });
+          state.adminToken = data.token;
+          localStorage.setItem('damien_admin_token', data.token);
+          document.getElementById('input-admin-password').value = '';
+          showToast('Signed in to Damien Center Admin Portal.', 'success');
+          await loadBootstrap();
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      });
+    }
+
+    // Toggle to Reset Password Form
+    const showResetBtn = document.getElementById('btn-show-reset-password');
+    if (showResetBtn) {
+      showResetBtn.addEventListener('click', () => {
+        document.getElementById('admin-login-form').style.display = 'none';
+        document.getElementById('admin-reset-form').style.display = 'flex';
+        document.getElementById('auth-card-title').textContent =
+          'Reset Damien Admin Password';
+        document.getElementById('auth-card-desc').textContent =
+          'Enter any valid @damien.org email address and choose a new Admin password.';
+      });
+    }
+
+    const backToLoginBtn = document.getElementById('btn-back-to-login');
+    if (backToLoginBtn) {
+      backToLoginBtn.addEventListener('click', () => {
+        document.getElementById('admin-reset-form').style.display = 'none';
+        document.getElementById('admin-login-form').style.display = 'flex';
+        document.getElementById('auth-card-title').textContent =
+          'Damien Center Admin Sign In';
+        document.getElementById('auth-card-desc').textContent =
+          'Sign in with your Damien Center Admin credentials to manage brokers, coupons, and all employer enrollment links.';
+      });
+    }
+
+    // Admin Reset Password Form (via any @damien.org email)
+    const resetForm = document.getElementById('admin-reset-form');
+    if (resetForm) {
+      resetForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('input-reset-email').value.trim();
+        const newPassword = document.getElementById('input-reset-new-password').value.trim();
+        try {
+          const data = await apiFetch('/api/auth/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ email, newPassword }),
+          });
+          state.adminToken = data.token;
+          localStorage.setItem('damien_admin_token', data.token);
+          document.getElementById('input-reset-new-password').value = '';
+          document.getElementById('admin-reset-form').style.display = 'none';
+          document.getElementById('admin-login-form').style.display = 'flex';
+          showToast(`Admin password reset via ${data.email} and signed in!`, 'success');
+          await loadBootstrap();
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      });
+    }
+
+    // Admin Sign Out Button
+    const logoutBtn = document.getElementById('btn-admin-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        state.adminToken = '';
+        localStorage.removeItem('damien_admin_token');
+        state.config = null;
+        showToast('Signed out of Damien Admin Portal.', 'success');
+        await loadBootstrap();
+      });
+    }
+  }
+
+  async function loadBootstrap() {
+    try {
+      const bootUrl =
+        state.mode === 'BROKER' && state.scopedBrokerId
+          ? `/api/bootstrap?broker=${encodeURIComponent(state.scopedBrokerId)}`
+          : '/api/bootstrap';
+      const data = await apiFetch(bootUrl);
+      state.requiresAuth = Boolean(data.requiresAuth);
+      state.config = data.config;
+      renderLayoutAndHeader();
+      if (!state.requiresAuth && state.config) {
+        renderBrokersTable();
+        renderBrokerSelect();
+        renderHistoryTable();
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to load portal configuration.', 'error');
+    }
   }
 
   async function init() {
     parseQueryMode();
     wireEvents();
-    try {
-      const data = await apiFetch('/api/bootstrap');
-      state.config = data.config;
-      renderLayoutAndHeader();
-      renderBrokersTable();
-      renderBrokerSelect();
-      renderHistoryTable();
-    } catch (err) {
-      showToast(err.message || 'Failed to load portal configuration.', 'error');
-    }
+    await loadBootstrap();
   }
 
   document.addEventListener('DOMContentLoaded', init);
