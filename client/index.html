@@ -32,6 +32,13 @@
         <span class="pill-badge pill-role" id="persona-badge">Damien Admin Portal</span>
         <button
           type="button"
+          id="btn-toggle-help"
+          class="btn btn-secondary btn-sm"
+        >
+          ? Help &amp; Guide
+        </button>
+        <button
+          type="button"
           id="btn-admin-logout"
           class="btn btn-secondary btn-sm"
           style="display: none;"
@@ -43,6 +50,76 @@
   </header>
 
   <main class="main-container">
+    <!-- HELP & EXPLAINER GUIDE DRAWER (For Damien Center Admins & Brokers) -->
+    <section
+      id="help-explainer-card"
+      class="card"
+      style="display: none; margin-bottom: 24px; border-left: 4px solid #1d4ed8;"
+    >
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+        <div>
+          <h2 id="help-card-title" style="margin: 0 0 6px; font-size: 18px;">
+            How to Use the Damien Center Link, QR Code &amp; PDF Generator
+          </h2>
+          <p id="help-card-subtitle" style="margin: 0 0 16px; font-size: 13.5px; color: #475569;">
+            Step-by-step instructions for generating Indiana employer enrollment links, QR codes, and customized program PDFs.
+          </p>
+        </div>
+        <button type="button" id="btn-close-help" class="btn btn-secondary btn-sm">
+          Close ✕
+        </button>
+      </div>
+
+      <div id="help-grid-container" class="portal-grid" style="gap: 18px;">
+        <!-- Guide Column 1: For Brokers & Employer Link Generation -->
+        <div
+          id="help-broker-section"
+          style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
+        >
+          <h3 style="margin: 0 0 10px; font-size: 15px; color: #1e40af;">
+            For Brokers &amp; Direct Employer Setup (Generating Links, QR Codes &amp; PDFs)
+          </h3>
+          <ol style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #1e293b; display: flex; flex-direction: column; gap: 8px;">
+            <li>
+              <strong>Enter Business / Employer Name:</strong> Type the employer name (e.g., <em>LoCascio Hadden &amp; Dennis</em> or any new business name) and click <strong>Generate URL &amp; QR Code</strong>. Your broker code and first-month coupon code are applied automatically.
+            </li>
+            <li>
+              <strong>Paste into Email or PowerPoint:</strong>
+              Click <strong>Copy URL for Email / PPT</strong> to copy the enrollment link, or click <strong>Copy QR Image to Clipboard</strong> and press <code>Ctrl+V</code> (<code>Cmd+V</code> on Mac) directly inside your email or slide deck.
+            </li>
+            <li>
+              <strong>Download Ready-to-Share Program PDFs:</strong>
+              Click <strong>Download 1-Page Flyer PDF</strong> (Page 4 Employee Enrollment Flyer) or <strong>Download Full 4-Page Packet PDF</strong> (Program Overview, FAQs + Enrollment Flyer). Both PDFs are automatically customized with your employer's clickable enrollment link and QR code.
+            </li>
+            <li>
+              <strong>Quick Access Table:</strong> Every generated business link appears in the table at the bottom of the page with 1-click <strong>Copy URL</strong>, <strong>Download QR</strong>, <strong>1-Page PDF</strong>, and <strong>4-Page PDF</strong> buttons.
+            </li>
+          </ol>
+        </div>
+
+        <!-- Guide Column 2: For Damien Center Admins (Shown in Admin View) -->
+        <div
+          id="help-admin-section"
+          style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
+        >
+          <h3 style="margin: 0 0 10px; font-size: 15px; color: #0f172a;">
+            For Damien Center Admins (Managing Brokers, Coupons &amp; Direct Links)
+          </h3>
+          <ol style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #1e293b; display: flex; flex-direction: column; gap: 8px;">
+            <li>
+              <strong>Share Self-Service Links with Brokers:</strong> In <strong>1. Broker &amp; Coupon Setup</strong>, click <strong>Copy Broker Link</strong> next to any broker (e.g., <code>/?broker=lhd</code> or <code>/?broker=epic</code>) and send it to that broker. Brokers only see their own portal and their own employer links — no sign-in required for them.
+            </li>
+            <li>
+              <strong>Direct Employers (No Broker):</strong> Select <strong>Damien Center (Direct — No Broker)</strong> in the dropdown (or use <code>/?broker=damien</code>) to generate links for direct employers using coupon <code>firstmonth</code>.
+            </li>
+            <li>
+              <strong>Add a New Broker or Update a Coupon:</strong> Enter a new <strong>Broker Name</strong> and their <strong>Already-Created Coupon Code</strong> and click <strong>+ Add / Save Broker</strong>, or click <strong>Edit Coupon</strong> on any existing row to update its coupon code.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
     <!-- ADMIN SIGN-IN / PASSWORD RESET CARD (Shown on / when not authenticated) -->
     <section
       id="admin-auth-card"
@@ -85,12 +162,12 @@
             id="btn-show-reset-password"
             class="btn btn-secondary btn-sm"
           >
-            Forgot Password? Reset with @damien.org Email
+            Forgot Password?
           </button>
         </div>
       </form>
 
-      <!-- Reset Password Form (via any @damien.org email) -->
+      <!-- Reset Password Form -->
       <form
         id="admin-reset-form"
         class="generator-form"
@@ -98,11 +175,11 @@
         onsubmit="return false;"
       >
         <div class="form-field">
-          <label for="input-reset-email">Damien Center Email Address (<code>@damien.org</code>)</label>
+          <label for="input-reset-email">Email Address</label>
           <input
             type="email"
             id="input-reset-email"
-            placeholder="e.g., DCweightloss@damien.org"
+            placeholder="Enter your email address"
             autocomplete="email"
           />
         </div>

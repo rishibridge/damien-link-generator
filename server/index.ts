@@ -429,7 +429,7 @@ export async function createServer() {
     const emailRegex = /^[a-z0-9._%+-]+@damien\.org$/i;
     if (!emailRegex.test(rawEmail)) {
       res.status(400).json({
-        error: 'Please enter a valid @damien.org email address (e.g., name@damien.org) to reset the password.',
+        error: 'Please enter an authorized Damien Center email address to reset the password.',
       });
       return;
     }

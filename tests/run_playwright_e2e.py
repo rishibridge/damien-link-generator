@@ -39,14 +39,15 @@ def run_all_tests():
         context = browser.new_context(viewport={"width": 1400, "height": 900})
         page = context.new_page()
 
-        # PW-00: Admin Auth Lock Screen on /, @damien.org Password Reset & Sign-In (DamienAdmin / indy123)
+        # PW-00: Admin Auth Lock Screen on /, "Forgot Password?" Button, Password Reset & Help Explainer
         page.goto(f"{BASE_URL}/", wait_until="networkidle")
         auth_card_visible = page.locator("#admin-auth-card").is_visible()
+        forgot_btn_text = page.locator("#btn-show-reset-password").inner_text().strip()
         main_grid_visible_before = page.locator("#main-grid").is_visible()
         with urllib.request.urlopen(f"{BASE_URL}/api/bootstrap") as unauth_resp:
             unauth_boot = json.loads(unauth_resp.read().decode("utf-8"))
 
-        # Test @damien.org self-service password reset (rejects non-@damien.org, accepts DCweightloss@damien.org)
+        # Test self-service password reset (rejects non-@damien.org, accepts DCweightloss@damien.org)
         page.click("#btn-show-reset-password")
         page.fill("#input-reset-email", "someone@gmail.com")
         page.fill("#input-reset-new-password", "temp456")
@@ -71,19 +72,28 @@ def run_all_tests():
         main_grid_visible_after = page.locator("#main-grid").is_visible()
         admin_token = page.evaluate("localStorage.getItem('damien_admin_token') || ''")
 
+        # Verify Help & Explainer Guide opens and closes
+        page.click("#btn-toggle-help")
+        help_visible = page.locator("#help-explainer-card").is_visible()
+        page.click("#btn-close-help")
+        help_closed = not page.locator("#help-explainer-card").is_visible()
+
         ok_00 = (
             auth_card_visible
+            and forgot_btn_text == "Forgot Password?"
             and not main_grid_visible_before
             and unauth_boot.get("requiresAuth") is True
             and unauth_boot.get("config") is None
             and main_grid_visible_after
             and len(admin_token) > 5
+            and help_visible
+            and help_closed
         )
         record(
             "PW-00",
-            "Admin Sign-In (DamienAdmin / indy123), @damien.org Password Reset & Unauthenticated Data Protection",
+            "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Help Explainer Guide",
             ok_00,
-            f"AuthLockBeforeLogin={auth_card_visible}, UnauthConfigLeaked={unauth_boot.get('config') is not None}, LoggedIn={main_grid_visible_after}",
+            f"ForgotBtn='{forgot_btn_text}', HelpGuide={help_visible}, LoggedIn={main_grid_visible_after}",
         )
 
         # PW-01: Hard-Coded Damien Center, Single-State Indiana Identity & Bridge Health Logo

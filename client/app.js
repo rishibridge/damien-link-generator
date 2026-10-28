@@ -109,6 +109,16 @@
     const brokerSelectField = document.getElementById('broker-select-field');
     const scopedBanner = document.getElementById('scoped-broker-banner');
     const historyTitle = document.getElementById('history-card-title');
+    const helpAdminSection = document.getElementById('help-admin-section');
+    const helpGridContainer = document.getElementById('help-grid-container');
+
+    if (state.mode === 'BROKER') {
+      if (helpAdminSection) helpAdminSection.style.display = 'none';
+      if (helpGridContainer) helpGridContainer.className = 'portal-grid single-column';
+    } else {
+      if (helpAdminSection) helpAdminSection.style.display = 'block';
+      if (helpGridContainer) helpGridContainer.className = 'portal-grid';
+    }
 
     if (state.mode === 'ADMIN' && state.requiresAuth) {
       if (authCard) authCard.style.display = 'block';
@@ -649,7 +659,7 @@
         document.getElementById('auth-card-title').textContent =
           'Reset Damien Admin Password';
         document.getElementById('auth-card-desc').textContent =
-          'Enter any valid @damien.org email address and choose a new Admin password.';
+          'Enter your email address and choose a new password.';
       });
     }
 
@@ -662,6 +672,22 @@
           'Damien Center Admin Sign In';
         document.getElementById('auth-card-desc').textContent =
           'Sign in with your Damien Center Admin credentials to manage brokers, coupons, and all employer enrollment links.';
+      });
+    }
+
+    // Help & Explainer Guide Toggle
+    const toggleHelpBtn = document.getElementById('btn-toggle-help');
+    const closeHelpBtn = document.getElementById('btn-close-help');
+    const helpCard = document.getElementById('help-explainer-card');
+    if (toggleHelpBtn && helpCard) {
+      toggleHelpBtn.addEventListener('click', () => {
+        const isVisible = helpCard.style.display === 'block';
+        helpCard.style.display = isVisible ? 'none' : 'block';
+      });
+    }
+    if (closeHelpBtn && helpCard) {
+      closeHelpBtn.addEventListener('click', () => {
+        helpCard.style.display = 'none';
       });
     }
 

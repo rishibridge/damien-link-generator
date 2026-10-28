@@ -1,15 +1,15 @@
 {
   "baseUrl": "http://localhost:3005",
-  "timestamp": "2026-10-28T06:59:54Z",
+  "timestamp": "2026-10-28T17:28:51Z",
   "total": 17,
   "passed": 17,
   "failed": 0,
   "results": [
     {
       "id": "PW-00",
-      "title": "Admin Sign-In (DamienAdmin / indy123), @damien.org Password Reset & Unauthenticated Data Protection",
+      "title": "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Help Explainer Guide",
       "passed": true,
-      "detail": "AuthLockBeforeLogin=True, UnauthConfigLeaked=False, LoggedIn=True"
+      "detail": "ForgotBtn='Forgot Password?', HelpGuide=True, LoggedIn=True"
     },
     {
       "id": "PW-01",
