@@ -227,6 +227,163 @@ const KNOWN_BUSINESS_LOOKUP: Record<
   'zionsvilleconner': { refCode: 'ZionsvilleConner', canonicalName: 'Zionsville' },
   'plainfield': { refCode: 'TOPConner', canonicalName: 'Plainfield' },
   'topconner': { refCode: 'TOPConner', canonicalName: 'Plainfield' },
+
+  // Damien Center Direct / Special Programs & Associations (11 Entries)
+  'damien center employees': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienemployee',
+    canonicalName: 'Damien Center Employees',
+  },
+  'damien employees': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienemployee',
+    canonicalName: 'Damien Center Employees',
+  },
+  'damienemployee': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienemployee',
+    canonicalName: 'Damien Center Employees',
+  },
+  'damien center (direct)': {
+    refCode: 'damienpatient',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct)',
+  },
+  'damien center direct': {
+    refCode: 'damienpatient',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct)',
+  },
+  'damienpatient': {
+    refCode: 'damienpatient',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct)',
+  },
+  'damien center (direct) meta': {
+    refCode: 'damienpatientorganic1',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 1',
+  },
+  'damien center (direct) meta 1': {
+    refCode: 'damienpatientorganic1',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 1',
+  },
+  'damienpatientorganic1': {
+    refCode: 'damienpatientorganic1',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 1',
+  },
+  'damien center (direct) meta 2': {
+    refCode: 'damienpatientorganic2',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 2',
+  },
+  'damienpatientorganic2': {
+    refCode: 'damienpatientorganic2',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 2',
+  },
+  'damien center (direct) meta 3': {
+    refCode: 'damienpatientorganic3',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 3',
+  },
+  'damienpatientorganic3': {
+    refCode: 'damienpatientorganic3',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 3',
+  },
+  'damien center (direct) meta 4': {
+    refCode: 'damienpatientorganic4',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 4',
+  },
+  'damienpatientorganic4': {
+    refCode: 'damienpatientorganic4',
+    couponOverride: '',
+    canonicalName: 'Damien Center (Direct) Meta 4',
+  },
+  'damien center friends and family': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienfriend',
+    canonicalName: 'Damien Center Friends and Family',
+  },
+  'damien center friends': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienfriend',
+    canonicalName: 'Damien Center Friends and Family',
+  },
+  'damienfriend': {
+    refCode: 'damienpatient',
+    couponOverride: 'damienfriend',
+    canonicalName: 'Damien Center Friends and Family',
+  },
+  'damien center friends and family newsletter': {
+    refCode: 'damienpatientnewsletter',
+    couponOverride: 'damienfriend',
+    canonicalName: 'Damien Center Friends and Family newsletter',
+  },
+  'damienpatientnewsletter': {
+    refCode: 'damienpatientnewsletter',
+    couponOverride: 'damienfriend',
+    canonicalName: 'Damien Center Friends and Family newsletter',
+  },
+  'indy rainbow chamber': {
+    refCode: '',
+    couponOverride: 'IRCC',
+    canonicalName: 'Indy Rainbow Chamber',
+  },
+  'ircc': {
+    refCode: '',
+    couponOverride: 'IRCC',
+    canonicalName: 'Indy Rainbow Chamber',
+  },
+  'the cilty of indianapolis (coi)': {
+    refCode: 'City of Indianapolis',
+    couponOverride: 'firstmonthCoI',
+    canonicalName: 'The City of Indianapolis (CoI)',
+  },
+  'the city of indianapolis (coi)': {
+    refCode: 'City of Indianapolis',
+    couponOverride: 'firstmonthCoI',
+    canonicalName: 'The City of Indianapolis (CoI)',
+  },
+  'city of indianapolis': {
+    refCode: 'City of Indianapolis',
+    couponOverride: 'firstmonthCoI',
+    canonicalName: 'The City of Indianapolis (CoI)',
+  },
+  'coi': {
+    refCode: 'City of Indianapolis',
+    couponOverride: 'firstmonthCoI',
+    canonicalName: 'The City of Indianapolis (CoI)',
+  },
+  'the indiana credit union league (ilcu)': {
+    refCode: 'ICUL',
+    couponOverride: 'firstmonthICUL',
+    canonicalName: 'The Indiana Credit Union League (ILCU)',
+  },
+  'the indiana credit union league (icul)': {
+    refCode: 'ICUL',
+    couponOverride: 'firstmonthICUL',
+    canonicalName: 'The Indiana Credit Union League (ILCU)',
+  },
+  'indiana credit union league': {
+    refCode: 'ICUL',
+    couponOverride: 'firstmonthICUL',
+    canonicalName: 'The Indiana Credit Union League (ILCU)',
+  },
+  'icul': {
+    refCode: 'ICUL',
+    couponOverride: 'firstmonthICUL',
+    canonicalName: 'The Indiana Credit Union League (ILCU)',
+  },
+  'ilcu': {
+    refCode: 'ICUL',
+    couponOverride: 'firstmonthICUL',
+    canonicalName: 'The Indiana Credit Union League (ILCU)',
+  },
 };
 
 export function formatSlug(input: string): string {
@@ -286,12 +443,21 @@ export function buildDamienEmployerUrl(
       : `${cleanBroker}${cleanEmployer}`;
   }
 
-  const cleanCoupon = String(known?.couponOverride || couponCode || '').trim();
+  const hasCouponOverride = Boolean(
+    known && Object.prototype.hasOwnProperty.call(known, 'couponOverride')
+  );
+  const cleanCoupon = String(
+    hasCouponOverride ? known!.couponOverride || '' : couponCode || ''
+  ).trim();
   const displayEmployerName = known?.canonicalName || rawEmployer;
 
-  let url = `${DAMIEN_CONSTANTS.baseUrl}?ref=${encodeURIComponent(refCode)}`;
-  if (cleanCoupon) {
-    url += `&coupon=${encodeURIComponent(cleanCoupon)}`;
+  let url = DAMIEN_CONSTANTS.baseUrl;
+  if (refCode && cleanCoupon) {
+    url += `?ref=${encodeURIComponent(refCode)}&coupon=${encodeURIComponent(cleanCoupon)}`;
+  } else if (refCode) {
+    url += `?ref=${encodeURIComponent(refCode)}`;
+  } else if (cleanCoupon) {
+    url += `?coupon=${encodeURIComponent(cleanCoupon)}`;
   }
 
   return { url, refCode, couponCode: cleanCoupon, displayEmployerName };
@@ -349,7 +515,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
-        seedVersion: 7,
+        seedVersion: 8,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -364,7 +530,7 @@ function loadConfig(): DamienConfig {
   let parsed = JSON.parse(raw) as DamienConfig;
   if (
     SEED_PATH !== CONFIG_FILE_PATH &&
-    (!parsed.seedVersion || parsed.seedVersion < 7) &&
+    (!parsed.seedVersion || parsed.seedVersion < 8) &&
     fs.existsSync(SEED_PATH)
   ) {
     fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);
@@ -640,7 +806,7 @@ export async function createServer() {
         },
       });
 
-      const entryId = `${broker.id}__${formatSlug(refCode)}`;
+      const entryId = `${broker.id}__${formatSlug(displayEmployerName || refCode || couponCode)}`;
       const record: GeneratedLinkEntry = {
         id: entryId,
         brokerId: broker.id,
@@ -652,10 +818,12 @@ export async function createServer() {
         createdAt: new Date().toISOString(),
       };
 
-      stateConfig.generatedLinks = stateConfig.generatedLinks.filter((g) => g.id !== entryId);
+      stateConfig.generatedLinks = stateConfig.generatedLinks.filter(
+        (g) => g.id !== entryId && !(g.brokerId === broker.id && g.url === url && g.employerName === displayEmployerName)
+      );
       stateConfig.generatedLinks.unshift(record);
-      if (stateConfig.generatedLinks.length > 100) {
-        stateConfig.generatedLinks = stateConfig.generatedLinks.slice(0, 100);
+      if (stateConfig.generatedLinks.length > 250) {
+        stateConfig.generatedLinks = stateConfig.generatedLinks.slice(0, 250);
       }
       saveConfig(stateConfig);
 

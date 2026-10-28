@@ -156,10 +156,6 @@ def run_all_tests():
             "mgb": "firstmonthmb",
             "epic": "firstmonth",
             "conner": "firstmonthconner",
-            "coi": "firstmonthcoi",
-            "damienemployee": "damienemployee",
-            "damienfriend": "damienfriend",
-            "ircc": "ircc",
         }
         coupons_match = all(broker_coupons.get(k) == v for k, v in expected_csv_coupons.items())
         ok_03 = (
@@ -167,16 +163,16 @@ def run_all_tests():
             and "Direct / No Broker" in first_row
             and "Damien Center (Direct — No Broker)" in first_option
             and coupons_match
-            and len(boot["generatedLinks"]) >= 60
+            and len(boot["generatedLinks"]) >= 70
         )
         record(
             "PW-03",
-            "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
+            "Damien Direct Broker (firstmonth), LHD, Epic, NFP, MGB, Conner & All 71 Business Links Loaded",
             ok_03,
             f"Brokers={len(boot['brokers'])}, CouponsMatch={coupons_match}, LinksCount={len(boot['generatedLinks'])}",
         )
 
-        # PW-04: Damien Generates URL & QR Code for DC Generic & Direct Employers (Martin Farms -> MartinFF, Printing Partners -> PPart)
+        # PW-04: Damien Generates URL & QR Code for All Direct Employers & Special Programs
         page.select_option("#select-broker", "damien")
         direct_cases = [
             ("DC Generic", "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral"),
@@ -184,6 +180,17 @@ def run_all_tests():
             ("Printing Partners", "https://app.helloalpha.com/damien-health?ref=PPart&coupon=firstmonth"),
             ("TOA USA", "https://app.helloalpha.com/damien-health?ref=TOAU&coupon=firstmonth"),
             ("City of Evansville", "https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth"),
+            ("Damien Center Employees", "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienemployee"),
+            ("Damien Center (Direct)", "https://app.helloalpha.com/damien-health?ref=damienpatient"),
+            ("Damien Center (Direct) Meta 1", "https://app.helloalpha.com/damien-health?ref=damienpatientorganic1"),
+            ("Damien Center (Direct) Meta 2", "https://app.helloalpha.com/damien-health?ref=damienpatientorganic2"),
+            ("Damien Center (Direct) Meta 3", "https://app.helloalpha.com/damien-health?ref=damienpatientorganic3"),
+            ("Damien Center (Direct) Meta 4", "https://app.helloalpha.com/damien-health?ref=damienpatientorganic4"),
+            ("Damien Center Friends and Family", "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienfriend"),
+            ("Damien Center Friends and Family newsletter", "https://app.helloalpha.com/damien-health?ref=damienpatientnewsletter&coupon=damienfriend"),
+            ("Indy Rainbow Chamber", "https://app.helloalpha.com/damien-health?coupon=IRCC"),
+            ("The Cilty of Indianapolis (CoI)", "https://app.helloalpha.com/damien-health?ref=City%20of%20Indianapolis&coupon=firstmonthCoI"),
+            ("The Indiana Credit Union League (ILCU)", "https://app.helloalpha.com/damien-health?ref=ICUL&coupon=firstmonthICUL"),
         ]
         all_direct_ok = True
         for biz_name, exp_url in direct_cases:

@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://localhost:3005",
-  "timestamp": "2026-10-28T18:49:32Z",
+  "timestamp": "2026-10-28T22:30:58Z",
   "total": 17,
   "passed": 17,
   "failed": 0,
@@ -25,15 +25,15 @@
     },
     {
       "id": "PW-03",
-      "title": "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
+      "title": "Damien Direct Broker (firstmonth), LHD, Epic, NFP, MGB, Conner & All 71 Business Links Loaded",
       "passed": true,
-      "detail": "Brokers=10, CouponsMatch=True, LinksCount=66"
+      "detail": "Brokers=6, CouponsMatch=True, LinksCount=71"
     },
     {
       "id": "PW-04",
       "title": "Damien Generates Direct Business URLs (DCGeneral, MartinFF, PPart, TOAU, CoE)",
       "passed": true,
-      "detail": "All 5 Direct Business mappings verified, LastURL='https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth'"
+      "detail": "All 16 Direct Business mappings verified, LastURL='https://app.helloalpha.com/damien-health?ref=ICUL&coupon=firstmonthICUL'"
     },
     {
       "id": "PW-05",
@@ -75,7 +75,7 @@
       "id": "PW-16",
       "title": "Download Customized 1-Page Flyer PDF & Full 4-Page Packet PDF (With Embedded QR & Clickable Link)",
       "passed": true,
-      "detail": "FlyerPages=1, PacketPages=4, TextHasURL=True, ClickableLinks=2, RowButtons=67"
+      "detail": "FlyerPages=1, PacketPages=4, TextHasURL=True, ClickableLinks=2, RowButtons=72"
     },
     {
       "id": "PW-11",

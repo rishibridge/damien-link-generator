@@ -1,10 +1,10 @@
 {
-  "version": 169,
-  "seedVersion": 7,
+  "version": 213,
+  "seedVersion": 8,
   "ceName": "Damien Center",
   "state": "Indiana",
   "baseUrl": "https://app.helloalpha.com/damien-health",
-  "updatedAt": "2026-10-28T06:36:45.055Z",
+  "updatedAt": "2026-10-28T22:30:57.245Z",
   "brokers": [
     {
       "id": "damien",
@@ -47,46 +47,18 @@
       "displayLabel": "Conner Insurance (Conner)",
       "couponCode": "firstmonthconner",
       "isDirect": false
-    },
-    {
-      "id": "coi",
-      "name": "City of Indianapolis",
-      "displayLabel": "City of Indianapolis (COI Direct)",
-      "couponCode": "firstmonthcoi",
-      "isDirect": false
-    },
-    {
-      "id": "damienemployee",
-      "name": "Damien Employee",
-      "displayLabel": "Damien Center Employees",
-      "couponCode": "damienemployee",
-      "isDirect": false
-    },
-    {
-      "id": "damienfriend",
-      "name": "Damien Friend",
-      "displayLabel": "Damien Center Friends",
-      "couponCode": "damienfriend",
-      "isDirect": false
-    },
-    {
-      "id": "ircc",
-      "name": "IRCC",
-      "displayLabel": "IRCC",
-      "couponCode": "ircc",
-      "isDirect": false
     }
   ],
   "generatedLinks": [
     {
-      "id": "damien__hbh",
+      "id": "damien__harsha-behavioral-health",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "Harsha Behavioral Health",
       "refCode": "HBH",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=HBH&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:44.156Z"
+      "createdAt": "2026-10-28T22:30:56.251Z"
     },
     {
       "id": "mgb__mgb",
@@ -96,247 +68,357 @@
       "refCode": "MGB",
       "couponCode": "firstmonthmb",
       "url": "https://app.helloalpha.com/damien-health?ref=MGB&coupon=firstmonthmb",
-      "createdAt": "2026-10-28T06:36:42.971Z"
+      "createdAt": "2026-10-28T22:30:55.123Z"
     },
     {
-      "id": "lhd__bmce",
+      "id": "lhd__bose-mckinney-evans",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "Bose McKinney & Evans",
       "refCode": "BMcE",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=BMcE&coupon=firstmonthLHD",
-      "createdAt": "2026-10-28T06:36:41.751Z"
+      "createdAt": "2026-10-28T22:30:53.948Z"
     },
     {
-      "id": "conner__topconner",
+      "id": "conner__plainfield",
       "brokerId": "conner",
       "brokerName": "Conner",
       "employerName": "Plainfield",
       "refCode": "TOPConner",
       "couponCode": "firstmonthconner",
       "url": "https://app.helloalpha.com/damien-health?ref=TOPConner&coupon=firstmonthconner",
-      "createdAt": "2026-10-28T06:36:38.865Z"
+      "createdAt": "2026-10-28T22:30:51.370Z"
     },
     {
-      "id": "conner__zionsvilleconner",
+      "id": "conner__zionsville",
       "brokerId": "conner",
       "brokerName": "Conner",
       "employerName": "Zionsville",
       "refCode": "ZionsvilleConner",
       "couponCode": "firstmonthconner",
       "url": "https://app.helloalpha.com/damien-health?ref=ZionsvilleConner&coupon=firstmonthconner",
-      "createdAt": "2026-10-28T06:36:38.515Z"
+      "createdAt": "2026-10-28T22:30:51.051Z"
     },
     {
-      "id": "conner__conner",
+      "id": "conner__example-template-conner",
       "brokerId": "conner",
       "brokerName": "Conner",
       "employerName": "Example Template (Conner)",
       "refCode": "Conner",
       "couponCode": "firstmonthconner",
       "url": "https://app.helloalpha.com/damien-health?ref=Conner&coupon=firstmonthconner",
-      "createdAt": "2026-10-28T06:36:38.184Z"
+      "createdAt": "2026-10-28T22:30:50.757Z"
     },
     {
-      "id": "nfp__benn",
+      "id": "nfp__bennington",
       "brokerId": "nfp",
       "brokerName": "NFP",
       "employerName": "Bennington",
       "refCode": "Benn",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=Benn&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:37.832Z"
+      "createdAt": "2026-10-28T22:30:50.450Z"
     },
     {
-      "id": "nfp__gmar",
+      "id": "nfp__godfrey-marine",
       "brokerId": "nfp",
       "brokerName": "NFP",
       "employerName": "Godfrey Marine",
       "refCode": "GMar",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=GMar&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:37.482Z"
+      "createdAt": "2026-10-28T22:30:50.168Z"
     },
     {
-      "id": "nfp__ffly",
+      "id": "nfp__firefly",
       "brokerId": "nfp",
       "brokerName": "NFP",
       "employerName": "Firefly",
       "refCode": "FFLY",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=FFLY&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:37.137Z"
+      "createdAt": "2026-10-28T22:30:49.871Z"
     },
     {
-      "id": "nfp__res",
+      "id": "nfp__resultant",
       "brokerId": "nfp",
       "brokerName": "NFP",
       "employerName": "Resultant",
       "refCode": "Res",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=Res&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:36.785Z"
+      "createdAt": "2026-10-28T22:30:49.572Z"
     },
     {
-      "id": "nfp__nfp",
+      "id": "nfp__example-template-nfp",
       "brokerId": "nfp",
       "brokerName": "NFP",
       "employerName": "Example Template (NFP)",
       "refCode": "NFP",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=NFP&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:36.440Z"
+      "createdAt": "2026-10-28T22:30:49.277Z"
     },
     {
-      "id": "epic__epicleague",
+      "id": "epic__league-for-the-blind-and-disabled",
       "brokerId": "epic",
       "brokerName": "Epic",
       "employerName": "League for the Blind and Disabled",
       "refCode": "EpicLEAGUE",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicLEAGUE&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:36.067Z"
+      "createdAt": "2026-10-28T22:30:48.855Z"
     },
     {
-      "id": "epic__epichcfnr",
+      "id": "epic__honey-creek-fire-rescue",
       "brokerId": "epic",
       "brokerName": "Epic",
       "employerName": "Honey Creek Fire & Rescue",
       "refCode": "EpicHCFNR",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicHCFNR&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:35.722Z"
+      "createdAt": "2026-10-28T22:30:48.445Z"
     },
     {
-      "id": "epic__epicterrehaute",
+      "id": "epic__the-city-of-terre-haute",
       "brokerId": "epic",
       "brokerName": "Epic",
       "employerName": "The City of Terre Haute",
       "refCode": "EpicTerreHaute",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicTerreHaute&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:35.356Z"
+      "createdAt": "2026-10-28T22:30:48.066Z"
     },
     {
-      "id": "epic__epicadaptecsystems",
+      "id": "epic__adaptek-systems-llc",
       "brokerId": "epic",
       "brokerName": "Epic",
       "employerName": "Adaptek Systems LLC",
       "refCode": "EpicAdaptecSystems",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicAdaptecSystems&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:35.007Z"
+      "createdAt": "2026-10-28T22:30:47.674Z"
     },
     {
-      "id": "epic__epicacuity",
+      "id": "epic__acuity-group-operations",
       "brokerId": "epic",
       "brokerName": "Epic",
       "employerName": "Acuity Group Operations",
       "refCode": "EpicAcuity",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=EpicAcuity&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:34.667Z"
+      "createdAt": "2026-10-28T22:30:47.306Z"
     },
     {
-      "id": "lhd__lhd",
+      "id": "lhd__example-template",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "Example Template",
       "refCode": "LHD",
       "couponCode": "helloalphatestuser",
       "url": "https://app.helloalpha.com/damien-health?ref=LHD&coupon=helloalphatestuser",
-      "createdAt": "2026-10-28T06:36:34.323Z"
+      "createdAt": "2026-10-28T22:30:46.934Z"
     },
     {
-      "id": "lhd__gcs",
+      "id": "lhd__goshen-community-schools",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "Goshen Community Schools",
       "refCode": "GCS",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=GCS&coupon=firstmonthLHD",
-      "createdAt": "2026-10-28T06:36:33.968Z"
+      "createdAt": "2026-10-28T22:30:46.517Z"
     },
     {
-      "id": "lhd__imcu",
+      "id": "lhd__indiana-members-credit-union",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "Indiana Members Credit Union",
       "refCode": "IMCU",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=IMCU&coupon=firstmonthLHD",
-      "createdAt": "2026-10-28T06:36:33.625Z"
+      "createdAt": "2026-10-28T22:30:46.122Z"
     },
     {
-      "id": "lhd__isa",
+      "id": "lhd__indiana-soybean-alliance",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "Indiana Soybean Alliance",
       "refCode": "ISA",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=ISA&coupon=firstmonthLHD",
-      "createdAt": "2026-10-28T06:36:33.268Z"
+      "createdAt": "2026-10-28T22:30:45.751Z"
     },
     {
-      "id": "lhd__lchd",
+      "id": "lhd__locascio-hadden-dennis",
       "brokerId": "lhd",
       "brokerName": "LHD",
       "employerName": "LoCascio Hadden & Dennis",
       "refCode": "LCHD",
       "couponCode": "firstmonthLHD",
       "url": "https://app.helloalpha.com/damien-health?ref=LCHD&coupon=firstmonthLHD",
-      "createdAt": "2026-10-28T06:36:32.921Z"
+      "createdAt": "2026-10-28T22:30:45.160Z"
     },
     {
-      "id": "damien__coe",
+      "id": "damien__the-indiana-credit-union-league-ilcu",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "The Indiana Credit Union League (ILCU)",
+      "refCode": "ICUL",
+      "couponCode": "firstmonthICUL",
+      "url": "https://app.helloalpha.com/damien-health?ref=ICUL&coupon=firstmonthICUL",
+      "createdAt": "2026-10-28T22:30:42.776Z"
+    },
+    {
+      "id": "damien__the-city-of-indianapolis-coi",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "The City of Indianapolis (CoI)",
+      "refCode": "City of Indianapolis",
+      "couponCode": "firstmonthCoI",
+      "url": "https://app.helloalpha.com/damien-health?ref=City%20of%20Indianapolis&coupon=firstmonthCoI",
+      "createdAt": "2026-10-28T22:30:42.113Z"
+    },
+    {
+      "id": "damien__indy-rainbow-chamber",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Indy Rainbow Chamber",
+      "refCode": "",
+      "couponCode": "IRCC",
+      "url": "https://app.helloalpha.com/damien-health?coupon=IRCC",
+      "createdAt": "2026-10-28T22:30:41.540Z"
+    },
+    {
+      "id": "damien__damien-center-friends-and-family-newsletter",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center Friends and Family newsletter",
+      "refCode": "damienpatientnewsletter",
+      "couponCode": "damienfriend",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatientnewsletter&coupon=damienfriend",
+      "createdAt": "2026-10-28T22:30:40.745Z"
+    },
+    {
+      "id": "damien__damien-center-friends-and-family",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center Friends and Family",
+      "refCode": "damienpatient",
+      "couponCode": "damienfriend",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienfriend",
+      "createdAt": "2026-10-28T22:30:40.071Z"
+    },
+    {
+      "id": "damien__damien-center-direct-meta-4",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center (Direct) Meta 4",
+      "refCode": "damienpatientorganic4",
+      "couponCode": "",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatientorganic4",
+      "createdAt": "2026-10-28T22:30:39.409Z"
+    },
+    {
+      "id": "damien__damien-center-direct-meta-3",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center (Direct) Meta 3",
+      "refCode": "damienpatientorganic3",
+      "couponCode": "",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatientorganic3",
+      "createdAt": "2026-10-28T22:30:38.984Z"
+    },
+    {
+      "id": "damien__damien-center-direct-meta-2",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center (Direct) Meta 2",
+      "refCode": "damienpatientorganic2",
+      "couponCode": "",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatientorganic2",
+      "createdAt": "2026-10-28T22:30:38.614Z"
+    },
+    {
+      "id": "damien__damien-center-direct-meta-1",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center (Direct) Meta 1",
+      "refCode": "damienpatientorganic1",
+      "couponCode": "",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatientorganic1",
+      "createdAt": "2026-10-28T22:30:38.250Z"
+    },
+    {
+      "id": "damien__damien-center-direct",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center (Direct)",
+      "refCode": "damienpatient",
+      "couponCode": "",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient",
+      "createdAt": "2026-10-28T22:30:37.841Z"
+    },
+    {
+      "id": "damien__damien-center-employees",
+      "brokerId": "damien",
+      "brokerName": "Damien Center",
+      "employerName": "Damien Center Employees",
+      "refCode": "damienpatient",
+      "couponCode": "damienemployee",
+      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienemployee",
+      "createdAt": "2026-10-28T22:30:37.446Z"
+    },
+    {
+      "id": "damien__city-of-evansville",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "City of Evansville",
       "refCode": "CoE",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=CoE&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:30.610Z"
+      "createdAt": "2026-10-28T22:30:36.979Z"
     },
     {
-      "id": "damien__toau",
+      "id": "damien__toa-usa",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "TOA USA",
       "refCode": "TOAU",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=TOAU&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:30.261Z"
+      "createdAt": "2026-10-28T22:30:36.555Z"
     },
     {
-      "id": "damien__ppart",
+      "id": "damien__printing-partners",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "Printing Partners",
       "refCode": "PPart",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=PPart&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:29.913Z"
+      "createdAt": "2026-10-28T22:30:36.154Z"
     },
     {
-      "id": "damien__martinff",
+      "id": "damien__martin-farms",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "Martin Farms",
       "refCode": "MartinFF",
       "couponCode": "firstmonth",
       "url": "https://app.helloalpha.com/damien-health?ref=MartinFF&coupon=firstmonth",
-      "createdAt": "2026-10-28T06:36:29.553Z"
+      "createdAt": "2026-10-28T22:30:35.804Z"
     },
     {
-      "id": "damien__dcgeneral",
+      "id": "damien__dc-generic",
       "brokerId": "damien",
       "brokerName": "Damien Center",
       "employerName": "DC Generic",
       "refCode": "DCGeneral",
       "couponCode": "firstmonthDCGeneral",
       "url": "https://app.helloalpha.com/damien-health?ref=DCGeneral&coupon=firstmonthDCGeneral",
-      "createdAt": "2026-10-28T06:36:29.190Z"
+      "createdAt": "2026-10-28T22:30:35.469Z"
     },
     {
       "id": "epic__epicalliedphysicianssc",
@@ -677,66 +759,8 @@
       "couponCode": "firstmonthconner",
       "url": "https://app.helloalpha.com/damien-health?ref=MGBConner&coupon=firstmonthconner",
       "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "coi__cityofindianapolis",
-      "brokerId": "coi",
-      "brokerName": "City of Indianapolis",
-      "employerName": "City of Indianapolis",
-      "refCode": "CityofIndianapolis",
-      "couponCode": "firstmonthcoi",
-      "url": "https://app.helloalpha.com/damien-health?ref=CityofIndianapolis&coupon=firstmonthcoi",
-      "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "coi__city",
-      "brokerId": "coi",
-      "brokerName": "City of Indianapolis",
-      "employerName": "City",
-      "refCode": "City",
-      "couponCode": "firstmonthcoi",
-      "url": "https://app.helloalpha.com/damien-health?ref=City&coupon=firstmonthcoi",
-      "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "damien__damienpatient",
-      "brokerId": "damien",
-      "brokerName": "Damien Center",
-      "employerName": "Damien Patient (Direct)",
-      "refCode": "damienpatient",
-      "couponCode": "firstmonth",
-      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=firstmonth",
-      "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "damienemployee__damienpatient",
-      "brokerId": "damienemployee",
-      "brokerName": "Damien Employee",
-      "employerName": "Damien Center Employees",
-      "refCode": "damienpatient",
-      "couponCode": "damienemployee",
-      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienemployee",
-      "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "damienfriend__damienpatient",
-      "brokerId": "damienfriend",
-      "brokerName": "Damien Friend",
-      "employerName": "Damien Center Friends",
-      "refCode": "damienpatient",
-      "couponCode": "damienfriend",
-      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=damienfriend",
-      "createdAt": "2026-10-27T23:48:00.000Z"
-    },
-    {
-      "id": "ircc__damienpatient",
-      "brokerId": "ircc",
-      "brokerName": "IRCC",
-      "employerName": "IRCC",
-      "refCode": "damienpatient",
-      "couponCode": "ircc",
-      "url": "https://app.helloalpha.com/damien-health?ref=damienpatient&coupon=ircc",
-      "createdAt": "2026-10-27T23:48:00.000Z"
     }
-  ]
+  ],
+  "adminUsername": "DamienAdmin",
+  "adminPassword": "indy123"
 }
