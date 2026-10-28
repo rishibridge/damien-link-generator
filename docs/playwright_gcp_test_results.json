@@ -1,8 +1,8 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-28T00:03:30Z",
-  "total": 15,
-  "passed": 15,
+  "timestamp": "2026-10-28T06:39:25Z",
+  "total": 16,
+  "passed": 16,
   "failed": 0,
   "results": [
     {
@@ -64,6 +64,12 @@
       "title": "Manual Copy URL, Copy QR Image & Download QR PNG for Email and PPT",
       "passed": true,
       "detail": "CopiedURL=True, CopiedQRImage=True, PNGBytes=5359"
+    },
+    {
+      "id": "PW-16",
+      "title": "Download Customized 1-Page Flyer PDF & Full 4-Page Packet PDF (With Embedded QR & Clickable Link)",
+      "passed": true,
+      "detail": "FlyerPages=1, PacketPages=4, TextHasURL=True, ClickableLinks=2, RowButtons=67"
     },
     {
       "id": "PW-11",
