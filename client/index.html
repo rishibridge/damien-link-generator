@@ -12,14 +12,6 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-group">
-        <a href="/" class="brand-logo-wrap" title="Bridge Health — Damien Center Portal">
-          <img
-            id="bridge-logo"
-            src="/assets/logo.png"
-            alt="Bridge Health"
-            class="brand-logo-img"
-          />
-        </a>
         <div>
           <h1 id="header-title">Damien Center — Indiana Employer Link &amp; QR Code Portal</h1>
           <p class="header-subtitle" id="header-subtitle">
@@ -50,72 +42,217 @@
   </header>
 
   <main class="main-container">
-    <!-- HELP & EXPLAINER GUIDE DRAWER (For Damien Center Admins & Brokers) -->
+    <!-- SEPARATE END-TO-END PROCESS & HELP GUIDES (Damien Admin Guide vs. Broker Self-Service Guide) -->
     <section
       id="help-explainer-card"
-      class="card"
-      style="display: none; margin-bottom: 24px; border-left: 4px solid #1d4ed8;"
+      class="card help-drawer-card"
+      style="display: none; margin-bottom: 24px;"
     >
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+      <div class="help-drawer-header">
         <div>
-          <h2 id="help-card-title" style="margin: 0 0 6px; font-size: 18px;">
-            How to Use the Damien Center Link, QR Code &amp; PDF Generator
+          <span class="help-eyebrow" id="help-eyebrow-badge">Documentation &amp; Process Guide</span>
+          <h2 id="help-card-title" style="margin: 4px 0 4px; font-size: 20px;">
+            Damien Center — End-to-End Admin Process &amp; Portal Guide
           </h2>
-          <p id="help-card-subtitle" style="margin: 0 0 16px; font-size: 13.5px; color: #475569;">
-            Step-by-step instructions for generating Indiana employer enrollment links, QR codes, and customized program PDFs.
+          <p id="help-card-subtitle" style="margin: 0; font-size: 13.5px; color: #475569;">
+            Complete operational workflow for setting up benefit brokers, generating employer links &amp; QR codes, and distributing customized program PDFs.
           </p>
         </div>
-        <button type="button" id="btn-close-help" class="btn btn-secondary btn-sm">
-          Close ✕
-        </button>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <!-- Tab switcher visible only to Damien Admin so Admin can also preview the Broker Guide -->
+          <div id="help-admin-tab-switcher" class="help-tab-group" style="display: none;">
+            <button
+              type="button"
+              id="btn-help-tab-admin"
+              class="btn btn-primary btn-sm"
+            >
+              Damien Admin Guide
+            </button>
+            <button
+              type="button"
+              id="btn-help-tab-broker"
+              class="btn btn-secondary btn-sm"
+            >
+              Broker Self-Service Guide
+            </button>
+          </div>
+          <button type="button" id="btn-close-help" class="btn btn-secondary btn-sm">
+            Close Guide ✕
+          </button>
+        </div>
       </div>
 
-      <div id="help-grid-container" class="portal-grid" style="gap: 18px;">
-        <!-- Guide Column 1: For Brokers & Employer Link Generation -->
-        <div
-          id="help-broker-section"
-          style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
-        >
-          <h3 style="margin: 0 0 10px; font-size: 15px; color: #1e40af;">
-            For Brokers &amp; Direct Employer Setup (Generating Links, QR Codes &amp; PDFs)
-          </h3>
-          <ol style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #1e293b; display: flex; flex-direction: column; gap: 8px;">
-            <li>
-              <strong>Enter Business / Employer Name:</strong> Type the employer name (e.g., <em>LoCascio Hadden &amp; Dennis</em> or any new business name) and click <strong>Generate URL &amp; QR Code</strong>. Your broker code and first-month coupon code are applied automatically.
-            </li>
-            <li>
-              <strong>Paste into Email or PowerPoint:</strong>
-              Click <strong>Copy URL for Email / PPT</strong> to copy the enrollment link, or click <strong>Copy QR Image to Clipboard</strong> and press <code>Ctrl+V</code> (<code>Cmd+V</code> on Mac) directly inside your email or slide deck.
-            </li>
-            <li>
-              <strong>Download Ready-to-Share Program PDFs:</strong>
-              Click <strong>Download 1-Page Flyer PDF</strong> (Page 4 Employee Enrollment Flyer) or <strong>Download Full 4-Page Packet PDF</strong> (Program Overview, FAQs + Enrollment Flyer). Both PDFs are automatically customized with your employer's clickable enrollment link and QR code.
-            </li>
-            <li>
-              <strong>Quick Access Table:</strong> Every generated business link appears in the table at the bottom of the page with 1-click <strong>Copy URL</strong>, <strong>Download QR</strong>, <strong>1-Page PDF</strong>, and <strong>4-Page PDF</strong> buttons.
-            </li>
-          </ol>
+      <!-- ===================================================================== -->
+      <!-- GUIDE 1: DAMIEN CENTER ADMIN PROCESS GUIDE (Dedicated Admin Workflow) -->
+      <!-- ===================================================================== -->
+      <div id="help-admin-section" class="help-guide-body">
+        <div class="help-overview-banner">
+          <strong>How the Damien Center Indiana Employer Program Works:</strong>
+          Every participating Indiana employer receives a unique enrollment URL
+          (<code>https://app.helloalpha.com/damien-health?ref=&lt;EmployerCode&gt;&amp;coupon=&lt;CouponCode&gt;</code>),
+          a matching scannable <strong>QR Code</strong>, and a customized <strong>2027 Program PDF Flyer &amp; 4-Page Packet</strong>.
+          The <code>?ref=</code> parameter tracks enrollments back to the specific employer and broker, while the <code>&amp;coupon=</code> parameter automatically reduces the employee's first-month membership to <strong>$1</strong> ($49/month thereafter).
         </div>
 
-        <!-- Guide Column 2: For Damien Center Admins (Shown in Admin View) -->
-        <div
-          id="help-admin-section"
-          style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
-        >
-          <h3 style="margin: 0 0 10px; font-size: 15px; color: #0f172a;">
-            For Damien Center Admins (Managing Brokers, Coupons &amp; Direct Links)
-          </h3>
-          <ol style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #1e293b; display: flex; flex-direction: column; gap: 8px;">
-            <li>
-              <strong>Share Self-Service Links with Brokers:</strong> In <strong>1. Broker &amp; Coupon Setup</strong>, click <strong>Copy Broker Link</strong> next to any broker (e.g., <code>/?broker=lhd</code> or <code>/?broker=epic</code>) and send it to that broker. Brokers only see their own portal and their own employer links — no sign-in required for them.
-            </li>
-            <li>
-              <strong>Direct Employers (No Broker):</strong> Select <strong>Damien Center (Direct — No Broker)</strong> in the dropdown (or use <code>/?broker=damien</code>) to generate links for direct employers using coupon <code>firstmonth</code>.
-            </li>
-            <li>
-              <strong>Add a New Broker or Update a Coupon:</strong> Enter a new <strong>Broker Name</strong> and their <strong>Already-Created Coupon Code</strong> and click <strong>+ Add / Save Broker</strong>, or click <strong>Edit Coupon</strong> on any existing row to update its coupon code.
-            </li>
-          </ol>
+        <div class="help-process-grid">
+          <!-- Admin Process 1 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Process 1</span>
+              <h3>Delegating to a Benefit Broker (Self-Service Setup)</h3>
+            </div>
+            <p class="help-step-desc">
+              Use <strong>1. Broker &amp; Coupon Setup</strong> (left panel) when partnering with a benefit brokerage (such as LHD, Epic, NFP, Conner, or McGohan Brabender) so they can generate their own employer links:
+            </p>
+            <ol class="help-step-list">
+              <li>
+                <strong>Confirm the Coupon Code Exists:</strong> Ensure the broker's first-month coupon code (e.g., <code>firstmonthLHD</code>, <code>firstmonthconner</code>, <code>firstmonthmb</code>, or <code>firstmonth</code>) has already been created in Hello Alpha.
+              </li>
+              <li>
+                <strong>Add or Update the Broker:</strong> Enter the <strong>Broker Name</strong> and their <strong>Already-Created Coupon Code</strong> in Panel 1 and click <strong>+ Add / Save Broker</strong> (or click <strong>Edit Coupon</strong> on an existing row to change a coupon).
+              </li>
+              <li>
+                <strong>Send the Dedicated Broker Portal Link:</strong> In the Broker table, click <strong>Copy Broker Link</strong> (e.g., <code>/?broker=lhd</code> or <code>/?broker=epic</code>) and email that link to your contact at the brokerage.
+              </li>
+              <li>
+                <strong>Strict Broker Isolation:</strong> When a broker opens their dedicated link, they <strong>do not need a password</strong>, they cannot see the Admin Setup panel, and they can <strong>only</strong> view and generate employer links belonging to their own brokerage.
+              </li>
+            </ol>
+          </div>
+
+          <!-- Admin Process 2 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Process 2</span>
+              <h3>Generating Direct Employer Links (Or Generating for a Broker)</h3>
+            </div>
+            <p class="help-step-desc">
+              Use <strong>2. Generate Employer URL &amp; QR Code</strong> (right panel) whenever Damien Center is onboarding a direct employer (no broker) or generating materials on a broker's behalf:
+            </p>
+            <ol class="help-step-list">
+              <li>
+                <strong>Select Broker or Direct:</strong> Choose <strong>Damien Center (Direct — No Broker)</strong> for direct employers (automatically applies coupon <code>firstmonth</code>), or select a specific Broker from the dropdown.
+              </li>
+              <li>
+                <strong>Enter the Business / Employer Name:</strong> Type the business name (e.g., <em>Martin Farms</em>, <em>Harsha Behavioral Health</em>, or any new Indiana employer) and click <strong>Generate URL &amp; QR Code</strong>.
+                <br />
+                <span class="help-subnote">
+                  All 66 pre-loaded businesses across Damien Direct, Epic, LHD, NFP, Conner, and MGB automatically resolve to their exact official <code>?ref=</code> code (e.g., <em>LoCascio Hadden &amp; Dennis</em> → <code>LCHD</code>). Any new business name automatically generates a standardized <code>?ref=</code> code.
+                </span>
+              </li>
+              <li>
+                <strong>Share the Customized PDFs, QR Code, or Link:</strong>
+                Use the output panel (or any row in the bottom table) to download the <strong>1-Page Flyer PDF</strong>, <strong>Full 4-Page Packet PDF</strong>, or copy the link and QR image into an email or PowerPoint deck.
+              </li>
+            </ol>
+          </div>
+
+          <!-- Admin Process 3 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Process 3</span>
+              <h3>Choosing Between PDF Flyer, 4-Page Packet, QR PNG &amp; URL</h3>
+            </div>
+            <p class="help-step-desc">
+              Every generated employer entry provides four ready-to-use formats depending on who you are sending materials to:
+            </p>
+            <ul class="help-step-list">
+              <li>
+                <strong>1-Page Flyer PDF (Employee Distribution):</strong> Exports Page 4 of the 2027 DC Weight Management template with the employer's scannable QR code stamped under <em>"Scan to enroll"</em> and their clickable URL underlined inside the magenta <em>"Enroll at:"</em> banner. Ideal for HR to email or print for employees.
+              </li>
+              <li>
+                <strong>Full 4-Page Packet PDF (HR &amp; Leadership Packet):</strong> Exports all 4 pages: Page 1 (2027 Program Pricing &amp; Overview), Page 2 (Program FAQs), Page 3 (Combined 1-Page Summary + FAQ), and Page 4 (the customized Employee Enrollment Flyer with the employer's QR code and clickable link).
+              </li>
+              <li>
+                <strong>Copy URL / Copy QR Image (Custom Emails &amp; Slides):</strong> Click <strong>Copy URL for Email / PPT</strong> or <strong>Copy QR Image to Clipboard</strong> (then press <code>Ctrl+V</code> / <code>Cmd+V</code> in Outlook, Gmail, or PowerPoint) when building custom presentations.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- GUIDE 2: BROKER SELF-SERVICE PROCESS GUIDE (Dedicated Broker Workflow) -->
+      <!-- ===================================================================== -->
+      <div id="help-broker-section" class="help-guide-body" style="display: none;">
+        <div class="help-overview-banner">
+          <strong>Welcome to Your Dedicated Broker Self-Service Portal:</strong>
+          This portal lets your brokerage generate customized enrollment links, scannable QR codes, and ready-to-share PDF flyers for any Indiana employer client enrolling in the <strong>Damien Center Weight Management Program</strong>.
+          Every link you generate automatically embeds your brokerage's assigned first-month coupon (<code id="help-broker-coupon-code">firstmonth</code> — reducing the employee's first month to <strong>$1</strong>) and a unique employer <code>?ref=</code> code so enrollments are attributed to your client.
+        </div>
+
+        <div class="help-process-grid">
+          <!-- Broker Step 1 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Step 1</span>
+              <h3>Generate Your Client's Unique Enrollment Link &amp; QR Code</h3>
+            </div>
+            <p class="help-step-desc">
+              Setting up a new or existing employer client takes less than 5 seconds:
+            </p>
+            <ol class="help-step-list">
+              <li>
+                <strong>Enter the Business / Employer Name:</strong> In the generator box on this page, type your client's business name (e.g., <em>Bose McKinney &amp; Evans</em>, <em>Resultant</em>, or any new employer client).
+              </li>
+              <li>
+                <strong>Click "Generate URL &amp; QR Code":</strong> The portal automatically formats the employer's <code>?ref=</code> code, attaches your brokerage's coupon code, generates a scannable QR code, and saves the employer to your brokerage's table at the bottom of the page.
+              </li>
+              <li>
+                <strong>Automatic Code Matching:</strong> No employee ever needs to type a promo code manually — when an employee clicks the generated link or scans the QR code, their $1 first-month discount and employer attribution are applied automatically.
+              </li>
+            </ol>
+          </div>
+
+          <!-- Broker Step 2 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Step 2</span>
+              <h3>Download Customized PDF Flyers &amp; Employer Packets</h3>
+            </div>
+            <p class="help-step-desc">
+              You do not need to manually edit PDFs or paste QR codes into flyers — the portal generates customized PDFs on the fly for every employer:
+            </p>
+            <ul class="help-step-list">
+              <li>
+                <strong>Download 1-Page Flyer PDF (For Employees):</strong>
+                Click <strong>Download 1-Page Flyer PDF (With Link &amp; QR)</strong> (or <strong>1-Page PDF</strong> in the table). This produces the 1-page Employee Enrollment Flyer with your client's custom QR code stamped under <em>"Scan to enroll"</em> and their clickable URL inside the magenta <em>"Enroll at:"</em> banner. Send this directly to the employer's HR team to share with employees.
+              </li>
+              <li>
+                <strong>Download Full 4-Page Packet PDF (For HR / Benefits Decision-Makers):</strong>
+                Click <strong>Download Full 4-Page Packet PDF (With Link &amp; QR)</strong> (or <strong>4-Page PDF</strong> in the table). This produces the complete 4-page 2027 Program Packet:
+                <br />• <strong>Page 1:</strong> 2027 Program Pricing &amp; What's Included ($49/mo membership + $29/$99 Wegovy)
+                <br />• <strong>Page 2:</strong> Frequently Asked Questions (7 Employer &amp; Employee FAQs)
+                <br />• <strong>Page 3:</strong> Combined 1-Page Program Overview &amp; FAQ Summary
+                <br />• <strong>Page 4:</strong> Customized Employee Enrollment Flyer with your client's QR code &amp; clickable link
+              </li>
+            </ul>
+          </div>
+
+          <!-- Broker Step 3 -->
+          <div class="help-step-card">
+            <div class="help-step-header">
+              <span class="help-step-number">Step 3</span>
+              <h3>Embed Links &amp; QR Codes in Open-Enrollment Emails or Decks</h3>
+            </div>
+            <p class="help-step-desc">
+              If you are building a custom open-enrollment presentation, benefits guide, or email blast for an employer:
+            </p>
+            <ol class="help-step-list">
+              <li>
+                <strong>Copy the Enrollment Link:</strong> Click <strong>Copy URL for Email / PPT</strong> to copy the full <code>https://app.helloalpha.com/damien-health?ref=...</code> link to your clipboard.
+              </li>
+              <li>
+                <strong>Paste the QR Code Directly into Email or PowerPoint:</strong> Click <strong>Copy QR Image to Clipboard</strong>, switch to your email or PowerPoint slide, and press <code>Ctrl+V</code> (<code>Cmd+V</code> on Mac) to paste the crisp QR image directly.
+              </li>
+              <li>
+                <strong>Download Standalone QR PNG:</strong> Click <strong>Download QR PNG File</strong> (or <strong>Download QR</strong> in the table) if your design team needs a high-resolution 600 DPI <code>.png</code> image file.
+              </li>
+              <li>
+                <strong>Re-Download Anytime:</strong> All employer links generated by your brokerage remain in the table at the bottom of this page so your team can re-copy links or download PDFs anytime.
+              </li>
+            </ol>
+          </div>
         </div>
       </div>
     </section>

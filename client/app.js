@@ -97,6 +97,60 @@
     );
   }
 
+  function setHelpGuideView(viewMode) {
+    const helpAdminSection = document.getElementById('help-admin-section');
+    const helpBrokerSection = document.getElementById('help-broker-section');
+    const helpCardTitle = document.getElementById('help-card-title');
+    const helpCardSubtitle = document.getElementById('help-card-subtitle');
+    const helpEyebrow = document.getElementById('help-eyebrow-badge');
+    const tabAdminBtn = document.getElementById('btn-help-tab-admin');
+    const tabBrokerBtn = document.getElementById('btn-help-tab-broker');
+    const brokerCouponEl = document.getElementById('help-broker-coupon-code');
+
+    const broker = getActiveBrokerForScopedMode();
+    if (brokerCouponEl) {
+      brokerCouponEl.textContent =
+        broker && broker.couponCode ? broker.couponCode : 'firstmonth';
+    }
+
+    if (viewMode === 'BROKER') {
+      if (helpAdminSection) helpAdminSection.style.display = 'none';
+      if (helpBrokerSection) helpBrokerSection.style.display = 'block';
+      if (tabAdminBtn) tabAdminBtn.className = 'btn btn-secondary btn-sm';
+      if (tabBrokerBtn) tabBrokerBtn.className = 'btn btn-primary btn-sm';
+      const brokerLabel = broker ? broker.name : 'Benefit Broker';
+      if (helpEyebrow) {
+        helpEyebrow.textContent = 'Broker Self-Service Documentation';
+      }
+      if (helpCardTitle) {
+        helpCardTitle.textContent =
+          state.mode === 'BROKER'
+            ? `Broker Self-Service Process Guide — ${brokerLabel}`
+            : 'Broker Self-Service Process Guide (Broker View)';
+      }
+      if (helpCardSubtitle) {
+        helpCardSubtitle.textContent =
+          'Step-by-step instructions for generating your employer clients’ Indiana enrollment links, QR codes, 1-page employee flyers, and 4-page program packets.';
+      }
+    } else {
+      if (helpAdminSection) helpAdminSection.style.display = 'block';
+      if (helpBrokerSection) helpBrokerSection.style.display = 'none';
+      if (tabAdminBtn) tabAdminBtn.className = 'btn btn-primary btn-sm';
+      if (tabBrokerBtn) tabBrokerBtn.className = 'btn btn-secondary btn-sm';
+      if (helpEyebrow) {
+        helpEyebrow.textContent = 'Damien Center Admin Documentation';
+      }
+      if (helpCardTitle) {
+        helpCardTitle.textContent =
+          'Damien Center — End-to-End Admin Process & Portal Guide';
+      }
+      if (helpCardSubtitle) {
+        helpCardSubtitle.textContent =
+          'Complete operational workflow for setting up benefit brokers, generating direct or broker employer links & QR codes, and distributing customized program PDFs.';
+      }
+    }
+  }
+
   function renderLayoutAndHeader() {
     const authCard = document.getElementById('admin-auth-card');
     const adminCard = document.getElementById('admin-setup-card');
@@ -104,20 +158,22 @@
     const historyCard = document.getElementById('history-card');
     const personaBadge = document.getElementById('persona-badge');
     const logoutBtn = document.getElementById('btn-admin-logout');
+    const toggleHelpBtn = document.getElementById('btn-toggle-help');
+    const helpTabSwitcher = document.getElementById('help-admin-tab-switcher');
     const genTitle = document.getElementById('generator-card-title');
     const genDesc = document.getElementById('generator-card-desc');
     const brokerSelectField = document.getElementById('broker-select-field');
     const scopedBanner = document.getElementById('scoped-broker-banner');
     const historyTitle = document.getElementById('history-card-title');
-    const helpAdminSection = document.getElementById('help-admin-section');
-    const helpGridContainer = document.getElementById('help-grid-container');
 
     if (state.mode === 'BROKER') {
-      if (helpAdminSection) helpAdminSection.style.display = 'none';
-      if (helpGridContainer) helpGridContainer.className = 'portal-grid single-column';
+      if (toggleHelpBtn) toggleHelpBtn.textContent = '? Broker Help & Process Guide';
+      if (helpTabSwitcher) helpTabSwitcher.style.display = 'none';
+      setHelpGuideView('BROKER');
     } else {
-      if (helpAdminSection) helpAdminSection.style.display = 'block';
-      if (helpGridContainer) helpGridContainer.className = 'portal-grid';
+      if (toggleHelpBtn) toggleHelpBtn.textContent = '? Admin Help & Process Guide';
+      if (helpTabSwitcher) helpTabSwitcher.style.display = 'inline-flex';
+      setHelpGuideView('ADMIN');
     }
 
     if (state.mode === 'ADMIN' && state.requiresAuth) {
@@ -675,10 +731,12 @@
       });
     }
 
-    // Help & Explainer Guide Toggle
+    // Help & Explainer Guide Toggle + Separate Admin vs. Broker Guide Tabs
     const toggleHelpBtn = document.getElementById('btn-toggle-help');
     const closeHelpBtn = document.getElementById('btn-close-help');
     const helpCard = document.getElementById('help-explainer-card');
+    const helpTabAdminBtn = document.getElementById('btn-help-tab-admin');
+    const helpTabBrokerBtn = document.getElementById('btn-help-tab-broker');
     if (toggleHelpBtn && helpCard) {
       toggleHelpBtn.addEventListener('click', () => {
         const isVisible = helpCard.style.display === 'block';
@@ -688,6 +746,16 @@
     if (closeHelpBtn && helpCard) {
       closeHelpBtn.addEventListener('click', () => {
         helpCard.style.display = 'none';
+      });
+    }
+    if (helpTabAdminBtn) {
+      helpTabAdminBtn.addEventListener('click', () => {
+        setHelpGuideView('ADMIN');
+      });
+    }
+    if (helpTabBrokerBtn) {
+      helpTabBrokerBtn.addEventListener('click', () => {
+        setHelpGuideView('BROKER');
       });
     }
 

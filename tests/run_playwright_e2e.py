@@ -72,9 +72,15 @@ def run_all_tests():
         main_grid_visible_after = page.locator("#main-grid").is_visible()
         admin_token = page.evaluate("localStorage.getItem('damien_admin_token') || ''")
 
-        # Verify Help & Explainer Guide opens and closes
+        # Verify Admin Help & Process Guide + Separate Broker Guide Tab Switcher
+        admin_help_btn_text = page.locator("#btn-toggle-help").inner_text().strip()
         page.click("#btn-toggle-help")
         help_visible = page.locator("#help-explainer-card").is_visible()
+        admin_guide_shown = page.locator("#help-admin-section").is_visible()
+        broker_guide_hidden_initially = not page.locator("#help-broker-section").is_visible()
+        page.click("#btn-help-tab-broker")
+        broker_tab_shown = page.locator("#help-broker-section").is_visible() and not page.locator("#help-admin-section").is_visible()
+        page.click("#btn-help-tab-admin")
         page.click("#btn-close-help")
         help_closed = not page.locator("#help-explainer-card").is_visible()
 
@@ -86,21 +92,24 @@ def run_all_tests():
             and unauth_boot.get("config") is None
             and main_grid_visible_after
             and len(admin_token) > 5
+            and admin_help_btn_text == "? Admin Help & Process Guide"
             and help_visible
+            and admin_guide_shown
+            and broker_guide_hidden_initially
+            and broker_tab_shown
             and help_closed
         )
         record(
             "PW-00",
-            "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Help Explainer Guide",
+            "Admin Sign-In (DamienAdmin / indy123), 'Forgot Password?' Reset & Separate Admin Process Guide",
             ok_00,
-            f"ForgotBtn='{forgot_btn_text}', HelpGuide={help_visible}, LoggedIn={main_grid_visible_after}",
+            f"ForgotBtn='{forgot_btn_text}', AdminHelpBtn='{admin_help_btn_text}', AdminGuide={admin_guide_shown}, BrokerTabPreview={broker_tab_shown}",
         )
 
-        # PW-01: Hard-Coded Damien Center, Single-State Indiana Identity & Bridge Health Logo
+        # PW-01: Hard-Coded Damien Center, Single-State Indiana Identity (No Bridge Logo)
         header_text = page.locator("#header-title").inner_text().strip()
         state_badge = page.locator(".pill-state").inner_text().strip()
-        logo_visible = page.locator("#bridge-logo").is_visible()
-        logo_width = page.evaluate("document.getElementById('bridge-logo')?.naturalWidth || 0")
+        logo_count = page.locator("#bridge-logo").count()
         req_boot = urllib.request.Request(
             f"{BASE_URL}/api/bootstrap",
             headers={"x-admin-token": admin_token},
@@ -110,17 +119,16 @@ def run_all_tests():
         ok_01 = (
             "Damien Center" in header_text
             and "Indiana" in state_badge
-            and logo_visible
-            and logo_width > 0
+            and logo_count == 0
             and boot["ceName"] == "Damien Center"
             and boot["state"] == "Indiana"
             and boot["baseUrl"] == "https://app.helloalpha.com/damien-health"
         )
         record(
             "PW-01",
-            "Hard-Coded Damien Center, Indiana Identity & Bridge Health Logo",
+            "Hard-Coded Damien Center & Single-State Indiana Identity (Bridge Health Logo Removed)",
             ok_01,
-            f"Header='{header_text}', LogoNaturalWidth={logo_width}, BaseUrl='{boot['baseUrl']}'",
+            f"Header='{header_text}', LogoRemoved={logo_count == 0}, BaseUrl='{boot['baseUrl']}'",
         )
 
         # PW-02: Terminology Cleanliness (Zero 'referral' or 'marketing')
@@ -370,7 +378,7 @@ def run_all_tests():
             f"FlyerPages={doc_flyer.page_count}, PacketPages={doc_packet.page_count}, TextHasURL={expected_apex_url in flyer_text}, ClickableLinks={len(flyer_links)}, RowButtons={row_flyer_btn_count}",
         )
 
-        # PW-11: Broker Self-Service Portal View (/?broker=lhd) — UI Isolation & Bridge Logo
+        # PW-11: Broker Self-Service Portal View (/?broker=lhd) — UI Isolation & Separate Broker Help Guide
         broker_ctx = browser.new_context(viewport={"width": 1280, "height": 850})
         broker_page = broker_ctx.new_page()
         broker_page.goto(f"{BASE_URL}/?broker=lhd", wait_until="networkidle")
@@ -379,20 +387,30 @@ def run_all_tests():
         scoped_banner_visible = broker_page.locator("#scoped-broker-banner").is_visible()
         scoped_broker_name = broker_page.locator("#scoped-broker-name").inner_text().strip()
         scoped_coupon = broker_page.locator("#scoped-broker-coupon").inner_text().strip()
-        broker_logo_visible = broker_page.locator("#bridge-logo").is_visible()
+        broker_logo_count = broker_page.locator("#bridge-logo").count()
+        broker_help_btn_text = broker_page.locator("#btn-toggle-help").inner_text().strip()
+        broker_page.click("#btn-toggle-help")
+        broker_help_visible = broker_page.locator("#help-broker-section").is_visible()
+        broker_admin_help_hidden = not broker_page.locator("#help-admin-section").is_visible()
+        broker_help_coupon = broker_page.locator("#help-broker-coupon-code").inner_text().strip()
+        broker_page.click("#btn-close-help")
         ok_11 = (
             not admin_card_visible
             and not select_field_visible
             and scoped_banner_visible
-            and broker_logo_visible
+            and broker_logo_count == 0
             and "LHD Benefit Advisors" in scoped_broker_name
             and scoped_coupon == "firstmonthLHD"
+            and broker_help_btn_text == "? Broker Help & Process Guide"
+            and broker_help_visible
+            and broker_admin_help_hidden
+            and broker_help_coupon == "firstmonthLHD"
         )
         record(
             "PW-11",
-            "Broker Self-Service View (/?broker=lhd) Hides Admin Setup & Locks to Broker",
+            "Broker Self-Service View (/?broker=lhd) Hides Admin Setup, Shows Dedicated Broker Process Guide & Locks to Broker",
             ok_11,
-            f"AdminHidden={not admin_card_visible}, Broker='{scoped_broker_name}', Coupon='{scoped_coupon}'",
+            f"AdminHidden={not admin_card_visible}, BrokerHelp='{broker_help_btn_text}', HelpCoupon='{broker_help_coupon}'",
         )
 
         # PW-12: Broker Self-Service View (/?broker=lhd) — Generate Bose McKinney &Evans -> BMcE
