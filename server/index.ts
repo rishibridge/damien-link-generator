@@ -213,6 +213,14 @@ const KNOWN_BUSINESS_LOOKUP: Record<
   'gmar': { refCode: 'GMar', canonicalName: 'Godfrey Marine' },
   'bennington': { refCode: 'Benn', canonicalName: 'Bennington' },
   'benn': { refCode: 'Benn', canonicalName: 'Bennington' },
+
+  // Conner Insurance (3 Businesses)
+  'example template (conner)': { refCode: 'Conner', canonicalName: 'Example Template (Conner)' },
+  'conner': { refCode: 'Conner', canonicalName: 'Example Template (Conner)' },
+  'zionsville': { refCode: 'ZionsvilleConner', canonicalName: 'Zionsville' },
+  'zionsvilleconner': { refCode: 'ZionsvilleConner', canonicalName: 'Zionsville' },
+  'plainfield': { refCode: 'TOPConner', canonicalName: 'Plainfield' },
+  'topconner': { refCode: 'TOPConner', canonicalName: 'Plainfield' },
 };
 
 export function formatSlug(input: string): string {
@@ -239,6 +247,8 @@ export function buildDamienEmployerUrl(
   const known =
     normalizedKey === 'example template' && lowerId === 'nfp'
       ? { refCode: 'NFP', canonicalName: 'Example Template (NFP)' }
+      : normalizedKey === 'example template' && lowerId === 'conner'
+      ? { refCode: 'Conner', canonicalName: 'Example Template (Conner)' }
       : KNOWN_BUSINESS_LOOKUP[normalizedKey];
 
   const cleanEmployer = formatPascalToken(rawEmployer);
@@ -333,7 +343,7 @@ function loadConfig(): DamienConfig {
     } else {
       const initial: DamienConfig = ensureDirectBroker({
         version: 1,
-        seedVersion: 6,
+        seedVersion: 7,
         ceName: DAMIEN_CONSTANTS.ceName,
         state: DAMIEN_CONSTANTS.state,
         baseUrl: DAMIEN_CONSTANTS.baseUrl,
@@ -348,7 +358,7 @@ function loadConfig(): DamienConfig {
   let parsed = JSON.parse(raw) as DamienConfig;
   if (
     SEED_PATH !== CONFIG_FILE_PATH &&
-    (!parsed.seedVersion || parsed.seedVersion < 6) &&
+    (!parsed.seedVersion || parsed.seedVersion < 7) &&
     fs.existsSync(SEED_PATH)
   ) {
     fs.copyFileSync(SEED_PATH, CONFIG_FILE_PATH);

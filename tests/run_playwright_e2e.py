@@ -216,6 +216,9 @@ def run_all_tests():
             ("nfp", "Firefly", "https://app.helloalpha.com/damien-health?ref=FFLY&coupon=firstmonth"),
             ("nfp", "Godfrey Marine", "https://app.helloalpha.com/damien-health?ref=GMar&coupon=firstmonth"),
             ("nfp", "Bennington", "https://app.helloalpha.com/damien-health?ref=Benn&coupon=firstmonth"),
+            ("conner", "Example Template", "https://app.helloalpha.com/damien-health?ref=Conner&coupon=firstmonthconner"),
+            ("conner", "Zionsville", "https://app.helloalpha.com/damien-health?ref=ZionsvilleConner&coupon=firstmonthconner"),
+            ("conner", "Plainfield", "https://app.helloalpha.com/damien-health?ref=TOPConner&coupon=firstmonthconner"),
         ]
         all_lhd_ok = True
         for b_id, biz_name, exp_url in lhd_cases:
