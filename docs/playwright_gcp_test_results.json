@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://damien-link-generator-525536279111.us-central1.run.app",
-  "timestamp": "2026-10-27T23:58:25Z",
+  "timestamp": "2026-10-28T00:03:30Z",
   "total": 15,
   "passed": 15,
   "failed": 0,
@@ -21,7 +21,7 @@
       "id": "PW-03",
       "title": "Damien Direct Broker (firstmonth), LHD, Epic, NFP & All 64 Business Links Loaded",
       "passed": true,
-      "detail": "Brokers=10, CouponsMatch=True, LinksCount=64"
+      "detail": "Brokers=10, CouponsMatch=True, LinksCount=66"
     },
     {
       "id": "PW-04",
@@ -51,7 +51,7 @@
       "id": "PW-08",
       "title": "Damien Generates All LHD, Epic & NFP Business URLs (LCHD, ISA, IMCU, GCS, EpicAcuity, NFP, Res, FFLY, GMar, Benn)",
       "passed": true,
-      "detail": "All 15 LHD, Epic & NFP Business Name -> REF mappings verified (15/15)"
+      "detail": "All 18 LHD, Epic & NFP Business Name -> REF mappings verified (18/18)"
     },
     {
       "id": "PW-09",
